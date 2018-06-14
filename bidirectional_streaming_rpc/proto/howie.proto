@@ -1,0 +1,14 @@
+syntax = "proto3";
+package proto;
+
+message Request {
+    string input = 1;
+}
+
+message Response {
+    string output = 1;
+}
+service ChatService {
+    rpc Chat (stream Request) returns (stream Response) {
+    }
+}
