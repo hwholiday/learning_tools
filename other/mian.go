@@ -1,33 +1,17 @@
 package main
 
-import "fmt"
-
-type obj1 struct {
-}
-
-func (c *obj1)Add()  {
-	fmt.Println("obj1")
-}
-type obj2 struct {
-	obj obj1
-}
-
-func (c *obj2)Add()  {
-	fmt.Println("obj2")
-}
+import (
+	"net/http"
+	"log"
+)
 
 func main() {
-	var i obj2
-	i.obj.Add()
-
-	var a=[]string{"1","2","3"}
-	dd1(a)
-	fmt.Println("--------------")
-	fmt.Println(a)
-}
-
-func dd1(a []string)  {
-	a=append(a,"5")
-	fmt.Println("22222222222222222222222222222222222")
-	fmt.Println(a)
+	http.HandleFunc("/test", func(writer http.ResponseWriter, request *http.Request) {
+		writer.Write([]byte("ok"))
+	})
+	log.Println("服务器启动成功端口:",8070)
+	err := http.ListenAndServe(":8070", nil)
+	if err != nil {
+		log.Panic(err)
+	}
 }
