@@ -6,20 +6,21 @@ import (
 	"fmt"
 )
 
-func main1() {
+func main() {
 	http.HandleFunc("/test", func(writer http.ResponseWriter, request *http.Request) {
 		writer.Write([]byte("ok"))
 	})
-	log.Println("服务器启动成功端口:",8070)
+	http.Handle("/howie", http.StripPrefix("/howie", http.FileServer(http.Dir("other"))))
+	log.Println("服务器启动成功端口:", 8070)
 	err := http.ListenAndServe(":8070", nil)
 	if err != nil {
 		log.Panic(err)
 	}
 }
 
-func main(){
-	fmt.Printf("%d\n",1)
-	fmt.Printf("%s\n","1")
-	fmt.Printf("%t\n",true)
-	fmt.Printf("%.1f\n",111.1111)
+func main1() {
+	fmt.Printf("%d\n", 1)
+	fmt.Printf("%s\n", "1")
+	fmt.Printf("%t\n", true)
+	fmt.Printf("%.1f\n", 111.1111)
 }
