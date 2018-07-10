@@ -10,7 +10,7 @@ func main() {
 	http.HandleFunc("/test", func(writer http.ResponseWriter, request *http.Request) {
 		writer.Write([]byte("ok"))
 	})
-	http.Handle("/howie", http.StripPrefix("/howie", http.FileServer(http.Dir("other"))))
+	http.Handle("/", http.FileServer(http.Dir("./")))
 	log.Println("服务器启动成功端口:", 8070)
 	err := http.ListenAndServe(":8070", nil)
 	if err != nil {
