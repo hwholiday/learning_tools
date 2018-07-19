@@ -11,7 +11,9 @@ func main() {
 	mux := http.NewServeMux()
 	token := &controller.TokenController{}
 	mux.HandleFunc("/create_token", token.CreateToken)
+	mux.HandleFunc("/create_rsa_token", token.CreateTokenByRsa)
 	mux.HandleFunc("/test_token", token.TestToken)
+	mux.HandleFunc("/test_rsa_token", token.TestRsaToken)
 	s := &http.Server{
 		Addr:           ":8080",
 		Handler:        mux,
