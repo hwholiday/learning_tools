@@ -1,0 +1,11 @@
+<seelog type="asynctimer" asyncinterval="5000000" minlevel="debug" maxlevel="error">
+    <outputs formatid="common">
+        <buffered formatid="common" size="10000" flushperiod="1000"> <!--使用缓存-->
+            <rollingfile type="date" filename="./log/run.log" datepattern="02.01.2006" fullname="true" maxrolls="30"/>
+        </buffered>
+        <console/>
+    </outputs>
+    <formats>
+        <format id="common" format="%Date %Time [%LEV] [%File:%Line] [%Func] %Msg%n" />
+    </formats>
+</seelog>

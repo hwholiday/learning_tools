@@ -1,0 +1,5 @@
+2018-07-27 14:30:59 [INF] [main.go:36] [main.main] server run :127.0.0.1:8081
+2018-07-27 14:30:59 [DBG] [main.go:36] [main.main] 111
+2018-07-27 14:31:06 [INF] [main.go:36] [main.main] server run :127.0.0.1:8081
+2018-07-27 14:31:06 [DBG] [main.go:36] [main.main] 111
+2018-07-27 14:31:06 [ERR] [main.go:40] [main.main] listen tcp 127.0.0.1:8081: bind: address already in use
