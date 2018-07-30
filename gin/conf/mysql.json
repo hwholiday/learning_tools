@@ -1,0 +1,7 @@
+{
+  "mysqluser":"root",
+  "mysqlpass":"123456",
+  "mysqlurl":"127.0.0.1",
+  "mysqlport":"3306",
+  "mysqldb":"howie"
+}
