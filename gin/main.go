@@ -9,14 +9,13 @@ import (
 	"os"
 	"fmt"
 	"test/gin/router"
-	"github.com/go-xorm/xorm"
 	"test/gin/model"
 )
 
 var addr = flag.String("addr", "127.0.0.1:8081", "server addr")
 var seelogConfig = flag.String("log", "conf/seelog.xml", "seelog config")
 var mysqlPath = flag.String("mysql", "conf/mysql.json", "mysql config")
-var Xengine *xorm.Engine
+
 func init() {
 	logger, err := seelog.LoggerFromConfigAsFile(*seelogConfig)
 	if err != nil {
