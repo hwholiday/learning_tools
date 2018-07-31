@@ -8,8 +8,8 @@ import (
 	"github.com/cihub/seelog"
 	"os"
 	"fmt"
-	"test/gin/router"
-	"test/gin/model"
+	"bat_server/bat_messager/bat_gw/router"
+	"bat_server/bat_messager/bat_gw/model"
 )
 
 var addr = flag.String("addr", "127.0.0.1:8081", "server addr")

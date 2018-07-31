@@ -14,6 +14,13 @@ func SetRouters(r *gin.Engine) {
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin"},
 		AllowCredentials: true,
 	}))
-	user := &controller.UserController{}
-	r.GET("/user/version", user.Version)
+	announcement := &controller.AnnouncementController{}
+	v1:=r.Group("/v1")
+	{
+		//公告相关业务
+		v1.GET("/announcement", announcement.Add)
+		v1.POST("/announcement", announcement.Add)
+		v1.PUT("/announcement", announcement.Add)
+		v1.DELETE("/announcement", announcement.Add)
+	}
 }

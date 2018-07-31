@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"encoding/json"
+	"github.com/go-xorm/core"
 )
 
 type dbInfo struct {
@@ -17,18 +18,19 @@ type dbInfo struct {
 	Port  string `json:"mysqlport"`
 	DbName   string `json:"mysqldb"`
 }
-
 var db *xorm.Engine
 
 func InitDb(path string) {
 	var err error
 	info:=getDbInfoByPath(path)
 	checkErr(err)
-	sql:=fmt.Sprintf("%s:%s@%s:%s/%s?charset=utf8",info.User, info.Pass,info.Url,info.Port,info.DbName)
+	sql:=fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8",info.User, info.Pass,info.Url,info.Port,info.DbName)
 	fmt.Println(sql)
 	db, err = xorm.NewEngine("mysql", sql)
 	checkErr(err)
 	checkErr(db.Ping())
+	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, "control_")
+	db.SetTableMapper(tbMapper)
 	db.ShowSQL(true)
 }
 func getDbInfoByPath(path string)(db dbInfo){
