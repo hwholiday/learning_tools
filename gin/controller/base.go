@@ -1,6 +1,8 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type BaseController struct {
 }
@@ -44,5 +46,3 @@ func (c *BaseController) ResponseFailure(g *gin.Context, httpCode, code int, err
 		"msg":  err,
 	})
 }
-
-

@@ -3,6 +3,7 @@ package model
 import (
 	"time"
 	"errors"
+	"fmt"
 )
 
 type Announcement struct {
@@ -21,7 +22,7 @@ func AddAnnouncement(data *Announcement) error {
 		return err
 	}
 	if ok {
-		return errors.New("该内容已经存在")
+		return errors.New(MErrExisted)
 	}
 	data.CreateTime = time.Now().Unix()
 	data.UpdateTime = time.Now().Unix()
@@ -35,16 +36,30 @@ func AddAnnouncement(data *Announcement) error {
 func DeleteAnnouncement(data *Announcement) error {
 	id, err := db.Id(data.Id).Delete(&Announcement{})
 	if err != nil || id <= 0 {
-		return errors.New("内容删除失败")
+		return errors.New(MErrDelete)
 	}
 	return nil
 }
 
-func UpdateAnnouncement(data *Announcement)error  {
-	id,err:=db.Id(data.Id).Update(&data)
+func UpdateAnnouncement(data *Announcement) error {
+	id, err := db.Id(data.Id).Update(data)
 	if err != nil || id <= 0 {
-		return errors.New("内容修改失败")
+		fmt.Println(err.Error())
+		return errors.New(MErrUpdate)
 	}
 	return nil
 }
 
+func GetAnnouncementById(id int) (info Announcement, errs error) {
+	ok, err := db.Id(id).Get(&info)
+	if !ok || err != nil {
+		errs = errors.New(MErrNotFind)
+		return
+	}
+	return
+}
+
+func GetAnnouncementAll() (info []Announcement, err error) {
+	err = db.Where("expired_time >= ?", time.Now().Unix()).Find(&info)
+	return
+}

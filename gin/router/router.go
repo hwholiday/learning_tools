@@ -18,9 +18,10 @@ func SetRouters(r *gin.Engine) {
 	v1:=r.Group("/v1")
 	{
 		//公告相关业务
-		v1.GET("/announcement", announcement.Add)
+		v1.GET("/announcement/:id", announcement.GetById)
+		v1.GET("/announcement/", announcement.GetAll)
 		v1.POST("/announcement", announcement.Add)
-		v1.PUT("/announcement", announcement.Add)
-		v1.DELETE("/announcement", announcement.Add)
+		v1.PUT("/announcement/:id", announcement.UpDate)
+		v1.DELETE("/announcement/:id", announcement.Del)
 	}
 }
