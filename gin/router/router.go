@@ -2,8 +2,11 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"bat_server/bat_messager/bat_gw/controller"
+	"test/gin/controller"
 	"github.com/gin-contrib/cors"
+	_"test/gin/docs"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func SetRouters(r *gin.Engine) {
@@ -15,6 +18,7 @@ func SetRouters(r *gin.Engine) {
 		AllowCredentials: true,
 	}))
 	announcement := &controller.AnnouncementController{}
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	v1:=r.Group("/v1")
 	{
 		//公告相关业务

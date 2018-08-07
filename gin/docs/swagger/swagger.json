@@ -1,0 +1,35 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "howie",
+        "title": "Golang Gin API",
+        "termsOfService": "https://github.com/hwholiday/test",
+        "contact": {},
+        "license": {
+            "name": "Howie",
+            "url": "https://github.com/hwholiday/test"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/v1/announcement/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除公告",
+                "parameters": [
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":400,\"data\":{},\"msg\":\"请求参数错误\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

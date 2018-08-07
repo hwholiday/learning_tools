@@ -1,0 +1,23 @@
+info:
+  contact: {}
+  description: howie
+  license:
+    name: Howie
+    url: https://github.com/hwholiday/test
+  termsOfService: https://github.com/hwholiday/test
+  title: Golang Gin API
+  version: "1.0"
+paths:
+  /v1/announcement/{id}:
+    delete:
+      parameters:
+      - {}
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":400,"data":{},"msg":"请求参数错误"}'
+          schema:
+            type: string
+      summary: 删除公告
+swagger: "2.0"

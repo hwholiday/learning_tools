@@ -9,7 +9,6 @@ import (
 	"os"
 	"fmt"
 	"test/gin/router"
-	"test/gin/model"
 )
 
 var addr = flag.String("addr", "127.0.0.1:8081", "server addr")
@@ -24,11 +23,17 @@ func init() {
 	}
 	seelog.ReplaceLogger(logger)
 }
+// @title Golang Gin API
+// @version 1.0
+// @description howie
+// @termsOfService https://github.com/hwholiday/test
+// @license.name Howie
+// @license.url https://github.com/hwholiday/test
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 	g := gin.Default()
 	router.SetRouters(g)
-	model.InitDb(*mysqlPath)
+	//model.InitDb(*mysqlPath)
 	s := &http.Server{
 		Handler:        g,
 		Addr:           *addr,

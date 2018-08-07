@@ -73,7 +73,7 @@ func (c *AnnouncementController) UpDate(g *gin.Context) {
 	return
 }
 
-//删除公告
+//获取公告
 func (c *AnnouncementController) GetById(g *gin.Context) {
 	sId := g.Param("id")
 	if sId == "" {
@@ -93,7 +93,12 @@ func (c *AnnouncementController) GetById(g *gin.Context) {
 	return
 }
 
-//删除公告
+// @Summary 删除公告
+// @Produce  json
+// @Param id param int true "ID"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Failure 200 {string} json "{"code":400,"data":{},"msg":"请求参数错误"}"
+// @Router /v1/announcement/{id} [delete]
 func (c *AnnouncementController) GetAll(g *gin.Context) {
 	data,err := model.GetAnnouncementAll()
 	if err != nil {
