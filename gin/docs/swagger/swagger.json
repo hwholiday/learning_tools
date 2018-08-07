@@ -13,9 +13,47 @@
     },
     "paths": {
         "/v1/announcement/{id}": {
+            "get": {
+                "description": "通过ID获取公告信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "announcement"
+                ],
+                "summary": "获取公告",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Announcement ID",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "announcement"
                 ],
                 "summary": "删除公告",
                 "parameters": [
@@ -23,11 +61,45 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"code\":400,\"data\":{},\"msg\":\"请求参数错误\"}",
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "type": "string"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Announcement": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "integer"
+                },
+                "expired_time": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
                 }
             }
         }

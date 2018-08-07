@@ -6,7 +6,7 @@ import (
 	"time"
 	"test/gin/model"
 )
-
+//announcement
 type AnnouncementController struct {
 	BaseController
 }
@@ -74,6 +74,15 @@ func (c *AnnouncementController) UpDate(g *gin.Context) {
 }
 
 //获取公告
+// @Summary 获取公告
+// @Tags  announcement
+// @Description 通过ID获取公告信息
+// @Accept  json
+// @Produce  json
+// @Param id path int false "Announcement ID"
+// @Success 200 {string} model.Announcement{}
+// @Failure 500 {string} string
+// @Router /v1/announcement/{id} [get]
 func (c *AnnouncementController) GetById(g *gin.Context) {
 	sId := g.Param("id")
 	if sId == "" {
@@ -94,10 +103,11 @@ func (c *AnnouncementController) GetById(g *gin.Context) {
 }
 
 // @Summary 删除公告
+// @Tags  announcement
 // @Produce  json
 // @Param id param int true "ID"
-// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
-// @Failure 200 {string} json "{"code":400,"data":{},"msg":"请求参数错误"}"
+// @Success 200 {string} string
+// @Failure 500 {string} string
 // @Router /v1/announcement/{id} [delete]
 func (c *AnnouncementController) GetAll(g *gin.Context) {
 	data,err := model.GetAnnouncementAll()

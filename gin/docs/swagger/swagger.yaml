@@ -1,3 +1,21 @@
+definitions:
+  model.Announcement:
+    properties:
+      content:
+        type: string
+      create_time:
+        type: integer
+      expired_time:
+        type: integer
+      id:
+        type: integer
+      title:
+        type: string
+      update_time:
+        type: integer
+      url:
+        type: string
+    type: object
 info:
   contact: {}
   description: howie
@@ -16,8 +34,37 @@ paths:
       - application/json
       responses:
         "200":
-          description: '{"code":400,"data":{},"msg":"请求参数错误"}'
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
           schema:
             type: string
       summary: 删除公告
+      tags:
+      - announcement
+    get:
+      consumes:
+      - application/json
+      description: 通过ID获取公告信息
+      parameters:
+      - description: Announcement ID
+        in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: 获取公告
+      tags:
+      - announcement
 swagger: "2.0"
