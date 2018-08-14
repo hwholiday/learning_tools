@@ -3,10 +3,9 @@ package main
 import (
 	"net/http"
 	"log"
-	"fmt"
 )
 
-func main() {
+func main1() {
 	http.HandleFunc("/test", func(writer http.ResponseWriter, request *http.Request) {
 		writer.Write([]byte("ok"))
 	})
@@ -18,9 +17,4 @@ func main() {
 	}
 }
 
-func main1() {
-	fmt.Printf("%d\n", 1)
-	fmt.Printf("%s\n", "1")
-	fmt.Printf("%t\n", true)
-	fmt.Printf("%.1f\n", 111.1111)
-}
+

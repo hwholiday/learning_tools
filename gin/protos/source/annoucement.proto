@@ -1,0 +1,13 @@
+syntax = "proto3";
+package protos;
+
+message Annoucement {
+    int64 Id = 1;
+    string Title = 2;
+    string Content = 3;
+    string Url = 4;
+    int64 CreateTime = 5;
+    int64 UpdateTime = 6;
+    int64 ExpiredTime = 7;
+}
+

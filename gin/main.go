@@ -9,6 +9,7 @@ import (
 	"os"
 	"fmt"
 	"test/gin/router"
+	"test/gin/model"
 )
 
 var addr = flag.String("addr", "127.0.0.1:8081", "server addr")
@@ -33,7 +34,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	g := gin.Default()
 	router.SetRouters(g)
-	//model.InitDb(*mysqlPath)
+	model.InitDb(*mysqlPath)
 	s := &http.Server{
 		Handler:        g,
 		Addr:           *addr,

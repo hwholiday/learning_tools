@@ -7,11 +7,6 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 
-import (
-	context "golang.org/x/net/context"
-	grpc "google.golang.org/grpc"
-)
-
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -102,110 +97,6 @@ func (m *Response) GetOutput() string {
 func init() {
 	proto.RegisterType((*Request)(nil), "proto.Request")
 	proto.RegisterType((*Response)(nil), "proto.Response")
-}
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion4
-
-// ChatServiceClient is the client API for ChatService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type ChatServiceClient interface {
-	Chat(ctx context.Context, opts ...grpc.CallOption) (ChatService_ChatClient, error)
-}
-
-type chatServiceClient struct {
-	cc *grpc.ClientConn
-}
-
-func NewChatServiceClient(cc *grpc.ClientConn) ChatServiceClient {
-	return &chatServiceClient{cc}
-}
-
-func (c *chatServiceClient) Chat(ctx context.Context, opts ...grpc.CallOption) (ChatService_ChatClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_ChatService_serviceDesc.Streams[0], "/proto.ChatService/Chat", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &chatServiceChatClient{stream}
-	return x, nil
-}
-
-type ChatService_ChatClient interface {
-	Send(*Request) error
-	Recv() (*Response, error)
-	grpc.ClientStream
-}
-
-type chatServiceChatClient struct {
-	grpc.ClientStream
-}
-
-func (x *chatServiceChatClient) Send(m *Request) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *chatServiceChatClient) Recv() (*Response, error) {
-	m := new(Response)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-// ChatServiceServer is the server API for ChatService service.
-type ChatServiceServer interface {
-	Chat(ChatService_ChatServer) error
-}
-
-func RegisterChatServiceServer(s *grpc.Server, srv ChatServiceServer) {
-	s.RegisterService(&_ChatService_serviceDesc, srv)
-}
-
-func _ChatService_Chat_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ChatServiceServer).Chat(&chatServiceChatServer{stream})
-}
-
-type ChatService_ChatServer interface {
-	Send(*Response) error
-	Recv() (*Request, error)
-	grpc.ServerStream
-}
-
-type chatServiceChatServer struct {
-	grpc.ServerStream
-}
-
-func (x *chatServiceChatServer) Send(m *Response) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *chatServiceChatServer) Recv() (*Request, error) {
-	m := new(Request)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-var _ChatService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.ChatService",
-	HandlerType: (*ChatServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "Chat",
-			Handler:       _ChatService_Chat_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-	},
-	Metadata: "howie.proto",
 }
 
 func init() { proto.RegisterFile("howie.proto", fileDescriptor_howie_bbb5b5d7b297c2e7) }
