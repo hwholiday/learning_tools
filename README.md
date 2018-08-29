@@ -22,3 +22,5 @@
  prometheus 测试项目
  
  goquery 测试项目
+ 
+ gin -p=3000 -a=8070 run main.go

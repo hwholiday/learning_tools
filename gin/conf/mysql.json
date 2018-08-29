@@ -1,7 +1,7 @@
 {
-  "mysqluser":"123123",
-  "mysqlpass":"123",
-  "mysqlurl":"123.123.123.123",
+  "mysqluser":"root",
+  "mysqlpass":"nihao123,./",
+  "mysqlurl":"192.168.2.15",
   "mysqlport":"3306",
-  "mysqldb":"howie"
+  "mysqldb":"online"
 }

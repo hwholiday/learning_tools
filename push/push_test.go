@@ -7,17 +7,16 @@ import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
-	"test/push/handler"
 	"os"
 	"os/signal"
-	"encoding/json"
 )
 
 func Test(t *testing.T)  {
 	i := 0
 	for {
 		i++
-		if i == 1000 {
+		if i == 100000 {
+			fmt.Println("已经了解10000个链接")
 			break
 		}
 		time.Sleep(time.Second)
@@ -29,7 +28,7 @@ func Test(t *testing.T)  {
 				return
 			}
 			defer c.Close()
-			go func() {
+			/*go func() {
 				for {
 					time.Sleep(time.Second * 30)
 					data, err := json.Marshal(handler.ClientsReport{id, 1, "hahh"})
@@ -44,7 +43,7 @@ func Test(t *testing.T)  {
 					}
 
 				}
-			}()
+			}()*/
 			for {
 				_, _, err := c.ReadMessage()
 				if err != nil {
