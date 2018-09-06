@@ -1,5 +1,4 @@
-package main
-
+package proto
 import (
 	"testing"
 	"github.com/kataras/go-errors"
@@ -23,4 +22,7 @@ func Get() error {
 
 func GetNil() error {
 	return nil
+}
+func Test1(t *testing.T) {
+
 }
