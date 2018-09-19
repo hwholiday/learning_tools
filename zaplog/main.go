@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"
@@ -14,12 +13,9 @@ import (
 var Logger *zap.Logger
 
 func InitLogger() {
-	// 日志地址 "out.log" 自定义
 	lp := "out.log"
-	// 日志级别 DEBUG,ERROR, INFO
 	lv := "DEBUG"
 	isDebug := false
-
 	initLogger(lp, lv, isDebug)
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile | log.LstdFlags)
 }
