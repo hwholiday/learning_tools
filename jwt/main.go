@@ -8,6 +8,9 @@ import (
 )
 
 func main() {
+	//Http.request.body.read（）方法
+	http.Request{}.Body.Read()
+
 	mux := http.NewServeMux()
 	token := &controller.TokenController{}
 	mux.HandleFunc("/create_token", token.CreateToken)
