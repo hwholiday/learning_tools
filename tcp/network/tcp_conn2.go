@@ -9,12 +9,13 @@ import (
 type TcpClient2 struct {
 	Tag    string
 	len    int32
+	Conn   net.Conn
 }
 
-func NewTcpClint2(conn *net.TCPConn) *TcpClient {
-	return &TcpClient{Conn: conn, len: 4}
+func NewTcpClint2(conn *net.TCPConn) *TcpClient2 {
+	return &TcpClient2{Conn: conn, len: 4}
 }
-func (c *TcpClient) Read2() ([]byte, error) {
+func (c *TcpClient2) Read2() ([]byte, error) {
 	var b [c.len]byte
 	bufMsgLen := b[:c.len]
 	// read len
