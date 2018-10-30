@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"io"
 )
 
 type TcpClient struct {
@@ -51,20 +50,4 @@ func (c *TcpClient) Read() {
 		fmt.Println(pack[4:])
 	}
 }
-func (c *TcpClient) Reads() ([]byte, error) {
-	var b [c.len]byte
-	bufMsgLen := b[:c.len]
-	// read len
-	if _, err := io.ReadFull(c.Conn, bufMsgLen); err != nil {
-		return nil, err
-	}
-	// parse len
-	var msgLen uint32
-	msgLen = uint32(binary.BigEndian.Uint16(bufMsgLen))
-	// data
-	msgData := make([]byte, msgLen)
-	if _, err := io.ReadFull(c.Conn, msgData); err != nil {
-		return nil, err
-	}
-	return msgData, nil
-}
+
