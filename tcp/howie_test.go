@@ -18,7 +18,7 @@ func Test(t *testing.T) {
 	}
 	defer conn.Close()
 	for {
-		data,_:=Encode("72312313")
+		data,_:=Encode("ping")
 		time.Sleep(time.Second*4)
 		_, err := conn.Write(data)
 		fmt.Println(err)
