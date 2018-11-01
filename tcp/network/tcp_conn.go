@@ -34,12 +34,12 @@ func (c *TcpClient) Write(message []byte) ([]byte, error) {
 	var length = int32(len(message))
 	var pkg = new(bytes.Buffer)
 	//写入消息头
-	err := binary.Write(pkg, binary.LittleEndian, length)
+	err := binary.Write(pkg, binary.BigEndian, length)
 	if err != nil {
 		return nil, err
 	}
 	//写入消息体
-	err = binary.Write(pkg, binary.LittleEndian, message)
+	err = binary.Write(pkg, binary.BigEndian, message)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (c *TcpClient) Read() ([]byte, error) {
 	lengthBuff := bytes.NewBuffer(lengthByte)
 	var length int32
 	// 通过Read接口可以将buf中得内容填充到data参数表示的数据结构中
-	err = binary.Read(lengthBuff, binary.LittleEndian, &length)
+	err = binary.Read(lengthBuff, binary.BigEndian, &length)
 	if err != nil {
 		return nil, err
 	}
