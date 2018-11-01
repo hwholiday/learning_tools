@@ -8,7 +8,7 @@ import (
 )
 
 func ServerRun() {
-	lister, err := net.Listen("tcp", "127.0.0.1:8888")
+	lister, err := net.Listen("tcp", "192.168.2.28:8888")
 	fmt.Println("服务启动成功：127.0.0.1:8888")
 	CheckErr(err)
 	defer lister.Close()

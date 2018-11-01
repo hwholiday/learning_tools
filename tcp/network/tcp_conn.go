@@ -24,9 +24,11 @@ func (c *TcpClient) LocalAddr() net.Addr {
 func (c *TcpClient) RemoteAddr() net.Addr {
 	return c.conn.RemoteAddr()
 }
+
 func (c *TcpClient) Close() error {
 	return c.conn.Close()
 }
+
 func (c *TcpClient) Write(message []byte) ([]byte, error) {
 	// 读取消息的长度
 	var length = int32(len(message))
