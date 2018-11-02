@@ -5,7 +5,6 @@ import (
 	"test/tcp/network"
 	"io"
 	"net"
-	"time"
 )
 
 func ServerRun() {
@@ -18,13 +17,13 @@ func ServerRun() {
 		CheckErr(err)
 		fmt.Println("用户接入")
 		client := network.NewTcpClint(conn)
-		go func(c *network.TcpClient) {
+		/*go func(c *network.TcpClient) {
 			defer client.Close()
 			for {
 				time.Sleep(time.Second * 2)
 				c.Write([]byte("2"))
 			}
-		}(client)
+		}(client)*/
 		go func() {
 			defer client.Close()
 			for {
