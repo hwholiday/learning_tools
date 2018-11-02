@@ -18,16 +18,16 @@ func Test(t *testing.T) {
 	}
 	defer conn.Close()
 	for {
-		data,_:=Encode("1")
-		time.Sleep(time.Second*4)
+		data, _ := Encode("1")
+		time.Sleep(time.Second * 4)
 		_, err := conn.Write(data)
 		fmt.Println(err)
 	}
 }
 func Encode(message string) ([]byte, error) {
 	// 读取消息的长度
-	var length  = int32(len(message))
-	var pkg  = new(bytes.Buffer)
+	var length = int32(len(message))
+	var pkg = new(bytes.Buffer)
 	// 写入消息头
 	err := binary.Write(pkg, binary.BigEndian, length)
 	if err != nil {

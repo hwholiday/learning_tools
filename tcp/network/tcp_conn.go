@@ -10,11 +10,11 @@ import (
 type TcpClient struct {
 	tag  string
 	conn net.Conn
-	rw   *bufio.ReadWriter
+	r    *bufio.Reader
 }
 
 func NewTcpClint(conn net.Conn) *TcpClient {
-	return &TcpClient{conn: conn, rw: bufio.NewReadWriter(bufio.NewReader(conn), bufio.NewWriter(conn))}
+	return &TcpClient{conn: conn, r: bufio.NewReader(conn)}
 }
 
 func (c *TcpClient) LocalAddr() net.Addr {
@@ -29,25 +29,25 @@ func (c *TcpClient) Close() error {
 	return c.conn.Close()
 }
 
-func (c *TcpClient) Write(message []byte) ([]byte, error) {
+func (c *TcpClient) Write(message []byte) (int, error) {
 	// 读取消息的长度
 	var length = int32(len(message))
 	var pkg = new(bytes.Buffer)
 	//写入消息头
 	err := binary.Write(pkg, binary.BigEndian, length)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 	//写入消息体
 	err = binary.Write(pkg, binary.BigEndian, message)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	_, err = c.rw.Write(pkg.Bytes())
+	nn, err := c.conn.Write(pkg.Bytes())
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	return nil, nil
+	return nn, nil
 }
 
 func (c *TcpClient) Read() ([]byte, error) {
@@ -55,7 +55,7 @@ func (c *TcpClient) Read() ([]byte, error) {
 	// 该操作不会将数据读出，只是引用，引用的数据在下一次读取操作之
 	// 前是有效的。如果切片长度小于 n，则返回一个错误信息说明原因。
 	// 如果 n 大于缓存的总大小，则返回 ErrBufferFull。
-	lengthByte, err := c.rw.Peek(4)
+	lengthByte, err := c.r.Peek(4)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (c *TcpClient) Read() ([]byte, error) {
 		return nil, err
 	}
 	// Buffered 返回缓存中未读取的数据的长度
-	if int32(c.rw.Reader.Buffered()) < length+4 {
+	if int32(c.r.Buffered()) < length+4 {
 		return nil, err
 	}
 	// 读取消息真正的内容
@@ -80,7 +80,7 @@ func (c *TcpClient) Read() ([]byte, error) {
 	// 出到 p 中。
 	// 2、len(p) < 缓存大小，则先将数据从底层 io.Reader 中读取到缓存
 	// 中，再从缓存读取到 p 中。
-	_, err = c.rw.Read(pack)
+	_, err = c.r.Read(pack)
 	if err != nil {
 		return nil, err
 	}
