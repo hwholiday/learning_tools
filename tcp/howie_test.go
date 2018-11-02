@@ -38,6 +38,5 @@ func Encode(message string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(pkg.Bytes())
 	return pkg.Bytes(), nil
 }
