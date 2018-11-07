@@ -1,4 +1,4 @@
-package proto
+package main
 import (
 	"testing"
 	"github.com/kataras/go-errors"

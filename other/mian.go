@@ -1,20 +1,16 @@
 package main
 
 import (
-	"net/http"
-	"log"
+	"path/filepath"
+	"os"
+	"fmt"
 )
 
 func main() {
-	http.HandleFunc("/test", func(writer http.ResponseWriter, request *http.Request) {
-		writer.Write([]byte("ok1"))
-	})
-	http.Handle("/", http.FileServer(http.Dir("./")))
-	log.Println("服务器启动成功端口:", 3001)
-	err := http.ListenAndServe(":8070", nil)
+	workPath, err := os.Getwd()
 	if err != nil {
-		log.Panic(err)
+		panic(err)
 	}
+	appConfigPath := filepath.Join(workPath, "conf", "app.conf")
+	fmt.Println(appConfigPath)
 }
-
-
