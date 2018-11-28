@@ -1,55 +1,56 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"log"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"
 	"github.com/kataras/go-errors"
+	"os"
+	"path/filepath"
 )
 
 var Logger *zap.Logger
 
 func InitLogger() {
 	lp := "out.log"
-	lv := "DEBUG"
 	isDebug := false
-	initLogger(lp, lv, isDebug)
+	initLogger(lp, isDebug)
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile | log.LstdFlags)
 }
 func TimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 	enc.AppendString("[" + t.Format("2006-01-02 15:04:05") + "]")
 }
 
-func initLogger(lp string, lv string, isDebug bool) {
-	var js string
-	if isDebug {
-		js = fmt.Sprintf(`{
-      "level": "%s",
-      "encoding": "console",
-      "outputPaths": ["stdout"],
-      "errorOutputPaths": ["stdout"]
-      }`, lv)
-	} else {
-		js = fmt.Sprintf(`{
-      "level": "%s",
-      "encoding": "json",
-      "outputPaths": ["%s"],
-      "errorOutputPaths": ["%s"]
-      }`, lv, lp, lp)
-	}
-	var cfg zap.Config
-	if err := json.Unmarshal([]byte(js), &cfg); err != nil {
+func initLogger(lpName string, isDebug bool) {
+	path, err := os.Getwd()
+	if err != nil {
 		panic(err)
 	}
-	cfg.EncoderConfig = zap.NewProductionEncoderConfig()
+	var cfg zap.Config
+	if isDebug {
+		cfg.Level = zap.NewAtomicLevelAt(zap.DebugLevel)
+		cfg.Development = true
+		cfg.Encoding = "console"
+		cfg.OutputPaths = []string{"stdout"}
+		cfg.ErrorOutputPaths = []string{"stderr"}
+		cfg.EncoderConfig = zap.NewDevelopmentEncoderConfig()
+	} else {
+		cfg.Development = false
+		cfg.Level = zap.NewAtomicLevelAt(zap.InfoLevel)
+		cfg.Sampling = &zap.SamplingConfig{
+			Initial:    100,
+			Thereafter: 100,
+		}
+		cfg.Encoding = "json"
+		cfg.OutputPaths = []string{"stdout", filepath.Join(path, lpName)}
+		cfg.ErrorOutputPaths = []string{"stderr"}
+		cfg.EncoderConfig = zap.NewProductionEncoderConfig()
+	}
 	cfg.EncoderConfig.EncodeTime = TimeEncoder
-	var err error
 	Logger, err = cfg.Build()
 	if err != nil {
-		log.Fatal("init logger error: ", err)
+		panic(err)
 	}
 }
 func main() {
