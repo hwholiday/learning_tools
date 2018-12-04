@@ -31,7 +31,6 @@ func init() {
 	if err != nil {
 		exists, err := MinioClient.BucketExists(bucket)
 		if exists && err == nil {
-			//log.Println(bucket + "已经存在")
 			return
 		} else {
 			log.Panic(err)
