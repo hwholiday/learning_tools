@@ -10,6 +10,8 @@ import (
 	"fmt"
 	"test/gin/router"
 	"test/gin/model"
+	"os/signal"
+	"syscall"
 )
 
 var addr = flag.String("addr", "127.0.0.1:8081", "server addr")
@@ -24,6 +26,7 @@ func init() {
 	}
 	seelog.ReplaceLogger(logger)
 }
+
 // @title Golang Gin API
 // @version 1.0
 // @description howie
@@ -43,10 +46,19 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	seelog.Info("server run :", *addr)
-	err := s.ListenAndServe()
-	if err != nil {
-		seelog.Error(err.Error())
-		seelog.Flush()
-		os.Exit(0)
-	}
+	quitChan := make(chan os.Signal)
+	signal.Notify(quitChan, os.Interrupt, os.Kill, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
+	fmt.Println("服务启动")
+	go func() {
+		err := s.ListenAndServe()
+		if err != nil {
+			seelog.Error(err.Error())
+			seelog.Flush()
+			os.Exit(0)
+		}
+	}()
+	//退出应用
+	<-quitChan
+	fmt.Println("服务退出")
+	s.Close()
 }
