@@ -11,10 +11,11 @@ type TcpClient struct {
 	tag  string
 	conn net.Conn
 	r    *bufio.Reader
+	w    *bufio.Writer
 }
 
 func NewTcpClint(conn net.Conn) *TcpClient {
-	return &TcpClient{conn: conn, r: bufio.NewReader(conn)}
+	return &TcpClient{conn: conn, r: bufio.NewReader(conn),w:bufio.NewWriter(conn)}
 }
 
 func (c *TcpClient) LocalAddr() net.Addr {
@@ -43,7 +44,11 @@ func (c *TcpClient) Write(message []byte) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	nn, err := c.conn.Write(pkg.Bytes())
+	nn, err := c.w.Write(pkg.Bytes())
+	if err != nil {
+		return 0, err
+	}
+	err=c.w.Flush()
 	if err != nil {
 		return 0, err
 	}
