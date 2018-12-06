@@ -4,7 +4,7 @@ import (
 	"testing"
 	"google.golang.org/grpc"
 	"log"
-	"test/simple_rpc/proto"
+	"learning_tools/grpc/simple_rpc/proto"
 	"golang.org/x/net/context"
 	"fmt"
 )

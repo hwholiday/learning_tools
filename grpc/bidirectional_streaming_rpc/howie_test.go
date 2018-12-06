@@ -4,7 +4,7 @@ import (
 	"testing"
 	"google.golang.org/grpc"
 	"log"
-	"test/bidirectional_streaming_rpc/proto"
+	"learning_tools/grpc/bidirectional_streaming_rpc/proto"
 	"golang.org/x/net/context"
 	"io"
 	"fmt"
@@ -18,7 +18,6 @@ func Test(t *testing.T) {
 		log.Panic(err)
 	}
 	defer conn.Close()
-	proto.RegisterChatServiceServer()
 	client := proto.NewChatServiceClient(conn)
 	ctx := context.Background()
 	stream, err := client.Chat(ctx)

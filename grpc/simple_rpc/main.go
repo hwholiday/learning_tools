@@ -2,7 +2,7 @@ package main
 
 import (
 	"net"
-	pr 	"test/simple_rpc/proto"
+	pr 	"learning_tools/grpc/simple_rpc/proto"
 	"log"
 	"google.golang.org/grpc"
 	"golang.org/x/net/context"

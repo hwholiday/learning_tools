@@ -4,7 +4,7 @@ import (
 	"net"
 	"fmt"
 	"google.golang.org/grpc"
-	pr "test/bidirectional_streaming_rpc/proto"
+	pr "learning_tools/grpc/bidirectional_streaming_rpc/proto"
 	"io"
 	"time"
 )

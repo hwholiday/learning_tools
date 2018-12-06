@@ -4,7 +4,7 @@ import (
 	"net"
 	"log"
 	"google.golang.org/grpc"
-	pr "test/server_side_streaming_rpc/proto"
+	pr "learning_tools/grpc/server_side_streaming_rpc/proto"
 	"time"
 )
 
