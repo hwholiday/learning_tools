@@ -49,6 +49,7 @@ func limitApi(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("ERR"))
 		return
 	}
+	//延迟释放limitChan 模拟超时
 	rand.Seed(time.Now().UnixNano())
 	time.Sleep(time.Duration(rand.Intn(4)) * time.Second)
 	<-limitChan
