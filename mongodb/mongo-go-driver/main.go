@@ -1,7 +1,9 @@
 package main
 
+import "github.com/mongodb/mongo-go-driver/mongo"
+
+//导入
 import (
-	"github.com/mongodb/mongo-go-driver/mongo"
 	"fmt"
 	"context"
 	"time"
@@ -118,11 +120,13 @@ func TestMongo(url string) {
 	}
 	fmt.Printf("Count里面有多少条数据:%d\n", size)
 
+	//修改一条数据
 	if updateRes, err = collection.UpdateOne(getContext(), bson.M{"name": "howie_2"}, bson.M{"$set": bson.M{"name": "我要改了他的名字"}}); err != nil {
 		checkErr(err)
 	}
 	fmt.Printf("UpdateOne的数据:%d\n", updateRes)
 
+	//修改多条数据
 	if updateRes, err = collection.UpdateMany(getContext(), bson.M{"createtime": bson.M{"$gte": 3}}, bson.M{"$set": bson.M{"name": "我要批量改了他的名字"}}); err != nil {
 		checkErr(err)
 	}
