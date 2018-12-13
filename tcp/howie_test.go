@@ -19,7 +19,7 @@ func Test(t *testing.T) {
 	}
 	defer conn.Close()
 	go func() {
-		for {
+		/*for {*/
 			data, err := Encode("2")
 			if err == nil {
 				time.Sleep(time.Second * 4)
@@ -29,7 +29,7 @@ func Test(t *testing.T) {
 				}
 			}
 
-		}
+		/*}*/
 	}()
 
 	reader := bufio.NewReader(conn)
