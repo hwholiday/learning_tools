@@ -20,19 +20,26 @@ func Test(t *testing.T) {
 	defer conn.Close()
 	go func() {
 		for {
-			data, _ := Encode("1")
-			time.Sleep(time.Second * 4)
-			_, err := conn.Write(data)
-			fmt.Println(err)
+			data, err := Encode("2")
+			if err == nil {
+				time.Sleep(time.Second * 4)
+				_, err := conn.Write(data)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
+
 		}
 	}()
 
 	reader := bufio.NewReader(conn)
 	for {
-		data, err := Read(reader)
+		tag ,data, err := Read(reader)
 		if err != nil {
+			fmt.Println(err)
 			return
 		}
+		fmt.Println(tag)
 		fmt.Println(string(data))
 	}
 
@@ -46,6 +53,11 @@ func Encode(message string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	// 写入消息类型
+	err = binary.Write(pkg, binary.BigEndian, int32(1))
+	if err != nil {
+		return nil, err
+	}
 	// 写入消息实体
 	err = binary.Write(pkg, binary.BigEndian, []byte(message))
 	if err != nil {
@@ -54,24 +66,32 @@ func Encode(message string) ([]byte, error) {
 	return pkg.Bytes(), nil
 }
 
-func Read(c *bufio.Reader) ([]byte, error) {
-	lengthByte, err := c.Peek(4)
+func Read(c *bufio.Reader) (int32, []byte, error) {
+   var headLen int32 =4
+   var tagLen  int32 =4
+	lengthByte, err := c.Peek(int(headLen + tagLen))
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-	lengthBuff := bytes.NewBuffer(lengthByte)
 	var length int32
+	lengthBuff := bytes.NewBuffer(lengthByte[:headLen])
 	err = binary.Read(lengthBuff, binary.BigEndian, &length)
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-	if int32(c.Buffered()) < length+4 {
-		return nil, err
+	var tag int32
+	tagBuff := bytes.NewBuffer(lengthByte[headLen:])
+	err = binary.Read(tagBuff, binary.BigEndian, &tag)
+	if err != nil {
+		return 0, nil, err
 	}
-	pack := make([]byte, int(4+length))
+	if int32(c.Buffered()) < length+headLen+tagLen {
+		return 0, nil, err
+	}
+	pack := make([]byte, int(headLen+length+tagLen))
 	_, err = c.Read(pack)
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-	return pack[4:], nil
+	return tag, pack[headLen+tagLen:], nil
 }

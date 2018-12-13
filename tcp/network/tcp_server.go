@@ -6,6 +6,7 @@ import (
 	"go.uber.org/zap"
 	"os"
 	"io"
+	"fmt"
 )
 
 func InitTcp() {
@@ -47,19 +48,21 @@ func acceptTcp(listener *net.TCPListener) {
 	}
 }
 func serveTCP(conn *net.TCPConn) {
-	client := NewTcpClint(conn)
+	client := NewTcpClint(conn, 4, 4)
 	logtool.Zap.Debug("链接上来的用户", zap.Any("地址", client.RemoteAddr().String()))
 	go func() {
 		for {
-			data, err := client.Read()
+			tag, data, err := client.Read()
 			if err == io.EOF {
 				logtool.Zap.Debug("用户断开链接", zap.Any("地址", client.RemoteAddr().String()))
 				return
 			}
 			if err != nil {
+				fmt.Println(err)
 				continue
 			}
-			SwitchController(data, client)
+			logtool.Zap.Debug("用户上传的数据", zap.String(fmt.Sprintf("类型: %d", tag), string(data)))
+			fmt.Println(client.Write([]byte("测试"), 2))
 		}
 	}()
 
