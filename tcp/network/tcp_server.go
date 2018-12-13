@@ -56,6 +56,8 @@ func serveTCP(conn *net.TCPConn) {
 	logtool.Zap.Debug("链接上来的用户", zap.Any("地址", client.RemoteAddr().String()))
 	go func() {
 		for {
+			message := make(chan byte, 1)
+			go HeartBeating(client, message, 10)
 			tag, data, err := client.Read()
 			if err != nil {
 				if err == io.EOF {
@@ -64,8 +66,6 @@ func serveTCP(conn *net.TCPConn) {
 				client.conn.Close()
 				return
 			}
-			message := make(chan byte, 1)
-			go HeartBeating(client, message, 10)
 			logtool.Zap.Info(fmt.Sprintf("客户端 : %s 传入类型", client.RemoteAddr().String()), zap.String(fmt.Sprintf("类型 : %d", tag), fmt.Sprintf("数据 : %s", string(data))))
 			//做自己的业务逻辑
 		}
