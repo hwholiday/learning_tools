@@ -31,7 +31,7 @@ func main() {
 	go func() {
 		err := s.ListenAndServe()
 		if err != nil {
-			logtool.Zap.Panic("bat_file err", zap.Error(err))
+			logtool.Zap.Panic("server err", zap.Error(err))
 		}
 	}()
 	quit.QuitSignal(func() {
