@@ -53,8 +53,8 @@ func Encode(message string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	// 写入消息类型
-	err = binary.Write(pkg, binary.BigEndian, int32(1))
+	// 写入消息类型 最大为 0xFFFFFFF
+	err = binary.Write(pkg, binary.BigEndian, int32(0x2))
 	if err != nil {
 		return nil, err
 	}
