@@ -56,8 +56,6 @@ func serveTCP(conn *net.TCPConn) {
 	logtool.Zap.Debug("链接上来的用户", zap.Any("地址", client.RemoteAddr().String()))
 	go func() {
 		for {
-			message := make(chan byte, 1)
-			go HeartBeating(client, message, 10)
 			tag, data, err := client.Read()
 			if err != nil {
 				if err == io.EOF {
@@ -67,19 +65,29 @@ func serveTCP(conn *net.TCPConn) {
 				return
 			}
 			logtool.Zap.Info(fmt.Sprintf("客户端 : %s 传入类型", client.RemoteAddr().String()), zap.String(fmt.Sprintf("类型 : %d", tag), fmt.Sprintf("数据 : %s", string(data))))
+			message := make(chan int32)
+			//心跳
+			go HeartBeating(client, message, 40)
+			//判断是否有信息发送上来
+			go HeartChannel(tag, message)
 			//做自己的业务逻辑
 		}
 	}()
 }
-
-func HeartBeating(client *TcpClient, bytes chan byte, timeout int) {
+func HeartChannel(tag int32, mess chan int32) {
+	mess <- tag
+	close(mess)
+}
+func HeartBeating(client *TcpClient, tag chan int32, timeout int) {
 	select {
-	case _ = <-bytes:
+	case _ = <-tag:
 		client.conn.SetDeadline(time.Now().Add(time.Duration(timeout) * time.Second))
 		break
-	case <-time.After(10 * time.Second):
-		logtool.Zap.Debug("用户超时未发数据", zap.Any("地址", client.RemoteAddr().String()))
-		client.conn.Close()
+	case <-time.After(40 * time.Second):
+		logtool.Zap.Debug("主动断开用户链接", zap.Any("地址", client.RemoteAddr().String()))
+		if err := client.conn.Close(); err != nil {
+			break
+		}
 		break
 	}
 }
