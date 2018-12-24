@@ -5,9 +5,9 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"
-	"github.com/kataras/go-errors"
 	"os"
 	"path/filepath"
+	"errors"
 )
 
 var Logger *zap.Logger
