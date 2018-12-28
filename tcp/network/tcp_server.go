@@ -6,8 +6,7 @@ import (
 	"go.uber.org/zap"
 	"os"
 	"time"
-	"io"
-	"fmt"
+	"ghost/network/tcp"
 )
 
 func InitTcp() {
@@ -52,42 +51,22 @@ func acceptTcp(listener *net.TCPListener) {
 }
 
 func serveTCP(conn *net.TCPConn) {
-	client := NewTcpClint(conn, 4, 4)
+	client := tcp.NewTcpClint(conn, 4, 4)
+	client.Conn.SetDeadline(time.Now().Add(time.Duration(10) * time.Second))
 	logtool.Zap.Debug("链接上来的用户", zap.Any("地址", client.RemoteAddr().String()))
 	go func() {
 		for {
 			tag, data, err := client.Read()
 			if err != nil {
-				if err == io.EOF {
-					logtool.Zap.Debug("用户断开链接", zap.Any("地址", client.RemoteAddr().String()))
-				}
-				client.conn.Close()
+				logtool.Zap.Debug("用户断开链接", zap.Any(client.RemoteAddr().String(), client.ClientTag), zap.String("ERR", err.Error()))
+				tcp.DelUserSeesions(client.ClientTag)
+				client.Close()
 				return
 			}
-			logtool.Zap.Info(fmt.Sprintf("客户端 : %s 传入类型", client.RemoteAddr().String()), zap.String(fmt.Sprintf("类型 : %d", tag), fmt.Sprintf("数据 : %s", string(data))))
-			message := make(chan int32)
-			//心跳
-			go HeartBeating(client, message, 40)
-			//判断是否有信息发送上来
-			go HeartChannel(tag, message)
-			//做自己的业务逻辑
+			client.Conn.SetDeadline(time.Now().Add(time.Duration(10) * time.Second))
+			//做自己的处理
+			logtool.Zap.Debug("上传的TAG", zap.Int32("TAG", tag))
+			logtool.Zap.Debug("上传的数据", zap.String("DATA", string(data)))
 		}
 	}()
-}
-func HeartChannel(tag int32, mess chan int32) {
-	mess <- tag
-	close(mess)
-}
-func HeartBeating(client *TcpClient, tag chan int32, timeout int) {
-	select {
-	case _ = <-tag:
-		client.conn.SetDeadline(time.Now().Add(time.Duration(timeout) * time.Second))
-		break
-	case <-time.After(40 * time.Second):
-		logtool.Zap.Debug("主动断开用户链接", zap.Any("地址", client.RemoteAddr().String()))
-		if err := client.conn.Close(); err != nil {
-			break
-		}
-		break
-	}
 }
