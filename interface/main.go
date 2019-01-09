@@ -1,12 +1,21 @@
 package main
 
 import (
-	"test/interface/src"
+	"learning_tools/interface/src"
 	"fmt"
 )
 
-func main()  {
-	var a src.Agent=src.NewHowie()
-	a.Run()
-	fmt.Println(a.Name())
+type AA struct {
+	a src.Agent
+}
+
+func (a *AA) TestAA() {
+	fmt.Println("测试AA")
+}
+func main() {
+	var A = &AA{}
+	A.a = src.NewHowie()
+	A.TestAA()
+	A.a.Name()
+	A.a.Run()
 }

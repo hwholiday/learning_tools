@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"bufio"
+	"time"
 )
 
 func Test(t *testing.T) {
@@ -19,14 +20,14 @@ func Test(t *testing.T) {
 	defer conn.Close()
 	go func() {
 		/*for {*/
-		/*	data, err := Encode("2")
+			data, err := Encode("2")
 			if err == nil {
 				time.Sleep(time.Second * 4)
 				_, err := conn.Write(data)
 				if err != nil {
 					fmt.Println(err)
 				}
-			}*/
+			}
 
 		/*}*/
 	}()
@@ -53,7 +54,7 @@ func Encode(message string) ([]byte, error) {
 		return nil, err
 	}
 	// 写入消息类型 最大为 0xFFFFFFF
-	err = binary.Write(pkg, binary.BigEndian, int32(0))
+	err = binary.Write(pkg, binary.BigEndian, int32(0x1))
 	if err != nil {
 		return nil, err
 	}
