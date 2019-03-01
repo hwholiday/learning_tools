@@ -1,19 +1,22 @@
 package main
 
-import "github.com/mongodb/mongo-go-driver/mongo"
+import (
+	"github.com/mongodb/mongo-go-driver/mongo"
+)
 
 //导入
 import (
-	"fmt"
 	"context"
-	"time"
-	"github.com/mongodb/mongo-go-driver/mongo/readpref"
+	"fmt"
 	"github.com/mongodb/mongo-go-driver/bson"
-	"os"
 	"github.com/mongodb/mongo-go-driver/mongo/options"
+	"github.com/mongodb/mongo-go-driver/mongo/readpref"
+	"os"
+	"time"
 )
 
 type Howie struct {
+	_Id        interface{}
 	Name       string
 	Pwd        string
 	Age        int64
@@ -64,6 +67,10 @@ func TestMongo(url string) {
 		checkErr(err)
 	}
 	fmt.Printf("InsertMany插入的消息ID:%v\n", insertManyRes.InsertedIDs)
+	var Dinfo =make(map[string]interface{})
+	err=collection.FindOne(getContext(), bson.D{{"name", "howie_2"}, {"age", 11}}).Decode(&Dinfo)
+	fmt.Println(Dinfo)
+	fmt.Println( Dinfo["_id"])
 
 	//查询单条数据
 	if err = collection.FindOne(getContext(), bson.D{{"name", "howie_2"}, {"age", 11}}).Decode(&howie); err != nil {
