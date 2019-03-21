@@ -3,15 +3,16 @@ package main
 import (
 	"fmt"
 	"github.com/minio/minio-go"
+	"net/url"
 	"os"
 	"time"
 )
 
 func main() {
 	var (
-		bucket = "abc-test"
+		bucket = "bat-app"
 	)
-	minioClient, err := minio.New("192.168.2.28:9090", "Z5OID6N9JVAY0CKL40FS", "YtP3xC9CWfSecFJzzm5gP3GwpjISZwaWotzeL6Se", false)
+	minioClient, err := minio.New("192.168.2.28:9090", "672I9BRC71NVDCMASYQQ", "yl1AGr-ViO6queLv93EFlRv-iZ1icSvUVE8j6pi9", false)
 	CheckErr("minio.New", err)
 	/*if err = minioClient.MakeBucket(bucket, ""); err != nil {
 		CheckErr("创建储存桶", err)
@@ -26,16 +27,24 @@ func main() {
 	}*/
 
 	//判断文件是否存在
-	fmt.Println(minioClient.StatObject(bucket, "conf.txt1", minio.StatObjectOptions{}))
+	fmt.Println(minioClient.StatObject(bucket, "conf.txt", minio.StatObjectOptions{}))
 
-	//生成上传链接
+	/*//生成上传链接
 	expiry := time.Second * 24 * 60 * 60 // 1 day.
 	presignedURL, err := minioClient.PresignedPutObject(bucket, "PayDemo.java", expiry)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("Successfully generated presigned URL", presignedURL)
+	fmt.Println("Successfully generated presigned URL", presignedURL)*/
+	reqParams := make(url.Values)
+	reqParams.Set("Content-Type", "image/jpeg")
+	presignedURL, err := minioClient.Presign("PUT", bucket, "20190306121434.jpg", time.Second*24*60*60, reqParams)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Successfully generated presigned URL \n", presignedURL)
 }
 
 func CheckErr(msg string, err error) {
