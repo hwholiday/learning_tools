@@ -5,28 +5,21 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"
-	"os"
-	"path/filepath"
 	"errors"
 )
 
 var Logger *zap.Logger
 
 func InitLogger() {
-	lp := "out.log"
-	isDebug := false
-	initLogger(lp, isDebug)
+	isDebug := true
+	initLogger(isDebug)
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile | log.LstdFlags)
 }
 func TimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 	enc.AppendString("[" + t.Format("2006-01-02 15:04:05") + "]")
 }
 
-func initLogger(lpName string, isDebug bool) {
-	path, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
+func initLogger(isDebug bool) {
 	var cfg zap.Config
 	if isDebug {
 		cfg.Level = zap.NewAtomicLevelAt(zap.DebugLevel)
@@ -43,11 +36,12 @@ func initLogger(lpName string, isDebug bool) {
 			Thereafter: 100,
 		}
 		cfg.Encoding = "json"
-		cfg.OutputPaths = []string{"stdout", filepath.Join(path, lpName)}
+		cfg.OutputPaths = []string{"stdout", "./out.log"}
 		cfg.ErrorOutputPaths = []string{"stderr"}
 		cfg.EncoderConfig = zap.NewProductionEncoderConfig()
 	}
 	cfg.EncoderConfig.EncodeTime = TimeEncoder
+	var err error
 	Logger, err = cfg.Build()
 	if err != nil {
 		panic(err)
