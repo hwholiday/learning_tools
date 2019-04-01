@@ -1,11 +1,8 @@
-package job_worker_mode
-
-import "fmt"
+package main
 
 type Goods struct {
 	Data []byte
 }
 
 func (g Goods) UpdateServer() {
-	fmt.Println("UpdateServer", string(g.Data))
 }
