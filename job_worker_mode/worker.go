@@ -20,6 +20,7 @@ func NewWorker(pool chan chan Goods) *Worker {
 func (w *Worker) Start() {
 	go func() {
 		for {
+
 			//将当前工作者注册到工作队列中
 			w.WorkerPool <- w.JobChannel
 			select {

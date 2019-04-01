@@ -5,4 +5,5 @@ type Goods struct {
 }
 
 func (g Goods) UpdateServer() {
+
 }

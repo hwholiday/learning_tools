@@ -18,6 +18,7 @@ func (d *DisPatcher) Run() {
 		worker := NewWorker(d.Worker)
 		worker.Start()
 	}
+
 	go d.dispatch()
 }
 
