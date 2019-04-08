@@ -1,22 +1,19 @@
 package main
 
-import (
-	"github.com/mongodb/mongo-go-driver/mongo"
-)
-
 //导入
 import (
 	"context"
 	"fmt"
-	"github.com/mongodb/mongo-go-driver/bson"
-	"github.com/mongodb/mongo-go-driver/mongo/options"
-	"github.com/mongodb/mongo-go-driver/mongo/readpref"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"os"
 	"time"
 )
 
 type Howie struct {
-	_Id        interface{}
 	Name       string
 	Pwd        string
 	Age        int64
@@ -24,7 +21,7 @@ type Howie struct {
 }
 
 func main() {
-	TestMongo("mongodb://192.168.2.28:27017")
+	TestMongo("mongodb://127.0.0.1:27017")
 }
 
 func TestMongo(url string) {
@@ -36,14 +33,14 @@ func TestMongo(url string) {
 		insertManyRes   *mongo.InsertManyResult
 		delRes          *mongo.DeleteResult
 		updateRes       *mongo.UpdateResult
-		cursor          mongo.Cursor
+		cursor          *mongo.Cursor
 		howieArray      = GetHowieArray()
 		howie           Howie
 		howieArrayEmpty []Howie
 		size            int64
 	)
 	//链接mongo服务
-	if client, err = mongo.Connect(getContext(), url); err != nil {
+	if client, err = mongo.Connect(getContext(), options.Client().ApplyURI(url)); err != nil {
 		checkErr(err)
 	}
 	//判断服务是否可用
@@ -62,15 +59,19 @@ func TestMongo(url string) {
 	}
 
 	fmt.Printf("InsertOne插入的消息ID:%v\n", insertOneRes.InsertedID)
+	if oid, ok := insertOneRes.InsertedID.(primitive.ObjectID); ok {
+		fmt.Println(oid.String())
+		fmt.Println(oid.Hex())
+	}
 	//批量插入数据
 	if insertManyRes, err = collection.InsertMany(getContext(), howieArray); err != nil {
 		checkErr(err)
 	}
 	fmt.Printf("InsertMany插入的消息ID:%v\n", insertManyRes.InsertedIDs)
-	var Dinfo =make(map[string]interface{})
-	err=collection.FindOne(getContext(), bson.D{{"name", "howie_2"}, {"age", 11}}).Decode(&Dinfo)
+	var Dinfo = make(map[string]interface{})
+	err = collection.FindOne(getContext(), bson.D{{"name", "howie_2"}, {"age", 11}}).Decode(&Dinfo)
 	fmt.Println(Dinfo)
-	fmt.Println( Dinfo["_id"])
+	fmt.Println("_id", Dinfo["_id"])
 
 	//查询单条数据
 	if err = collection.FindOne(getContext(), bson.D{{"name", "howie_2"}, {"age", 11}}).Decode(&howie); err != nil {
@@ -108,21 +109,26 @@ func TestMongo(url string) {
 	}
 	defer cursor.Close(context.Background())
 	for cursor.Next(context.Background()) {
+		var Dinfo = make(map[string]interface{})
 		if err = cursor.Decode(&howie); err != nil {
 			checkErr(err)
 		}
+		if err = cursor.Decode(&Dinfo); err != nil {
+			checkErr(err)
+		}
+		fmt.Printf("Find查询到的数据Map:%v\n", Dinfo)
 		howieArrayEmpty = append(howieArrayEmpty, howie)
 	}
 	fmt.Printf("Find查询到的数据:%v\n", howieArrayEmpty)
 
 	//查询集合里面有多少数据
-	if size, err = collection.Count(getContext(), nil); err != nil {
+	if size, err = collection.CountDocuments(getContext(), nil); err != nil {
 		checkErr(err)
 	}
 	fmt.Printf("Count里面有多少条数据:%d\n", size)
 
 	//查询集合里面有多少数据(查询createtime>=3的数据)
-	if size, err = collection.Count(getContext(), bson.M{"createtime": bson.M{"$gte": 3}}); err != nil {
+	if size, err = collection.CountDocuments(getContext(), bson.M{"createtime": bson.M{"$gte": 3}}); err != nil {
 		checkErr(err)
 	}
 	fmt.Printf("Count里面有多少条数据:%d\n", size)
