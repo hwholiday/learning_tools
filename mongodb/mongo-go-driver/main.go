@@ -20,8 +20,16 @@ type Howie struct {
 	CreateTime int64
 }
 
+type Howie1 struct {
+	HowieId    primitive.ObjectID `bson:"_id"`
+	Name       string
+	Pwd        string
+	Age        int64
+	CreateTime int64
+}
+
 func main() {
-	TestMongo("mongodb://127.0.0.1:27017")
+	TestMongo("mongodb://192.168.2.28:27017")
 }
 
 func TestMongo(url string) {
@@ -110,14 +118,16 @@ func TestMongo(url string) {
 	defer cursor.Close(context.Background())
 	for cursor.Next(context.Background()) {
 		var Dinfo = make(map[string]interface{})
-		if err = cursor.Decode(&howie); err != nil {
+		var h1 Howie1
+		if err = cursor.Decode(&h1); err != nil {
 			checkErr(err)
 		}
 		if err = cursor.Decode(&Dinfo); err != nil {
 			checkErr(err)
 		}
 		fmt.Printf("Find查询到的数据Map:%v\n", Dinfo)
-		howieArrayEmpty = append(howieArrayEmpty, howie)
+		fmt.Printf("Find查询到的数据Decode:%v\n", h1)
+		//howieArrayEmpty = append(howieArrayEmpty, h1)
 	}
 	fmt.Printf("Find查询到的数据:%v\n", howieArrayEmpty)
 
@@ -181,6 +191,7 @@ func GetHowieArray() (data []interface{}) {
 	var i int64
 	for i = 0; i <= 10; i++ {
 		data = append(data, Howie{
+			//HowieId:    primitive.NewObjectID(),
 			Name:       fmt.Sprintf("howie_%d", i+1),
 			Pwd:        fmt.Sprintf("pwd_%d", i+1),
 			Age:        i + 10,
