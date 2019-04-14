@@ -49,7 +49,7 @@ func main() {
 	a.SignedPri, a.SignedPub = GetCurve25519KeypPair()
 	a.OneTimePri, a.OneTimePub = GetCurve25519KeypPair()
 	a.EphemeralPri, a.EphemeralPub = GetCurve25519KeypPair()
-    eddsa
+
 	var b PseronB
 	b.IdentityPri, b.IdentityPub = GetCurve25519KeypPair()
 	b.SignedPri, b.SignedPub = GetCurve25519KeypPair()
@@ -68,10 +68,10 @@ func main() {
 	fmt.Println("aKey", base64.StdEncoding.EncodeToString(aKey))
 	fmt.Println("aKey", len(aKey))
 
-	b.DH1 = GetCurve25519Key(b.IdentityPri, a.SignedPub)
-	b.DH2 = GetCurve25519Key(b.EphemeralPri, a.IdentityPub)
-	b.DH3 = GetCurve25519Key(b.EphemeralPri, a.SignedPub)
-	b.DH4 = GetCurve25519Key(b.EphemeralPri, a.OneTimePub)
+	b.DH1 = GetCurve25519Key(b.SignedPri, a.IdentityPub)
+	b.DH2 = GetCurve25519Key(b.IdentityPri, a.EphemeralPub)
+	b.DH3 = GetCurve25519Key(b.SignedPri, a.EphemeralPub)
+	b.DH4 = GetCurve25519Key(b.OneTimePub, b.EphemeralPub)
 	var bKey = bytes.Join([][]byte{b.DH1[:], b.DH2[:], b.DH3[:], b.DH4[:]}, []byte{})
 	fmt.Println("bKey", bKey)
 	fmt.Println("bKey", base64.StdEncoding.EncodeToString(bKey))
