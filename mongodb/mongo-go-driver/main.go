@@ -9,7 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"go.mongodb.org/mongo-driver/x/bsonx"
 	"os"
 	"time"
 )
@@ -55,15 +54,16 @@ func TestMongo(url string) {
 	//选择数据库和集合
 	collection = client.Database("testing_base").Collection("howie")
 
-	k := mongo.IndexModel{
+	//集合数据自动过期
+	/*k := mongo.IndexModel{
 		Keys:    bsonx.Doc{{"expiredtime", bsonx.Int32(1)}},
 		Options: options.Index().SetExpireAfterSeconds(1 * 60),
 	}
 	_, err = collection.Indexes().CreateOne(getContext(), k)
-	checkErr(err)
+	checkErr(err)*/
 
 	//删除这个集合
-	//collection.Drop(getContext())
+	collection.Drop(getContext())
 
 	//插入一条数据
 	if insertOneRes, err = collection.InsertOne(getContext(), howieArray[0]); err != nil {
@@ -72,7 +72,6 @@ func TestMongo(url string) {
 
 	fmt.Printf("InsertOne插入的消息ID:%v\n", insertOneRes.InsertedID)
 
-	return
 	//批量插入数据
 	if insertManyRes, err = collection.InsertMany(getContext(), howieArray[1:]); err != nil {
 		checkErr(err)
