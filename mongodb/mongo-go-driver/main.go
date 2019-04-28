@@ -9,17 +9,19 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"go.mongodb.org/mongo-driver/x/bsonx"
 	"os"
 	"time"
 )
 
 type Howie struct {
 	//struct里面获取ObjectID
-	HowieId    primitive.ObjectID `bson:"_id"`
-	Name       string
-	Pwd        string
-	Age        int64
-	CreateTime int64
+	HowieId     primitive.ObjectID `bson:"_id"`
+	Name        string
+	Pwd         string
+	Age         int64
+	CreateTime  int64
+	ExpiredTime time.Time
 }
 
 func main() {
@@ -49,11 +51,19 @@ func TestMongo(url string) {
 	if err = client.Ping(getContext(), readpref.Primary()); err != nil {
 		checkErr(err)
 	}
+
 	//选择数据库和集合
 	collection = client.Database("testing_base").Collection("howie")
 
+	k := mongo.IndexModel{
+		Keys:    bsonx.Doc{{"expiredtime", bsonx.Int32(1)}},
+		Options: options.Index().SetExpireAfterSeconds(1 * 60),
+	}
+	_, err = collection.Indexes().CreateOne(getContext(), k)
+	checkErr(err)
+
 	//删除这个集合
-	collection.Drop(getContext())
+	//collection.Drop(getContext())
 
 	//插入一条数据
 	if insertOneRes, err = collection.InsertOne(getContext(), howieArray[0]); err != nil {
@@ -61,6 +71,8 @@ func TestMongo(url string) {
 	}
 
 	fmt.Printf("InsertOne插入的消息ID:%v\n", insertOneRes.InsertedID)
+
+	return
 	//批量插入数据
 	if insertManyRes, err = collection.InsertMany(getContext(), howieArray[1:]); err != nil {
 		checkErr(err)
@@ -116,7 +128,7 @@ func TestMongo(url string) {
 		fmt.Printf("Find查询到的数据ObejectId值%s 值:%v\n", v.HowieId.Hex(), v)
 	}
 	//查询集合里面有多少数据
-	if size, err = collection.CountDocuments(getContext(),bson.D{}); err != nil {
+	if size, err = collection.CountDocuments(getContext(), bson.D{}); err != nil {
 		checkErr(err)
 	}
 	fmt.Printf("Count里面有多少条数据:%d\n", size)
@@ -179,7 +191,8 @@ func GetHowieArray() (data []interface{}) {
 			Name:       fmt.Sprintf("howie_%d", i+1),
 			Pwd:        fmt.Sprintf("pwd_%d", i+1),
 			Age:        i + 10,
-			CreateTime: i + 1,
+			CreateTime: time.Now().Unix(),
+			ExpiredTime:time.Now(),
 		})
 	}
 	return
