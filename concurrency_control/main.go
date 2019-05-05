@@ -17,7 +17,6 @@ var addr = flag.String("p", "192.168.2.28:8099", "port")
 func main() {
 	flag.Parse()
 	perf.StartPprof([]string{"192.168.2.28:9022"})
-	logtool.InitZapLogger("ghost.log", true)
 	//http服务
 	mux := http.NewServeMux()
 	mux.HandleFunc("/limit_api", limitApi)
