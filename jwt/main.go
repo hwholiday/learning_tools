@@ -1,16 +1,13 @@
 package main
 
 import (
+	"learning_tools/jwt/controller"
+	"log"
 	"net/http"
 	"time"
-	"log"
-	"test/jwt/controller"
 )
 
 func main() {
-	//Http.request.body.read（）方法
-	http.Request{}.Body.Read()
-
 	mux := http.NewServeMux()
 	token := &controller.TokenController{}
 	mux.HandleFunc("/create_token", token.CreateToken)
