@@ -37,8 +37,8 @@ func init() {
 func main() {
 	http.Handle("/metrics", promhttp.Handler())
 	http.HandleFunc("/howie", howie)
-	fmt.Println("服务器启动:8080")
-	err := http.ListenAndServe(":8080", nil)
+	fmt.Println("服务器启动192.168.2.28:8888")
+	err := http.ListenAndServe("192.168.2.28:8888", nil)
 	if err != nil {
 		fmt.Println(err)
 	}

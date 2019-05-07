@@ -15,7 +15,7 @@ func Test(t *testing.T) {
 	time.Sleep(24*time.Hour)
 }
 func send() {
-	resp, err := http.Get("http://localhost:8080/howie")
+	resp, err := http.Get("http://192.168.2.28:8888/howie")
 	if err != nil {
 		fmt.Println(err)
 		return
