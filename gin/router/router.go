@@ -2,9 +2,9 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"test/gin/controller"
+	"learning_tools/gin/controller"
 	"github.com/gin-contrib/cors"
-	_"test/gin/docs"
+	_"learning_tools/gin/docs"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )

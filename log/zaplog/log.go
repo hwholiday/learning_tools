@@ -1,11 +1,11 @@
 package zaplog
 
 import (
-	"os"
-	"gopkg.in/natefinch/lumberjack"
-	"path/filepath"
-	"go.uber.org/zap/zapcore"
+	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -25,15 +25,22 @@ func InitZapLogger(tool *ToolLogger) {
 	if err != nil {
 		panic(err)
 	}
-	hook := lumberjack.Logger{
-		Filename:   filepath.Join(path, tool.Filename),
-		MaxSize:    tool.MaxSize,
-		MaxBackups: tool.MaxBackups,
-		MaxAge:     tool.MaxAge,
-		Compress:   tool.Compress,
-		LocalTime:true,
-	}
-	w := zapcore.AddSync(&hook)
+	//hook := lumberjack.Logger{
+	//	Filename:   filepath.Join(path, tool.Filename),
+	//	MaxSize:    tool.MaxSize,
+	//	MaxBackups: tool.MaxBackups,
+	//	MaxAge:     tool.MaxAge,
+	//	Compress:   tool.Compress,
+	//	LocalTime:  true,
+	//}
+	//w := zapcore.AddSync(&hook)
+	logf, err := rotatelogs.New(
+		filepath.Join(path, tool.Filename)+".%Y_%m_%d_%H:%M",
+		rotatelogs.WithLinkName(filepath.Join(path, tool.Filename)),
+		rotatelogs.WithMaxAge(30*24*time.Hour),
+		rotatelogs.WithRotationTime(time.Minute),
+	)
+	w := zapcore.AddSync(logf)
 	priority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
 		return lvl >= tool.Level
 	})
