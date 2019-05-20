@@ -56,8 +56,8 @@ func TestMongo(url string) {
 
 	//集合数据自动过期
 	/*k := mongo.IndexModel{
-		Keys:    bsonx.Doc{{"expiredtime", bsonx.Int32(1)}},
-		Options: options.Index().SetExpireAfterSeconds(1 * 60),
+		Keys:    bsonx.Doc{{"expiredtime", bsonx.Int32(1)}},//创建索引
+		Options: options.Index().SetExpireAfterSeconds(1 * 60),//创建数据过期
 	}
 	_, err = collection.Indexes().CreateOne(getContext(), k)
 	checkErr(err)*/
