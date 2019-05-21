@@ -79,8 +79,10 @@ func (l *Logger) loadCfg() {
 	//TODO 把配置文件读入log类
 	if l.Opts.Development {
 		l.zapConfig = zap.NewDevelopmentConfig()
+		l.zapConfig.EncoderConfig.EncodeTime = timeEncoder
 	} else {
 		l.zapConfig = zap.NewProductionConfig()
+		l.zapConfig.EncoderConfig.EncodeTime = timeUnixNano
 	}
 	// application log output path
 	if l.Opts.OutputPaths == nil || len(l.Opts.OutputPaths) == 0 {
@@ -187,7 +189,7 @@ func (l *Logger) cores() zap.Option {
 	})
 }
 func timeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-	enc.AppendString("[" + t.Format("2006-01-02 15:04:05") + "]")
+	enc.AppendString(t.Format("2006-01-02 15:04:05"))
 }
 
 func timeUnixNano(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
