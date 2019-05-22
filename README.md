@@ -55,7 +55,7 @@
     一个简单的推送服务
 
 ### redis_subscription
-    redis使用，发布与订阅
+    redis使用，发布与订阅，分布式锁
 
 ### reflect
     反射学习
