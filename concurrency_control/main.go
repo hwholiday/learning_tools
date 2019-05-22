@@ -2,21 +2,16 @@ package main
 
 import (
 	"flag"
-	"net/http"
-	"time"
-	"go.uber.org/zap"
-	"github.com/hwholiday/libs/perf"
-	"github.com/hwholiday/libs/logtool"
-	"github.com/hwholiday/libs/quit"
 	"fmt"
 	"math/rand"
+	"net/http"
+	"time"
 )
 
 var addr = flag.String("p", "192.168.2.28:8099", "port")
 
 func main() {
 	flag.Parse()
-	perf.StartPprof([]string{"192.168.2.28:9022"})
 	//http服务
 	mux := http.NewServeMux()
 	mux.HandleFunc("/limit_api", limitApi)
@@ -27,16 +22,10 @@ func main() {
 		ReadTimeout:    15 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
-	go func() {
-		err := s.ListenAndServe()
-		if err != nil {
-			logtool.Zap.Panic("server err", zap.Error(err))
-		}
-	}()
-	quit.QuitSignal(func() {
-		s.Close()
-		fmt.Println("退出程序")
-	})
+	err := s.ListenAndServe()
+	if err != nil {
+		panic(err)
+	}
 }
 
 var limitChan = make(chan bool, 1) //每次执行一个请求
