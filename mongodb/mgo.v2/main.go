@@ -2,8 +2,9 @@ package main
 
 import (
 	"gopkg.in/mgo.v2"
-	"log"
 	"gopkg.in/mgo.v2/bson"
+	"log"
+	"time"
 )
 
 type User struct {
@@ -13,6 +14,8 @@ type User struct {
 	Age      int           `bson:"age"`
 }
 
+var db *mgo.Session
+
 func main() {
 
 	db, err := mgo.Dial("mongodb://localhost")
@@ -20,7 +23,13 @@ func main() {
 		log.Fatalln(err)
 	}
 	defer db.Close()
-	db.SetMode(mgo.Monotonic, true)
+	db.SetMode(mgo.Eventual, true)
+	db.SetPoolLimit(2000)
+	db.SetSocketTimeout(3 * time.Second)
+	err = db.Ping()
+	if err != nil {
+		log.Fatalln(err)
+	}
 	c := db.DB("howie").C("person")
 
 	//插入
@@ -94,4 +103,37 @@ func main() {
 	c.Remove(bson.M{"name": "JK_CHENG"})//删除
 
 
+}
+
+
+type SessionStore struct {
+	session *mgo.Session
+}
+
+//获取数据库的collection
+func (d *SessionStore) C(name string) *mgo.Collection {
+	return d.session.DB("howie").C(name)
+}
+
+func (d *SessionStore) Db() *mgo.Database {
+	return d.session.DB("howie")
+}
+
+func NewMgoSession() *SessionStore {
+	ds := &SessionStore{
+		session: db.Copy(),
+	}
+	return ds
+}
+
+func (d *SessionStore) Close() {
+	d.session.Close()
+}
+
+func (d *SessionStore) ErrNotFound() error {
+	return mgo.ErrNotFound
+}
+
+func CloseMgoRedisConnection() {
+	db.Close()
 }
