@@ -43,14 +43,18 @@ func TestMongo(url string) {
 		size            int64
 	)
 	//链接mongo服务
-	if client, err = mongo.Connect(getContext(), options.Client().ApplyURI(url)); err != nil {
+	opt := options.Client().ApplyURI(url)
+	opt.SetLocalThreshold(3 * time.Second)
+	opt.SetMaxConnIdleTime(5 * time.Second)
+	opt.SetMaxPoolSize(200)
+	if client, err = mongo.Connect(getContext(), opt); err != nil {
 		checkErr(err)
 	}
+
 	//判断服务是否可用
 	if err = client.Ping(getContext(), readpref.Primary()); err != nil {
 		checkErr(err)
 	}
-
 	//选择数据库和集合
 	collection = client.Database("testing_base").Collection("howie")
 
@@ -186,12 +190,12 @@ func GetHowieArray() (data []interface{}) {
 	var i int64
 	for i = 0; i <= 10; i++ {
 		data = append(data, Howie{
-			HowieId:    primitive.NewObjectID(),
-			Name:       fmt.Sprintf("howie_%d", i+1),
-			Pwd:        fmt.Sprintf("pwd_%d", i+1),
-			Age:        i + 10,
-			CreateTime: time.Now().Unix(),
-			ExpiredTime:time.Now(),
+			HowieId:     primitive.NewObjectID(),
+			Name:        fmt.Sprintf("howie_%d", i+1),
+			Pwd:         fmt.Sprintf("pwd_%d", i+1),
+			Age:         i + 10,
+			CreateTime:  time.Now().Unix(),
+			ExpiredTime: time.Now(),
 		})
 	}
 	return
