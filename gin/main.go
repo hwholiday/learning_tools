@@ -8,8 +8,8 @@ import (
 	"github.com/cihub/seelog"
 	"os"
 	"fmt"
-	"test/gin/router"
-	"test/gin/model"
+	"learning_tools/gin/router"
+	"learning_tools/gin/model"
 	"os/signal"
 	"syscall"
 )
