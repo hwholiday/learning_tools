@@ -80,15 +80,15 @@ func main() {
 
 	var bKey = bytes.Join([][]byte{b.DH1[:], b.DH2[:], b.DH3[:], b.DH4[:]}, []byte{})
 
-	fmt.Println("ADH1", a.DH1)
-	fmt.Println("ADH2", a.DH2)
-	fmt.Println("ADH3", a.DH3)
-	fmt.Println("ADH4", a.DH4)
+	fmt.Println("ADH1",  base64.StdEncoding.EncodeToString(a.DH1[:]))
+	fmt.Println("ADH2",  base64.StdEncoding.EncodeToString(a.DH2[:]))
+	fmt.Println("ADH3",  base64.StdEncoding.EncodeToString(a.DH3[:]))
+	fmt.Println("ADH4",  base64.StdEncoding.EncodeToString(a.DH4[:]))
 
-	fmt.Println("BDH1", b.DH1)
-	fmt.Println("BDH2", b.DH2)
-	fmt.Println("BDH3", b.DH3)
-	fmt.Println("BDH4", b.DH4)
+	fmt.Println("BDH1",  base64.StdEncoding.EncodeToString(b.DH1[:]))
+	fmt.Println("BDH2",  base64.StdEncoding.EncodeToString(b.DH2[:]))
+	fmt.Println("BDH3",  base64.StdEncoding.EncodeToString(b.DH3[:]))
+	fmt.Println("BDH4",  base64.StdEncoding.EncodeToString(b.DH4[:]))
 
 	fmt.Println("aKey", base64.StdEncoding.EncodeToString(aKey))
 	fmt.Println("aKey", base64.StdEncoding.EncodeToString(kdf(aKey)))
@@ -98,14 +98,14 @@ func main() {
 	fmt.Println("x3DH结束")
 	fmt.Println("开始计算Signal protocol(双棘轮)")
 
-	for i := 1; i <= 2; i++ {
+	for i := 1; i <= 3; i++ {
 		aSalt := GetCurve25519Key(a.EphemeralPri, b.EphemeralPub)
-		fmt.Println("计算Ａ的salt", aSalt)
-		fmt.Println("计算A的KEY", base64.StdEncoding.EncodeToString(Signalkdf(aKey, aSalt, "A")))
+		fmt.Println("计算Ａ的salt第 ",i," 次",  base64.StdEncoding.EncodeToString(aSalt[:]))
+		fmt.Println("计算A的KEY第 ",i," 次", base64.StdEncoding.EncodeToString(Signalkdf(aKey, aSalt, "A")))
 
 		bSalt := GetCurve25519Key(b.EphemeralPri, a.EphemeralPub)
-		fmt.Println("计算B的salt", bSalt)
-		fmt.Println("计算B的KEY", base64.StdEncoding.EncodeToString(Signalkdf(bKey, bSalt, "B")))
+		fmt.Println("计算B的salt第 ",i," 次",  base64.StdEncoding.EncodeToString(bSalt[:]))
+		fmt.Println("计算B的KEY第 ",i," 次", base64.StdEncoding.EncodeToString(Signalkdf(bKey, bSalt, "B")))
 	}
 
 }

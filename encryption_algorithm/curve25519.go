@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 	"golang.org/x/crypto/curve25519"
 	"io"
@@ -16,8 +17,8 @@ func main() {
 		os.Exit(0)
 	}
 	curve25519.ScalarBaseMult(&Apublic, &Aprivate)
-	fmt.Println("A私钥", Aprivate)
-	fmt.Println("A公钥", Apublic) //作为椭圆起点
+	fmt.Println("A私钥", base64.StdEncoding.EncodeToString(Aprivate[:]))
+	fmt.Println("A公钥", base64.StdEncoding.EncodeToString(Apublic[:])) //作为椭圆起点
 
 	var Bprivate, Bpublic [32]byte
 	//产生随机数
@@ -25,8 +26,8 @@ func main() {
 		os.Exit(0)
 	}
 	curve25519.ScalarBaseMult(&Bpublic, &Bprivate)
-	fmt.Println("B私钥", Bprivate)
-	fmt.Println("B公钥", Bpublic) //作为椭圆起点
+	fmt.Println("B私钥",  base64.StdEncoding.EncodeToString(Bprivate[:]))
+	fmt.Println("B公钥",  base64.StdEncoding.EncodeToString(Bpublic[:])) //作为椭圆起点
 
 	var Akey, Bkey [32]byte
 
@@ -36,6 +37,6 @@ func main() {
 	//B的私钥加上A的公钥计算B的key
 	curve25519.ScalarMult(&Bkey, &Bprivate, &Apublic)
 
-	fmt.Println("A交互的KEY", Akey)
-	fmt.Println("B交互的KEY", Bkey)
+	fmt.Println("A交互的KEY",  base64.StdEncoding.EncodeToString(Akey[:]))
+	fmt.Println("B交互的KEY",  base64.StdEncoding.EncodeToString(Bkey[:]))
 }
