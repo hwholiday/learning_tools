@@ -84,16 +84,14 @@ func WatchData() {
 	// 从当前版本开始订阅
 	curRevision := rangeResp.Header.Revision + 1
 	watcher := clientv3.NewWatcher(etcd)
-	watchChan := watcher.Watch(context.TODO(), "/server/file", clientv3.WithPrefix(), clientv3.WithRev(curRevision))
+	watchChan := watcher.Watch(context.TODO(), "/server/", clientv3.WithPrefix(), clientv3.WithRev(curRevision))
 	for watchResp := range watchChan {
 		for _, event := range watchResp.Events {
 			switch (event.Type) {
 			case mvccpb.PUT:
-				fmt.Println("PUT事件")
-				fmt.Println("Key >> ", string(event.Kv.Key), "Value >> ", event.Kv.Value)
+				fmt.Println("PUT事件 Key >> ", string(event.Kv.Key), "Value >> ", event.Kv.Value)
 			case mvccpb.DELETE:
-				fmt.Println("DELETE事件")
-				fmt.Println("Key >> ", string(event.Kv.Key))
+				fmt.Println("DELETE事件 Key >> ", string(event.Kv.Key))
 			}
 		}
 	}
