@@ -38,6 +38,9 @@ func TestGet(t *testing.T) {
 	data, err = etcd.Get(context.TODO(), "/info/", clientv3.WithPrefix()) //取带有/info/前缀的key
 	CheckErr(err)
 	t.Log(data)
+	data, err = etcd.Get(context.TODO(), "/server/file") //取带有/info/前缀的key
+	CheckErr(err)
+	t.Log(data)
 }
 
 //创建一个5秒的租约 实现服务注册
@@ -48,13 +51,21 @@ func TestPutWithGrant(t *testing.T) {
 	_, err = etcd.Put(context.TODO(), "/server/file", "8.8.8.8", clientv3.WithLease(leaseId.ID))
 	CheckErr(err)
 	t.Log("put success")
+	data, err := lease.KeepAlive(context.TODO(), leaseId.ID) //自动续约
+	t.Log("[lease.KeepAlive]   ", data)
 	go WatchData()
 	for i := 1; i <= 10; i++ {
 		time.Sleep(time.Second)
 		data, err := etcd.Get(context.TODO(), "/server/file") //取指定key
 		CheckErr(err)
-		if i == 4 { //要过期的时候续一次租约
+		/*if i == 4 { //要过期的时候续一次租约
 			_, err = lease.KeepAliveOnce(context.TODO(), leaseId.ID)
+			CheckErr(err)
+		}*/
+		if i == 7 { //删除这个key
+			_, err = lease.Revoke(context.TODO(), leaseId.ID)
+			CheckErr(err)
+			_, err = etcd.Delete(context.TODO(), "/server/file")
 			CheckErr(err)
 		}
 		t.Log("第 ", i, " 秒获取数据", data)
