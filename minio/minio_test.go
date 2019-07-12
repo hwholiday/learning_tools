@@ -14,8 +14,6 @@ var minioClient *minio.Client
 
 func init() {
 	var err error
-	//s3.amazonaws.com
-	//127.0.0.1:9000
 	minioClient, err = minio.New("127.0.0.1:9000", "AKIAINCHU2DIYAQ66TPA", "ZaYtz0d61fJXQ7djyXBX4yZ5ob8Kj/WNXtw6PJob", false)
 	if err != nil {
 		panic(err)

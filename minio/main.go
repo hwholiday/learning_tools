@@ -2,17 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/minio/minio-go"
-	"net/url"
 	"os"
-	"time"
 )
 
+//分片上传文件
+//分片文件小于5M 再redis缓存到5M在上传
 func main() {
 
 
 }
-
 
 func CheckErr(msg string, err error) {
 	if err != nil {
