@@ -1,34 +1,15 @@
 package main
+
 import (
+	"fmt"
 	"net"
 	"os"
+	"path/filepath"
 	"testing"
-	"github.com/kataras/go-errors"
-	"fmt"
 )
 
-func Test(t *testing.T) {
-	checkErr := func(err error) {
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-	}
-	checkErr(Get())
-	checkErr(GetNil())
-}
-
-func Get() error {
-	return errors.New("errr")
-}
-
-func GetNil() error {
-	return nil
-}
-func Test1(t *testing.T) {
-
-}
-func Test_GetIp(t *testing.T)  {
+//获取本地的IP
+func Test_GetIp(t *testing.T) {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		fmt.Println(err)
@@ -44,3 +25,14 @@ func Test_GetIp(t *testing.T)  {
 		}
 	}
 }
+
+//设置配置文件路径
+func Test_Path(t *testing.T) {
+	workPath, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	appConfigPath := filepath.Join(workPath, "conf", "app.conf")
+	fmt.Println(appConfigPath)
+}
+
