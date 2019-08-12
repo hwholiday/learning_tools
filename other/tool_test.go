@@ -36,3 +36,14 @@ func Test_Path(t *testing.T) {
 	fmt.Println(appConfigPath)
 }
 
+func Test_Defer(t *testing.T)  {
+	 defer fmt.Println(1)
+	 A()
+	defer fmt.Println(3)
+	return
+}
+func A()  {
+	defer func() {
+		fmt.Println(2)
+	}()
+}
