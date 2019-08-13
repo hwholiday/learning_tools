@@ -61,14 +61,13 @@ func TestMongo(url string) {
 	if client, err = mongo.Connect(getContext(), opt); err != nil {
 		checkErr(err)
 	}
-
+	//StudySession(client)
 	//判断服务是否可用
 	if err = client.Ping(getContext(), readpref.Primary()); err != nil {
 		checkErr(err)
 	}
 	//选择数据库和集合
 	collection = client.Database("testing_base").Collection("howie")
-
 	//集合数据自动过期
 	/*k := mongo.IndexModel{
 		Keys:    bsonx.Doc{{"expiredtime", bsonx.Int32(1)}},//创建索引
@@ -177,6 +176,42 @@ func TestMongo(url string) {
 	}
 	fmt.Printf("DeleteMany删除了多少条数据:%d\n", delRes.DeletedCount)
 
+}
+
+func StudySession(client *mongo.Client) {
+	client.UseSession(getContext(), func(sctx mongo.SessionContext) error {
+		err := sctx.StartTransaction(options.Transaction().
+			SetReadConcern(readconcern.Snapshot()).
+			SetWriteConcern(writeconcern.New(writeconcern.WMajority())),
+		)
+		if err != nil {
+			return err
+		}
+		_, err = client.Database("aa").Collection("bb").UpdateOne(sctx, bson.D{{"aa", "1"}}, bson.D{{"$set", bson.D{{"status", "123123"}}}})
+		if err != nil {
+			_ = sctx.AbortTransaction(sctx)
+			return err
+		}
+		_, err = client.Database("cc").Collection("dd").InsertOne(sctx, bson.D{{"employee", 3}})
+		if err != nil {
+			_ = sctx.AbortTransaction(sctx)
+			return err
+		}
+		for {
+			err = sctx.CommitTransaction(sctx)
+			switch e := err.(type) {
+			case nil:
+				return nil
+			case mongo.CommandError:
+				if e.HasErrorLabel("UnknownTransactionCommitResult") {
+					continue
+				}
+				return e
+			default:
+				return e
+			}
+		}
+	})
 }
 
 func checkErr(err error) {
