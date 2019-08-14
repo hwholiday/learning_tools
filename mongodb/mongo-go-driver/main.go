@@ -61,7 +61,7 @@ func TestMongo(url string) {
 	if client, err = mongo.Connect(getContext(), opt); err != nil {
 		checkErr(err)
 	}
-	//StudySession(client)
+	//UseSession(client)
 	//判断服务是否可用
 	if err = client.Ping(getContext(), readpref.Primary()); err != nil {
 		checkErr(err)
@@ -178,7 +178,8 @@ func TestMongo(url string) {
 
 }
 
-func StudySession(client *mongo.Client) {
+//不能在单节点使用（副本集可以使用）
+func UseSession(client *mongo.Client) {
 	client.UseSession(getContext(), func(sctx mongo.SessionContext) error {
 		err := sctx.StartTransaction(options.Transaction().
 			SetReadConcern(readconcern.Snapshot()).
@@ -187,12 +188,12 @@ func StudySession(client *mongo.Client) {
 		if err != nil {
 			return err
 		}
-		_, err = client.Database("aa").Collection("bb").UpdateOne(sctx, bson.D{{"aa", "1"}}, bson.D{{"$set", bson.D{{"status", "123123"}}}})
+		_, err = client.Database("aa").Collection("bb").InsertOne(sctx, bson.D{{"aa", 3}})
 		if err != nil {
 			_ = sctx.AbortTransaction(sctx)
 			return err
 		}
-		_, err = client.Database("cc").Collection("dd").InsertOne(sctx, bson.D{{"employee", 3}})
+		_, err = client.Database("aa").Collection("bb").InsertOne(sctx, bson.D{{"bb", 3}})
 		if err != nil {
 			_ = sctx.AbortTransaction(sctx)
 			return err
