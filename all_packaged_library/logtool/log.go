@@ -1,9 +1,9 @@
 package logtool
 
 import (
+	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"gopkg.in/natefinch/lumberjack"
 	"os"
 	"path/filepath"
 	"sync"
