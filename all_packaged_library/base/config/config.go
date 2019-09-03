@@ -12,6 +12,8 @@ var (
 	minioConfig  defaultMinioConfig
 	mgoConfig    defaultMgoConfig
 	serverConfig defaultServerConfig
+	mysqlConfig  defaultMysqlConfig
+
 	m            sync.Mutex
 )
 
@@ -27,6 +29,9 @@ func Init(path string) {
 		panic(err)
 	}
 	if err = cfg.Section("redis").MapTo(&redisConfig); err != nil {
+		panic(err)
+	}
+	if err = cfg.Section("mysql").MapTo(&mysqlConfig); err != nil {
 		panic(err)
 	}
 	if err = cfg.Section("mongodb").MapTo(&mgoConfig); err != nil {
@@ -64,3 +69,8 @@ func GetServerConfig() (fig serversConfig) {
 func GetMinioConfig() (fig minConfig) {
 	return minioConfig
 }
+
+func GetMysqlConfig() msqlConfig {
+	return mysqlConfig
+}
+

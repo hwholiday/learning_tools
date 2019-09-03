@@ -2,6 +2,7 @@ package db
 
 import (
 	"github.com/go-redis/redis"
+	"github.com/go-xorm/xorm"
 	"github.com/minio/minio-go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"sync"
@@ -12,6 +13,7 @@ var (
 	redisDb     *redis.Client
 	minioClient *minio.Client
 	mgo         *mongo.Client
+	mysqlEngine *xorm.Engine
 	m           sync.Mutex
 )
 
@@ -21,6 +23,7 @@ func Init() {
 	initRedis()
 	initMongoDb()
 	initMinio()
+	initMysql()
 }
 
 func GetRedisDb() *redis.Client {
@@ -37,4 +40,12 @@ func GetMgoDb() *mongo.Client {
 
 func GetMinioClient() *minio.Client {
 	return minioClient
+}
+
+func GetMysqlDb() *xorm.Engine {
+	return mysqlEngine
+}
+
+func CloseMysqlDb() {
+	CloseMysqlConnection()
 }
