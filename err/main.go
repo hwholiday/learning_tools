@@ -15,8 +15,8 @@ type MyError struct {
 func (m MyError) Error() string {
 	return fmt.Sprintf("%v %v %v", m.Name, m.Time, m.Err)
 }
-func (e *MyError) Unwrap() error {
-	return e.Err
+func (m MyError) Unwrap() error {
+	return m.Err
 }
 
 func TestErr() error {
