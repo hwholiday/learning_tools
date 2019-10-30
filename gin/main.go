@@ -1,17 +1,17 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"flag"
-	"time"
-	"github.com/cihub/seelog"
-	"os"
 	"fmt"
-	"learning_tools/gin/router"
+	"github.com/cihub/seelog"
+	"github.com/gin-gonic/gin"
 	"learning_tools/gin/model"
+	"learning_tools/gin/router"
+	"net/http"
+	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 var addr = flag.String("addr", "127.0.0.1:8081", "server addr")
@@ -48,7 +48,7 @@ func main() {
 	seelog.Info("server run :", *addr)
 	quitChan := make(chan os.Signal)
 	signal.Notify(quitChan, os.Interrupt, os.Kill, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
-	fmt.Println("服务启动")
+	seelog.Info("服务启动")
 	go func() {
 		err := s.ListenAndServe()
 		if err != nil {
@@ -59,6 +59,6 @@ func main() {
 	}()
 	//退出应用
 	<-quitChan
-	fmt.Println("服务退出")
-	s.Close()
+	seelog.Info("服务退出")
+	_ = s.Close()
 }
