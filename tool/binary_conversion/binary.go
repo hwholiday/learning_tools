@@ -11,7 +11,7 @@ func main() {
 	fmt.Printf("%064b\n", switchs)
 	fmt.Println(switchs)
 	fmt.Printf("%064b\n", 1 << 62)
-	fmt.Printf("%064b\n", switchs)
+	fmt.Printf("%064b\n", 8070450532247928832)
 	fmt.Println(1 << 2 & 8070450532247928832) //判断第二位是不是0
 	fmt.Println(1 << 62 & 8070450532247928832) //判断第二位是不是0
 }
