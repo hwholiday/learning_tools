@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"time"
 	"learning_tools/gin/model"
-	"learning_tools/gin/protos"
 )
 //announcement
 type AnnouncementController struct {
@@ -99,7 +98,6 @@ func (c *AnnouncementController) GetById(g *gin.Context) {
 		c.ResponseFailureForFuncErr(g, err.Error())
 		return
 	}
-	ann:=protos.Annoucement{}
 	c.ResponseData(g,data)
 	return
 }
