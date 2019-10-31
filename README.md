@@ -49,3 +49,5 @@
 -  tcp    一个简单的tcp例子，使用len+type+data的模式
 
 -  websocket    一个简单的websocket子
+
+-  jaeger    分布式追踪
