@@ -7,12 +7,22 @@ import (
 	"time"
 )
 
+func Test_Queue(t *testing.T) {
+	//同步
+	SyncProducer,err:=sarama.NewSyncProducer([]string{"localhost:9092"},nil)
+	CheckErr(err)
+	defer SyncProducer.Close()
+	SyncProducer.SendMessage(&sarama.ProducerMessage{
+	})
+}
+
 func Test_Producer(t *testing.T) {
 	config := sarama.NewConfig()
 	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Partitioner = sarama.NewRandomPartitioner
 	config.Producer.Return.Successes = true
 	config.Producer.Return.Errors = true
+	//异步
 	AsyncProducer, err := sarama.NewAsyncProducer([]string{"localhost:9092"}, config)
 	CheckErr(err)
 	defer AsyncProducer.AsyncClose()
