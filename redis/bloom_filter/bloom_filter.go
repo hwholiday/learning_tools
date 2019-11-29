@@ -28,7 +28,7 @@ func main() {
 		panic(err)
 	}
 	fmt.Println("链接redis成功")
-	info:=redis.NewStatusCmd("bf.add", "bl", "1")
+/*	info:=redis.NewStatusCmd("bf.add", "bl", "1")
 	_ = GlobalClient.Process(info)
 	if err := info.Err(); err != nil {
 		print(err)
@@ -42,12 +42,14 @@ func main() {
 	_ = GlobalClient.Process(info3)
 	if err := info3.Err(); err != nil {
 		print(err)
-	}
-	info4:=redis.NewStatusCmd("bf.exists", "bl", "3")
+	}*/
+	info4:=redis.NewIntCmd("bf.exists", "bl", "6")
 	_ = GlobalClient.Process(info4)
 	if err := info4.Err(); err != nil {
 		print(err)
 	}
-	fmt.Println(info4.String())
-	fmt.Println(GlobalClient.Get("mykey").String())
+	v,err:=info4.Result()
+	fmt.Println("err",err)
+	fmt.Println("v",v)
+	//fmt.Println(GlobalClient.Get("mykey").String())
 }
