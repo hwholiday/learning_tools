@@ -111,10 +111,10 @@ func (l *Logger) loadCfg() {
 		l.Opts.DebugFileName = "debug.log"
 	}
 	if l.Opts.MaxSize == 0 {
-		l.Opts.MaxSize = 50
+		l.Opts.MaxSize = 100
 	}
 	if l.Opts.MaxBackups == 0 {
-		l.Opts.MaxBackups = 3
+		l.Opts.MaxBackups = 30
 	}
 	if l.Opts.MaxAge == 0 {
 		l.Opts.MaxAge = 30
