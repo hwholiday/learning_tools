@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go.uber.org/ratelimit"
 	"math/rand"
 	"net/http"
 	"time"
@@ -16,7 +15,6 @@ func main() {
 	//http服务
 	mux := http.NewServeMux()
 	mux.HandleFunc("/limit_api", limitApi)
-	mux.HandleFunc("/limit_api_v1", limitAp)
 	s := &http.Server{
 		Handler:        mux,
 		Addr:           *addr,
@@ -43,15 +41,6 @@ func limitApi(w http.ResponseWriter, r *http.Request) {
 	rand.Seed(time.Now().UnixNano())
 	time.Sleep(time.Duration(rand.Intn(4)) * time.Second)
 	<-limitChan
-	fmt.Println("服务器正常访问")
-	w.Write([]byte("OK"))
-	return
-}
-
-var rl = ratelimit.New(1) // per second
-
-func limitAp(w http.ResponseWriter, r *http.Request) {
-	rl.Take()
 	fmt.Println("服务器正常访问")
 	w.Write([]byte("OK"))
 	return
