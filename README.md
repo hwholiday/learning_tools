@@ -18,8 +18,8 @@
     
 ### [grpc](https://github.com/hwholiday/learning_tools/tree/master/grpc) (grpc学习)
     1: bidirectional_streaming_rpc 双向流grpc
-    1: server_side_streaming_rpc 服务端流grpc，也可以写成客户端流grpc
-    1: simple_rpc 简单grpc
+    2: server_side_streaming_rpc 服务端流grpc，也可以写成客户端流grpc
+    3: simple_rpc 简单grpc
 
 ### [rpc](https://github.com/hwholiday/learning_tools/tree/master/rpc) (rpc学习)
     1: main rpc学习
@@ -60,7 +60,7 @@
 
 ### [mongodb](https://github.com/hwholiday/learning_tools/tree/master/mongodb) (mongodb服务器)
     1: mgo.v2  mgo.v2库的基础使用学习
-    1: mongo-go-driver  官方库的demo，以及事务提交（不能是单节点）
+    2: mongo-go-driver  官方库的demo，以及事务提交（不能是单节点）
 
 ### [gin](https://github.com/hwholiday/learning_tools/tree/master/gin) (web框架gin学习)
     1: mvc 模式，swagger文档 可作为基础学习gin
@@ -76,8 +76,8 @@
 
 ### [encryption_algorithm](https://github.com/hwholiday/learning_tools/tree/master/encryption_algorithm) (双棘轮算法, KDF链,迪菲-赫尔曼棘轮,x3dh)
     1: aes ase-(cfb,cbc,ecb)-(128,192,256)加解密方法
-    1: curve25519 椭圆曲线算法
-    1: 3curve25519 双棘轮算法,KDF链
+    2: curve25519 椭圆曲线算法
+    3: 3curve25519 双棘轮算法,KDF链
 
 ### [LRU](https://github.com/hwholiday/learning_tools/tree/master/LRU)(缓存淘汰算法)
     1: list lru 缓存淘汰算法 
@@ -90,9 +90,9 @@
     
 ### [binary_conversion](https://github.com/hwholiday/learning_tools/tree/master/binary_conversion) (进制转换)
     1: 10to36 10进制转36进制
-    1: 10to62 10进制转62进制
-    1: 10to76 10进制转76进制
-    1: binary 用一个int64来描述开关（用户设置很多建议使用）       
+    2: 10to62 10进制转62进制
+    3: 10to76 10进制转76进制
+    4: binary 用一个int64来描述开关（用户设置很多建议使用）       
 
 ### [job_worker_mode](https://github.com/hwholiday/learning_tools/tree/master/job_worker_mode) (job_worker模式)
     1: worker job_worker模式，可提高系统吞吐量
