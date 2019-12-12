@@ -88,7 +88,7 @@
 ### [websocket](https://github.com/hwholiday/learning_tools/tree/master/websocket) (websocket协议实现)
     1: 实现网络库
     
-### [binary_conversion](https://github.com/hwholiday/learning_tools/tree/master/binary_conversion) (进制转换)
+### [binary_conversion](https://github.com/hwholiday/learning_tools/tree/master/tool/binary_conversion) (进制转换)
     1: 10to36 10进制转36进制
     2: 10to62 10进制转62进制
     3: 10to76 10进制转76进制
