@@ -123,6 +123,7 @@
     
 ### [interface](https://github.com/hwholiday/learning_tools/tree/master/interface) (interface包学习)
     1: main interface包学习
+    2: middleware Golang 基于interface 实现中间件
     
 ### [syncPool](https://github.com/hwholiday/learning_tools/tree/master/syncPool) (syncPool包学习)
     1: main syncPool包学习
