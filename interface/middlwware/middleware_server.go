@@ -20,6 +20,7 @@ func NewService(s string) Service {
 	{
 		svc = NewBaseServer()
 		svc = LogMiddleware(s)(svc)
+		svc = LogV2Middleware(s)(svc)
 	}
 	return svc
 }

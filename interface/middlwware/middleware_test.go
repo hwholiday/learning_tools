@@ -5,6 +5,6 @@ import (
 )
 
 func Test_middleware(t *testing.T) {
-	svc := NewService("日志中间件")
+	svc := NewService("")
 	t.Log(svc.Add(1, 2))
 }
