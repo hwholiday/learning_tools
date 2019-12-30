@@ -28,6 +28,7 @@ func (mw logServer) Add(a, b int) (res int) {
 	return mw.next.Add(a, b)
 }
 
+
 type logV2Server struct {
 	next Service
 	log  string
