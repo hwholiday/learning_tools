@@ -11,17 +11,17 @@ import (
 )
 
 type Options struct {
-	LogFileDir    string
-	AppName       string
+	LogFileDir    string //文件保存地方
+	AppName       string //日志文件前缀
 	ErrorFileName string
 	WarnFileName  string
 	InfoFileName  string
 	DebugFileName string
-	Level         zapcore.Level
-	MaxSize       int
-	MaxBackups    int
-	MaxAge        int
-	Development   bool
+	Level         zapcore.Level //日志等级
+	MaxSize       int           //日志文件小大（M）
+	MaxBackups    int           // 最多存在多少个切片文件
+	MaxAge        int           //保存的最大天数
+	Development   bool          //是否是开发模式
 	zap.Config
 }
 
@@ -48,7 +48,7 @@ func NewLogger(mod ...ModOptions) *zap.Logger {
 	l.Lock()
 	defer l.Unlock()
 	if l.inited {
-		l.Info("[initLogger] logger Inited")
+		l.Info("[NewLogger] logger Inited")
 		return nil
 	}
 	l.Opts = &Options{
@@ -86,6 +86,7 @@ func NewLogger(mod ...ModOptions) *zap.Logger {
 	l.zapConfig.Level.SetLevel(l.Opts.Level)
 	l.init()
 	l.inited = true
+	l.Info("[NewLogger] success")
 	return l.Logger
 }
 
