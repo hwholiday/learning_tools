@@ -17,11 +17,15 @@ type Options struct {
 	WarnFileName  string
 	InfoFileName  string
 	DebugFileName string
+	Level         zapcore.Level
 	MaxSize       int
 	MaxBackups    int
 	MaxAge        int
+	Development   bool
 	zap.Config
 }
+
+type ModOptions func(options *Options)
 
 var (
 	l                              *Logger
@@ -31,12 +35,6 @@ var (
 	errorConsoleWS                 = zapcore.Lock(os.Stderr)
 )
 
-func init() {
-	l = &Logger{
-		Opts: &Options{},
-	}
-}
-
 type Logger struct {
 	*zap.Logger
 	sync.RWMutex
@@ -45,38 +43,30 @@ type Logger struct {
 	inited    bool
 }
 
-func initLogger(cf ...*Options) {
+func NewLogger(mod ...ModOptions) *zap.Logger {
+	l = &Logger{}
 	l.Lock()
 	defer l.Unlock()
 	if l.inited {
 		l.Info("[initLogger] logger Inited")
-		return
+		return nil
 	}
-	if len(cf) > 0 {
-		l.Opts = cf[0]
+	l.Opts = &Options{
+		LogFileDir:    "",
+		AppName:       "app_log",
+		ErrorFileName: "error.log",
+		WarnFileName:  "warn.log",
+		InfoFileName:  "info.log",
+		DebugFileName: "debug.log",
+		Level:         zapcore.DebugLevel,
+		MaxSize:       100,
+		MaxBackups:    60,
+		MaxAge:        30,
 	}
-	l.loadCfg()
-	l.init()
-	l.Info("[initLogger] zap plugin initializing completed")
-	l.inited = true
-}
-
-// GetLogger returns logger
-func GetLogger() (ret *Logger) {
-	return l
-}
-
-func (l *Logger) init() {
-	l.setSyncers()
-	var err error
-	l.Logger, err = l.zapConfig.Build(l.cores())
-	if err != nil {
-		panic(err)
+	if l.Opts.LogFileDir == "" {
+		l.Opts.LogFileDir, _ = filepath.Abs(filepath.Dir(filepath.Join(".")))
+		l.Opts.LogFileDir += sp + "logs" + sp
 	}
-	defer l.Logger.Sync()
-}
-
-func (l *Logger) loadCfg() {
 	if l.Opts.Development {
 		l.zapConfig = zap.NewDevelopmentConfig()
 		l.zapConfig.EncoderConfig.EncodeTime = timeEncoder
@@ -90,35 +80,23 @@ func (l *Logger) loadCfg() {
 	if l.Opts.ErrorOutputPaths == nil || len(l.Opts.ErrorOutputPaths) == 0 {
 		l.zapConfig.OutputPaths = []string{"stderr"}
 	}
-	// 默认输出到程序运行目录的logs子目录
-	if l.Opts.LogFileDir == "" {
-		l.Opts.LogFileDir, _ = filepath.Abs(filepath.Dir(filepath.Join(".")))
-		l.Opts.LogFileDir += sp + "logs" + sp
+	for _, fn := range mod {
+		fn(l.Opts)
 	}
-	if l.Opts.AppName == "" {
-		l.Opts.AppName = "app"
+	l.zapConfig.Level.SetLevel(l.Opts.Level)
+	l.init()
+	l.inited = true
+	return l.Logger
+}
+
+func (l *Logger) init() {
+	l.setSyncers()
+	var err error
+	l.Logger, err = l.zapConfig.Build(l.cores())
+	if err != nil {
+		panic(err)
 	}
-	if l.Opts.ErrorFileName == "" {
-		l.Opts.ErrorFileName = "error.log"
-	}
-	if l.Opts.WarnFileName == "" {
-		l.Opts.WarnFileName = "warn.log"
-	}
-	if l.Opts.InfoFileName == "" {
-		l.Opts.InfoFileName = "info.log"
-	}
-	if l.Opts.DebugFileName == "" {
-		l.Opts.DebugFileName = "debug.log"
-	}
-	if l.Opts.MaxSize == 0 {
-		l.Opts.MaxSize = 50
-	}
-	if l.Opts.MaxBackups == 0 {
-		l.Opts.MaxBackups = 3
-	}
-	if l.Opts.MaxAge == 0 {
-		l.Opts.MaxAge = 30
-	}
+	defer l.Logger.Sync()
 }
 
 func (l *Logger) setSyncers() {
@@ -138,16 +116,75 @@ func (l *Logger) setSyncers() {
 	debugWS = f(l.Opts.DebugFileName)
 	return
 }
+func SetMaxSize(MaxSize int) ModOptions {
+	return func(option *Options) {
+		option.MaxSize = MaxSize
+	}
+}
+func SetMaxBackups(MaxBackups int) ModOptions {
+	return func(option *Options) {
+		option.MaxBackups = MaxBackups
+	}
+}
+func SetMaxAge(MaxAge int) ModOptions {
+	return func(option *Options) {
+		option.MaxAge = MaxAge
+	}
+}
 
+func SetLogFileDir(LogFileDir string) ModOptions {
+	return func(option *Options) {
+		option.LogFileDir = LogFileDir
+	}
+}
+
+func SetAppName(AppName string) ModOptions {
+	return func(option *Options) {
+		option.AppName = AppName
+	}
+}
+
+func SetLevel(Level zapcore.Level) ModOptions {
+	return func(option *Options) {
+		option.Level = Level
+	}
+}
+func SetErrorFileName(ErrorFileName string) ModOptions {
+	return func(option *Options) {
+		option.ErrorFileName = ErrorFileName
+	}
+}
+func SetWarnFileName(WarnFileName string) ModOptions {
+	return func(option *Options) {
+		option.WarnFileName = WarnFileName
+	}
+}
+
+func SetInfoFileName(InfoFileName string) ModOptions {
+	return func(option *Options) {
+		option.InfoFileName = InfoFileName
+	}
+}
+func SetDebugFileName(DebugFileName string) ModOptions {
+	return func(option *Options) {
+		option.DebugFileName = DebugFileName
+	}
+}
+func SetDevelopment(Development bool) ModOptions {
+	return func(option *Options) {
+		option.Development = Development
+	}
+}
 func (l *Logger) cores() zap.Option {
 	fileEncoder := zapcore.NewJSONEncoder(l.zapConfig.EncoderConfig)
 	//consoleEncoder := zapcore.NewConsoleEncoder(l.zapConfig.EncoderConfig)
 	encoderConfig := zap.NewDevelopmentEncoderConfig()
 	encoderConfig.EncodeTime = timeEncoder
+	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	consoleEncoder := zapcore.NewConsoleEncoder(encoderConfig)
 
 	errPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl > zapcore.WarnLevel && zapcore.WarnLevel-l.zapConfig.Level.Level() > -1
+		return lvl == zapcore.ErrorLevel && zapcore.ErrorLevel-l.zapConfig.Level.Level() > -1
 	})
 	warnPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
 		return lvl == zapcore.WarnLevel && zapcore.WarnLevel-l.zapConfig.Level.Level() > -1
