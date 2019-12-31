@@ -1,13 +1,19 @@
 package v1_service
 
-type Service interface {
-}
+import "context"
 
-type NewService func(Service) Service
+type Service interface {
+	TestAdd(ctx context.Context,a int) int
+}
 
 type baseServer struct {
+
 }
 
-func New()  {
-	
+func NewService() Service {
+	return &baseServer{}
+}
+
+func (s baseServer) TestAdd(ctx context.Context,a int) int {
+	return a +10
 }
