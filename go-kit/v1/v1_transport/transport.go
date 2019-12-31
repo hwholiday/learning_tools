@@ -7,6 +7,7 @@ import (
 	"github.com/go-kit/kit/endpoint"
 	httptransport "github.com/go-kit/kit/transport/http"
 	"learning_tools/go-kit/v1/v1_endpoint"
+	"learning_tools/go-kit/v1/v1_service"
 	"net/http"
 	"strconv"
 )
@@ -27,11 +28,16 @@ func NewHttpHandler(endpoint v1_endpoint.EndPointServer) http.Handler {
 	return m
 }
 func decodeHTTPADDRequest(_ context.Context, r *http.Request) (interface{}, error) {
-	d, err := strconv.Atoi(r.FormValue("a"))
+	var (
+		in  v1_service.Add
+		err error
+	)
+	in.A, err = strconv.Atoi(r.FormValue("a"))
+	in.B, err = strconv.Atoi(r.FormValue("b"))
 	if err != nil {
-		return d, err
+		return in, err
 	}
-	return d, nil
+	return in, nil
 }
 
 func encodeHTTPGenericResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
