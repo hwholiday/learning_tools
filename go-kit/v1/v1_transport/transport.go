@@ -15,7 +15,6 @@ import (
 func NewHttpHandler(endpoint v1_endpoint.EndPointServer) http.Handler {
 	options := []httptransport.ServerOption{
 		httptransport.ServerErrorEncoder(errorEncoder), //程序中的全部报错都会走这里面
-		/*httptransport.ServerErrorEncoder(transport.NewLogErrorHandler(logger))*/
 	}
 
 	m := http.NewServeMux()
