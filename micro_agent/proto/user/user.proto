@@ -1,0 +1,20 @@
+syntax = "proto3";
+package user_agent;
+service User {
+    rpc RpcUserInfo (ReqMsg) returns (ResMsg) {
+    }
+}
+
+message Error {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message ReqMsg {
+    string user_name = 1;
+}
+
+message ResMsg {
+    Error error = 1;
+    string info=2;
+}
