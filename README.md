@@ -7,9 +7,9 @@
     4: push 集成苹果推送，google推送，华为推送
     5: quit 优雅的退出程序
     
-### [go-kit](https://github.com/hwholiday/learning_tools/tree/master/micro_agent) (go-kit微服务)
-    1: v1 go-kit 微服务 基础使用（HTTP）
-    2: v2 go-kit 微服务 添加日志并为每个请求添加UUID
+### [go-kit](https://github.com/hwholiday/learning_tools/tree/master/go-kit) (go-kit微服务)
+    1: v1 go-kit 微服务 基础使用 HTTP
+    2: v2 go-kit 微服务 添加日志 并为每个请求添加UUID
 
 ### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/micro_agent) (micro微服务)
     1: base 基础方法
