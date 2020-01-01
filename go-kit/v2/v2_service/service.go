@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go.uber.org/zap"
+	"time"
 )
 
 type Service interface {
@@ -15,10 +16,15 @@ type baseServer struct {
 }
 
 func NewService(log *zap.Logger) Service {
-	return &baseServer{logger: log}
+	var server Service
+	server = &baseServer{log}
+	server = NewLogMiddlewareServer(log)(server)
+	return server
 }
 
 func (s baseServer) TestAdd(ctx context.Context, in Add) AddAck {
-	s.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("v2_service Service", "TestAdd"))
+	//模拟耗时
+	time.Sleep(time.Millisecond * 2)
+	s.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 v2_service Service", "TestAdd 处理请求"))
 	return AddAck{Res: in.A + in.B}
 }
