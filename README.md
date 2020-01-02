@@ -11,6 +11,8 @@
     1: v1 go-kit 微服务 基础使用 HTTP
     2: v2 go-kit 微服务 添加日志 并为每个请求添加UUID
     3: v3 go-kit 微服务 身份认证 JWT
+    4: v4 go-kit 微服务 限流 (uber/ratelimit 和 golang/rate 实现)
+
 
 ### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/micro_agent) (micro微服务)
     1: base 基础方法
