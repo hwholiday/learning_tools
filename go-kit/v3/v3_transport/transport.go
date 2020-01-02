@@ -26,6 +26,8 @@ func NewHttpHandler(endpoint v3_endpoint.EndPointServer, log *zap.Logger) http.H
 			log.Debug("给请求添加uuid", zap.Any("UUID", UUID))
 			ctx = context.WithValue(ctx, v3_service.ContextReqUUid, UUID)
 			ctx = context.WithValue(ctx, utils.JWT_CONTEXT_KEY, request.Header.Get("Authorization"))
+			log.Debug("把请求中的token发到Context中", zap.Any("Token", request.Header.Get("Authorization")))
+
 			return ctx
 		}),
 	}
