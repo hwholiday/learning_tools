@@ -61,8 +61,7 @@ func TestV1(t *testing.T) {
 	select {}
 }
 func TestV2(t *testing.T) {
-	//clientv3.WithSerializable()
-	res, err := etcdClientV3.Get(context.TODO(), prefix, clientv3.WithPrefix())
+	res, err := etcdClientV3.Get(context.TODO(), prefix, clientv3.WithPrefix(), clientv3.WithSerializable())
 	if err != nil {
 		panic(err)
 	}
