@@ -14,7 +14,7 @@ import (
 var prefix = "/registry/server/"
 
 type Registry interface {
-	RegistryNode(node Node) error
+	RegistryNode(node PutNode) error
 	UnRegistry()
 }
 
@@ -26,8 +26,12 @@ type registryServer struct {
 	leaseID    clientv3.LeaseID
 }
 
+type PutNode struct {
+	Addr string `json:"addr"`
+}
+
 type Node struct {
-	Id   string `json:"id"`
+	Id   uint32 `json:"id"`
 	Addr string `json:"addr"`
 }
 
@@ -50,7 +54,7 @@ func NewRegistry(options Options) (Registry, error) {
 	}, nil
 }
 
-func (s *registryServer) RegistryNode(node Node) error {
+func (s *registryServer) RegistryNode(put PutNode) error {
 	if s.isRegistry {
 		return errors.New("only one node can be registered")
 	}
@@ -59,6 +63,10 @@ func (s *registryServer) RegistryNode(node Node) error {
 	grant, err := s.cli.Grant(context.Background(), s.options.ttl)
 	if err != nil {
 		return err
+	}
+	var node = Node{
+		Id:   s.HashKey(put.Addr),
+		Addr: put.Addr,
 	}
 	nodeVal, err := s.GetVal(node)
 	if err != nil {
