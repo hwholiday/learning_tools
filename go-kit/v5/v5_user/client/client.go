@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-kit/kit/endpoint"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	uuid "github.com/satori/go.uuid"
@@ -39,11 +40,13 @@ func NewGRPCClient(conn *grpc.ClientConn, log *zap.Logger) v5_service.Service {
 }
 
 func RequestLogin(_ context.Context, request interface{}) (interface{}, error) {
-	req := request.(*pb.Login)
+	fmt.Println("RequestLogin", request)
+	req := request.(pb.Login)
 	return &pb.Login{Account: req.Account, Password: req.Password}, nil
 }
 
 func ResponseLogin(_ context.Context, response interface{}) (interface{}, error) {
+	fmt.Println("ResponseLogin", response)
 	resp := response.(*pb.LoginAck)
 	return &pb.LoginAck{Token: resp.Token}, nil
 }
