@@ -3,7 +3,6 @@ package registrySelector
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"go.etcd.io/etcd/clientv3"
 	"log"
@@ -47,7 +46,7 @@ func NewSelector(options SelectorOptions) (Selector, error) {
 
 func (s *selectorServer) Next() (Node, error) {
 	if len(s.node) == 0 {
-		return Node{}, errors.New("not node info")
+		return Node{}, fmt.Errorf("no node found on the %s", s.options.name)
 	}
 	i := rand.Int() % len(s.node)
 	return s.node[i], nil
