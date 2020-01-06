@@ -91,6 +91,7 @@ func (s *registryServer) Revoke() error {
 	if err != nil {
 		log.Printf("[Revoke] err : %s", err.Error())
 	}
+	s.isRegistry=false
 	return err
 }
 
