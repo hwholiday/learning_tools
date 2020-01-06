@@ -2,7 +2,6 @@ package v5_endpoint
 
 import (
 	"context"
-	"fmt"
 	"github.com/go-kit/kit/endpoint"
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
@@ -21,16 +20,11 @@ func NewEndPointServer(svc v5_service.Service, log *zap.Logger, limit *rate.Limi
 		loginEndPoint = LoggingMiddleware(log)(loginEndPoint)
 		loginEndPoint = NewGolangRateAllowMiddleware(limit)(loginEndPoint)
 	}
-	return EndPointServer{ LoginEndPoint: loginEndPoint}
+	return EndPointServer{LoginEndPoint: loginEndPoint}
 }
 
 func (s EndPointServer) Login(ctx context.Context, in *pb.Login) (*pb.LoginAck, error) {
 	res, err := s.LoginEndPoint(ctx, in)
-	fmt.Println("[EndPointServer] Login",err)
-	fmt.Println("[EndPointServer] Login",err)
-	fmt.Println("[EndPointServer] Login",err)
-	fmt.Println("[EndPointServer] Login",err)
-	fmt.Println("[EndPointServer] Login",err)
 	return res.(*pb.LoginAck), err
 }
 

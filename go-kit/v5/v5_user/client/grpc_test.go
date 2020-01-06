@@ -32,3 +32,24 @@ func TestGrpcClient(t *testing.T) {
 	}
 	t.Log(ack.Token)
 }
+
+func TestGrpc(t *testing.T) {
+
+	serviceAddress := "127.0.0.1:8881"
+	conn, err := grpc.Dial(serviceAddress, grpc.WithInsecure())
+	if err != nil {
+		panic("connect error")
+	}
+	defer conn.Close()
+	userClient := pb.NewUserClient(conn)
+	res, err := userClient.RpcUserLogin(context.Background(), &pb.Login{
+		Account:  "hw",
+		Password: "123",
+	})
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Log(res.Token)
+
+}

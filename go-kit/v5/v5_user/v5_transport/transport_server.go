@@ -17,7 +17,7 @@ type grpcServer struct {
 func NewGRPCServer(endpoint v5_endpoint.EndPointServer, log *zap.Logger) pb.UserServer {
 	options := []grpctransport.ServerOption{
 		grpctransport.ServerBefore(func(ctx context.Context, md metadata.MD) context.Context {
-			fmt.Println("123123123123")
+			fmt.Println("ServerBefore")
 			return ctx
 		}),
 		grpctransport.ServerErrorHandler(NewZapLogErrorHandler(log)),
@@ -33,15 +33,15 @@ func NewGRPCServer(endpoint v5_endpoint.EndPointServer, log *zap.Logger) pb.User
 func (s *grpcServer) RpcUserLogin(ctx context.Context, req *pb.Login) (*pb.LoginAck, error) {
 	_, rep, err := s.login.ServeGRPC(ctx, req)
 	if err != nil {
+		fmt.Println("RpcUserLogin", err.Error())
 		return nil, err
 	}
 	return rep.(*pb.LoginAck), nil
 }
 
-
 func RequestGrpcLogin(_ context.Context, grpcReq interface{}) (interface{}, error) {
 	req := grpcReq.(*pb.Login)
-	return pb.Login{Account: req.GetAccount(), Password: req.GetPassword()}, nil
+	return &pb.Login{Account: req.GetAccount(), Password: req.GetPassword()}, nil
 }
 
 func ResponseGrpcLogin(_ context.Context, response interface{}) (interface{}, error) {
