@@ -1,23 +1,36 @@
 package main
 
 import (
-	"go.uber.org/ratelimit"
+	grpctransport "github.com/go-kit/kit/transport/grpc"
+	"go.uber.org/zap"
 	"golang.org/x/time/rate"
+	"google.golang.org/grpc"
 	"learning_tools/go-kit/v5/utils"
+	"learning_tools/go-kit/v5/v5_user/pb"
 	"learning_tools/go-kit/v5/v5_user/v5_endpoint"
 	"learning_tools/go-kit/v5/v5_user/v5_service"
 	"learning_tools/go-kit/v5/v5_user/v5_transport"
-	"net/http"
+	"net"
+	"os"
 )
 
 func main() {
 	utils.NewLoggerServer()
-	golangLimit := rate.NewLimiter(10, 1) //每秒产生10个令牌,令牌桶的可以装1个令牌
-	uberLimit := ratelimit.New(1)         //一秒请求一次
+	golangLimit := rate.NewLimiter(10, 1)
 	server := v5_service.NewService(utils.GetLogger())
-	endpoints := v5_endpoint.NewEndPointServer(server, utils.GetLogger(), golangLimit, uberLimit)
-	httpHandler := v5_transport.NewHttpHandler(endpoints, utils.GetLogger())
-	utils.GetLogger().Info("server run 0.0.0.0:8888")
-	_ = http.ListenAndServe("0.0.0.0:8888", httpHandler)
+	endpoints := v5_endpoint.NewEndPointServer(server, utils.GetLogger(), golangLimit)
+	grpcServer := v5_transport.NewGRPCServer(endpoints, utils.GetLogger())
+	utils.GetLogger().Info("server run :8881")
+	grpcListener, err := net.Listen("tcp", ":8881")
+	if err != nil {
+		utils.GetLogger().Warn("Listen", zap.Error(err))
+		os.Exit(0)
+	}
+	baseServer := grpc.NewServer(grpc.UnaryInterceptor(grpctransport.Interceptor))
+	pb.RegisterUserServer(baseServer, grpcServer)
+	if err = baseServer.Serve(grpcListener); err != nil {
+		utils.GetLogger().Warn("Serve", zap.Error(err))
+		os.Exit(0)
+	}
 
 }

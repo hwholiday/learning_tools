@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go.uber.org/zap"
+	"learning_tools/go-kit/v5/v5_user/pb"
 )
 
 const ContextReqUUid = "req_uuid"
@@ -24,15 +25,8 @@ func NewLogMiddlewareServer(log *zap.Logger) NewMiddlewareServer {
 	}
 }
 
-func (l logMiddlewareServer) TestAdd(ctx context.Context, in Add) (out AddAck) {
-	defer func() {
-		l.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 Login logMiddlewareServer", "TestAdd"), zap.Any("req", in), zap.Any("res", out))
-	}()
-	out = l.next.TestAdd(ctx, in)
-	return out
-}
 
-func (l logMiddlewareServer) Login(ctx context.Context, in Login) (out LoginAck, err error) {
+func (l logMiddlewareServer) Login(ctx context.Context, in *pb.Login) (out *pb.LoginAck, err error) {
 	defer func() {
 		l.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 Login logMiddlewareServer", "Login"), zap.Any("req", in), zap.Any("res", out), zap.Any("err", err))
 	}()
