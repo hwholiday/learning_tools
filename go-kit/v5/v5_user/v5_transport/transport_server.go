@@ -2,7 +2,6 @@ package v5_transport
 
 import (
 	"context"
-	"fmt"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/metadata"
@@ -18,7 +17,7 @@ type grpcServer struct {
 func NewGRPCServer(endpoint v5_endpoint.EndPointServer, log *zap.Logger) pb.UserServer {
 	options := []grpctransport.ServerOption{
 		grpctransport.ServerBefore(func(ctx context.Context, md metadata.MD) context.Context {
-			fmt.Println(ctx.Value(v5_service.ContextReqUUid))
+			ctx = context.WithValue(ctx, v5_service.ContextReqUUid, md.Get(v5_service.ContextReqUUid))
 			return ctx
 		}),
 		grpctransport.ServerErrorHandler(NewZapLogErrorHandler(log)),

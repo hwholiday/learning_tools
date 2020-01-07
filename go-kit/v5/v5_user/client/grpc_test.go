@@ -2,10 +2,13 @@ package client
 
 import (
 	"context"
+	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	"learning_tools/all_packaged_library/logtool"
 	"learning_tools/go-kit/v5/v5_user/pb"
+	"learning_tools/go-kit/v5/v5_user/v5_service"
 	"testing"
 )
 
@@ -34,7 +37,6 @@ func TestGrpcClient(t *testing.T) {
 }
 
 func TestGrpc(t *testing.T) {
-
 	serviceAddress := "127.0.0.1:8881"
 	conn, err := grpc.Dial(serviceAddress, grpc.WithInsecure())
 	if err != nil {
@@ -42,7 +44,10 @@ func TestGrpc(t *testing.T) {
 	}
 	defer conn.Close()
 	userClient := pb.NewUserClient(conn)
-	res, err := userClient.RpcUserLogin(context.Background(), &pb.Login{
+	UUID := uuid.NewV5(uuid.Must(uuid.NewV4()), "req_uuid").String()
+	md := metadata.Pairs( v5_service.ContextReqUUid, UUID)
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	res, err := userClient.RpcUserLogin(ctx, &pb.Login{
 		Account:  "hw",
 		Password: "123",
 	})
