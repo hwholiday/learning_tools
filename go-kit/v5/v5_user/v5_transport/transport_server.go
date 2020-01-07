@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"learning_tools/go-kit/v5/v5_user/pb"
 	"learning_tools/go-kit/v5/v5_user/v5_endpoint"
+	"learning_tools/go-kit/v5/v5_user/v5_service"
 )
 
 type grpcServer struct {
@@ -17,7 +18,7 @@ type grpcServer struct {
 func NewGRPCServer(endpoint v5_endpoint.EndPointServer, log *zap.Logger) pb.UserServer {
 	options := []grpctransport.ServerOption{
 		grpctransport.ServerBefore(func(ctx context.Context, md metadata.MD) context.Context {
-			fmt.Println("ServerBefore")
+			fmt.Println(ctx.Value(v5_service.ContextReqUUid))
 			return ctx
 		}),
 		grpctransport.ServerErrorHandler(NewZapLogErrorHandler(log)),
@@ -33,7 +34,6 @@ func NewGRPCServer(endpoint v5_endpoint.EndPointServer, log *zap.Logger) pb.User
 func (s *grpcServer) RpcUserLogin(ctx context.Context, req *pb.Login) (*pb.LoginAck, error) {
 	_, rep, err := s.login.ServeGRPC(ctx, req)
 	if err != nil {
-		fmt.Println("RpcUserLogin", err.Error())
 		return nil, err
 	}
 	return rep.(*pb.LoginAck), nil
@@ -45,6 +45,6 @@ func RequestGrpcLogin(_ context.Context, grpcReq interface{}) (interface{}, erro
 }
 
 func ResponseGrpcLogin(_ context.Context, response interface{}) (interface{}, error) {
-	resp := response.(pb.LoginAck)
+	resp := response.(*pb.LoginAck)
 	return &pb.LoginAck{Token: resp.Token}, nil
 }

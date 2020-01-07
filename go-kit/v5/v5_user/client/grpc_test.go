@@ -15,7 +15,7 @@ func TestGrpcClient(t *testing.T) {
 		logtool.SetDevelopment(true),
 		logtool.SetLevel(zap.DebugLevel),
 	)
-	conn, err := grpc.DialContext(context.Background(), ":8881", grpc.WithInsecure())
+	conn, err := grpc.Dial("127.0.0.1:8881", grpc.WithInsecure())
 	if err != nil {
 		t.Error(err)
 		return
@@ -23,8 +23,8 @@ func TestGrpcClient(t *testing.T) {
 	defer conn.Close()
 	svr := NewGRPCClient(conn, logger)
 	ack, err := svr.Login(context.Background(), &pb.Login{
-		Account:  "hw",
-		Password: "123",
+		Account:  "hwholiday",
+		Password: "123456",
 	})
 	if err != nil {
 		t.Error(err)

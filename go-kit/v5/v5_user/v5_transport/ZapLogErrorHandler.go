@@ -18,5 +18,5 @@ func NewZapLogErrorHandler(logger *zap.Logger) *LogErrorHandler {
 }
 
 func (h *LogErrorHandler) Handle(ctx context.Context, err error) {
-	h.logger.Warn(fmt.Sprint(ctx.Value(v5_service.ContextReqUUid), zap.Error(err)))
+	h.logger.Warn(fmt.Sprint(ctx.Value(v5_service.ContextReqUUid)), zap.Error(err))
 }
