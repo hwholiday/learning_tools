@@ -5,3 +5,4 @@
     3: v3 go-kit 微服务 身份认证 JWT
     4: v4 go-kit 微服务 限流 (uber/ratelimit 和 golang/rate 实现)
     5: v5 go-kit 微服务 使用Grpc（并为每个请求添加UUID） 
+    6: v6 go-kit 微服务 服务注册与发现（etcd实现）
