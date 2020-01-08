@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/sd/etcdv3"
@@ -19,13 +20,16 @@ import (
 	"time"
 )
 
+var grpcAddr = flag.String("g", "127.0.0.1:8881", "grpcAddr")
+
 var quitChan = make(chan error, 1)
 
 func main() {
+	flag.Parse()
 	var (
 		etcdAddrs = []string{"127.0.0.1:2379"}
 		serName   = "svc.user.agent"
-		grpcAddr  = "127.0.0.1:8881"
+		grpcAddr  = *grpcAddr
 		ttl       = 5 * time.Second
 	)
 	utils.NewLoggerServer()
@@ -40,7 +44,7 @@ func main() {
 		return
 	}
 	Registar := etcdv3.NewRegistrar(etcdClient, etcdv3.Service{
-		Key:   serName,
+		Key:   fmt.Sprintf("%s/%s",serName,grpcAddr),
 		Value: grpcAddr,
 	}, log.NewNopLogger())
 	go func() {
@@ -68,7 +72,7 @@ func main() {
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 		quitChan <- fmt.Errorf("%s", <-c)
 	}()
-	utils.GetLogger().Info("[user_agent] run "+grpcAddr)
+	utils.GetLogger().Info("[user_agent] run " + grpcAddr)
 	err = <-quitChan
 	Registar.Deregister()
 	utils.GetLogger().Info("[user_agent] quit err", zap.Error(err))
