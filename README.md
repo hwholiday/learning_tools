@@ -6,6 +6,7 @@
     3: perf ppoof小插件
     4: push 集成苹果推送，google推送，华为推送
     5: quit 优雅的退出程序
+    6: registrySelector 基于etcd实现的服务注册，发现，负载均衡
     
 # go-kit 微服务实践，从入门到精通系列    
 ### [go-kit](https://github.com/hwholiday/learning_tools/tree/master/go-kit) (go-kit微服务)

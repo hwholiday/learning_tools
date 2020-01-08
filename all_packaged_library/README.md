@@ -47,3 +47,28 @@
    	}
    	fmt.Println(push.Push("123123",[]byte(`{"newsid":{"content":"test",},"badge":{"badge":"0"}}`)))
 ```
+
+
+### 基于etcd实现的服务注册，发现，负载均衡
+```base
+  	var op = SelectorOptions{
+  		name: "svc.info",
+  		config: clientv3.Config{
+  			Endpoints:   []string{"http://localhost:2379/"},
+  			DialTimeout: 5 * time.Second},
+  	}
+  	s, err := NewSelector(op)
+  	if err != nil {
+  		t.Error(err)
+  		return
+  	}
+  	for {
+  		val, err := s.Next()
+  		if err != nil {
+  			t.Error(err)
+  			continue
+  		}
+  		fmt.Println(val)
+  		time.Sleep(time.Second * 2)
+  	}
+```
