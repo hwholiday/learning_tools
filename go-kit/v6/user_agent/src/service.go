@@ -3,7 +3,6 @@ package src
 import (
 	"context"
 	"errors"
-	"fmt"
 	"go.uber.org/zap"
 	"learning_tools/go-kit/v6/user_agent/pb"
 	"learning_tools/go-kit/v6/utils"
@@ -25,13 +24,11 @@ func NewService(log *zap.Logger) Service {
 }
 
 func (s baseServer) Login(ctx context.Context, in *pb.Login) (ack *pb.LoginAck, err error) {
-	s.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 v5_service Service", "Login 处理请求"))
 	if in.Account != "hwholiday" || in.Password != "123456" {
 		err = errors.New("用户信息错误")
 		return
 	}
 	ack = &pb.LoginAck{}
 	ack.Token, err = utils.CreateJwtToken(in.Account, 1)
-	s.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 v5_service Service", "Login 处理请求"), zap.Any("处理返回值", ack))
 	return
 }

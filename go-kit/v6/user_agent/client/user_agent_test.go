@@ -26,7 +26,7 @@ func TestNewUserAgentClient(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	for i := 0; i < 9; i++ {
+	for i := 0; i < 6; i++ {
 		time.Sleep(time.Second)
 		userAgent, err := client.UserAgentClient()
 		if err != nil {
