@@ -20,6 +20,7 @@ func NewEndPointServer(svc Service, limit *rate.Limiter) EndPointServer {
 	return EndPointServer{LoginEndPoint: loginEndPoint}
 }
 
+
 func (s EndPointServer) Login(ctx context.Context, in *pb.Login) (*pb.LoginAck, error) {
 	res, err := s.LoginEndPoint(ctx, in)
 	if err!=nil{
