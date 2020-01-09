@@ -2,6 +2,7 @@ package src
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-kit/kit/endpoint"
 	"golang.org/x/time/rate"
 	"learning_tools/go-kit/v7/user_agent/pb"
@@ -20,11 +21,11 @@ func NewEndPointServer(svc Service, limit *rate.Limiter) EndPointServer {
 	return EndPointServer{LoginEndPoint: loginEndPoint}
 }
 
-
 func (s EndPointServer) Login(ctx context.Context, in *pb.Login) (*pb.LoginAck, error) {
 	res, err := s.LoginEndPoint(ctx, in)
-	if err!=nil{
-		return nil,err
+	if err != nil {
+		fmt.Println("s.LoginEndPoint", err)
+		return nil, err
 	}
 	return res.(*pb.LoginAck), nil
 }

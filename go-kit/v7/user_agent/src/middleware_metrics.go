@@ -1,7 +1,7 @@
 package src
 
 import (
-	context "context"
+	"context"
 	"github.com/go-kit/kit/metrics"
 	"learning_tools/go-kit/v7/user_agent/pb"
 	"time"
@@ -25,7 +25,7 @@ func NewMetricsMiddlewareServer(counter metrics.Counter, histogram metrics.Histo
 
 func (l metricsMiddlewareServer) Login(ctx context.Context, in *pb.Login) (out *pb.LoginAck, err error) {
 	defer func(start time.Time) {
-		method := []string{"method","login"}
+		method := []string{"method", "login"}
 		l.counter.With(method...).Add(1)
 		l.histogram.With(method...).Observe(time.Since(start).Seconds())
 	}(time.Now())

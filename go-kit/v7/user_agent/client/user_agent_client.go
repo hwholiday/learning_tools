@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/sd"
@@ -49,7 +50,7 @@ func NewUserAgentClient(addr []string, logger log.Logger) (*UserAgent, error) {
 func (u *UserAgent) UserAgentClient() (src.Service, error) {
 	var (
 		retryMax     = 3
-		retryTimeout = 500 * time.Millisecond
+		retryTimeout = 5*time.Second
 	)
 	var (
 		endpoints src.EndPointServer
@@ -66,6 +67,7 @@ func (u *UserAgent) UserAgentClient() (src.Service, error) {
 
 func (u *UserAgent) factoryFor(makeEndpoint func(src.Service) endpoint.Endpoint) sd.Factory {
 	return func(instance string) (endpoint.Endpoint, io.Closer, error) {
+		fmt.Println("instanc >>>>>>>>>>>>>>>>   ",instance)
 		conn, err := grpc.Dial(instance, grpc.WithInsecure())
 		if err != nil {
 			return nil, nil, err
@@ -81,7 +83,7 @@ func (u *UserAgent) NewGRPCClient(conn *grpc.ClientConn) src.Service {
 		grpctransport.ClientBefore(func(ctx context.Context, md *metadata.MD) context.Context {
 			UUID := uuid.NewV5(uuid.Must(uuid.NewV4()), "req_uuid").String()
 			md.Set(src.ContextReqUUid, UUID)
-			ctx = metadata.NewOutgoingContext(context.Background(), *md)
+			ctx = metadata.NewOutgoingContext(ctx, *md)
 			return ctx
 		}),
 	}

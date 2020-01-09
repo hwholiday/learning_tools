@@ -11,7 +11,6 @@ import (
 	"learning_tools/go-kit/v7/user_agent/src"
 	"os"
 	"testing"
-	"time"
 )
 
 func TestNewUserAgentClient(t *testing.T) {
@@ -21,14 +20,12 @@ func TestNewUserAgentClient(t *testing.T) {
 		logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 		logger = log.With(logger, "caller", log.DefaultCaller)
 	}
-
 	client, err := NewUserAgentClient([]string{"127.0.0.1:2379"}, logger)
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	for i := 0; i < 100; i++ {
-		time.Sleep(time.Second)
+	for i := 0; i < 20; i++ {
 		userAgent, err := client.UserAgentClient()
 		if err != nil {
 			t.Error(err)
@@ -39,8 +36,8 @@ func TestNewUserAgentClient(t *testing.T) {
 			Password: "123456",
 		})
 		if err != nil {
-			t.Error(err)
-			return
+			fmt.Println(err)
+			continue
 		}
 		fmt.Println(ack.Token)
 	}
@@ -58,14 +55,15 @@ func TestGrpc(t *testing.T) {
 	UUID := uuid.NewV5(uuid.Must(uuid.NewV4()), "req_uuid").String()
 	md := metadata.Pairs(src.ContextReqUUid, UUID)
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	res, err := userClient.RpcUserLogin(ctx, &pb.Login{
-		Account:  "hw",
-		Password: "123",
-	})
-	if err != nil {
-		t.Error(err)
-		return
+	for i := 0; i < 20; i++ {
+		res, err := userClient.RpcUserLogin(ctx, &pb.Login{
+			Account:  "hwholiday",
+			Password: "123456",
+		})
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		fmt.Println(res.Token)
 	}
-	t.Log(res.Token)
-
 }

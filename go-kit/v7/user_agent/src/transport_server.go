@@ -2,6 +2,7 @@ package src
 
 import (
 	"context"
+	"fmt"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/metadata"
@@ -32,6 +33,7 @@ func NewGRPCServer(endpoint EndPointServer, log *zap.Logger) pb.UserServer {
 func (s *grpcServer) RpcUserLogin(ctx context.Context, req *pb.Login) (*pb.LoginAck, error) {
 	_, rep, err := s.login.ServeGRPC(ctx, req)
 	if err != nil {
+		fmt.Println("s.login.ServeGRPC", err)
 		return nil, err
 	}
 	return rep.(*pb.LoginAck), nil
