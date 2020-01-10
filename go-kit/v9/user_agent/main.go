@@ -85,7 +85,7 @@ func main() {
 		utils.GetLogger().Info("[user_agent] grpc run " + *grpcAddr)
 		chainUnaryServer := grpcmiddleware.ChainUnaryServer(
 			grpctransport.Interceptor,
-			utils.OpentracingServerInterceptor(tracer),
+			utils.JaegerServerMiddleware(tracer),
 		)
 		baseServer := grpc.NewServer(grpc.UnaryInterceptor(chainUnaryServer))
 		pb.RegisterUserServer(baseServer, grpcServer)

@@ -76,7 +76,7 @@ func (u *UserAgent) UserAgentClient() (src.Service, error) {
 func (u *UserAgent) factoryFor(makeEndpoint func(src.Service) endpoint.Endpoint) sd.Factory {
 	return func(instance string) (endpoint.Endpoint, io.Closer, error) {
 		conn, err := grpc.Dial(instance, grpc.WithInsecure(),
-			grpc.WithUnaryInterceptor(utils.OpenTracingClientInterceptor(u.tracer)), )
+			grpc.WithUnaryInterceptor(utils.JaegerClientMiddleware(u.tracer)), )
 		if err != nil {
 			return nil, nil, err
 		}

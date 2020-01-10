@@ -38,16 +38,13 @@ func NewJaegerTracer(serviceName string) (tracer opentracing.Tracer, closer io.C
 }
 
 var (
-	//TracingComponentTag tags
-	TracingComponentTag = opentracing.Tag{Key: string(ext.Component), Value: "gRPC"}
+	TracingComponentTag = opentracing.Tag{Key: string(ext.Component), Value: "grpc"}
 )
 
-//MDReaderWriter metadata Reader and Writer
 type MDReaderWriter struct {
 	metadata.MD
 }
 
-//ForeachKey range all keys to call handler
 func (c MDReaderWriter) ForeachKey(handler func(key, val string) error) error {
 	for k, vs := range c.MD {
 		for _, v := range vs {
@@ -59,14 +56,12 @@ func (c MDReaderWriter) ForeachKey(handler func(key, val string) error) error {
 	return nil
 }
 
-// Set implements Set() of opentracing.TextMapWriter
 func (c MDReaderWriter) Set(key, val string) {
 	key = strings.ToLower(key)
 	c.MD[key] = append(c.MD[key], val)
 }
 
-//OpenTracingClientInterceptor  rewrite client's interceptor with open tracing
-func OpenTracingClientInterceptor(tracer opentracing.Tracer) grpc.UnaryClientInterceptor {
+func JaegerClientMiddleware(tracer opentracing.Tracer) grpc.UnaryClientInterceptor {
 	return func(
 		ctx context.Context,
 		method string,
@@ -106,7 +101,7 @@ func OpenTracingClientInterceptor(tracer opentracing.Tracer) grpc.UnaryClientInt
 	}
 }
 
-func OpentracingServerInterceptor(tracer opentracing.Tracer) grpc.UnaryServerInterceptor {
+func JaegerServerMiddleware(tracer opentracing.Tracer) grpc.UnaryServerInterceptor {
 	return func(
 		ctx context.Context,
 		req interface{},
