@@ -11,7 +11,6 @@ import (
 	"github.com/opentracing/opentracing-go"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/metadata"
 	"io"
 	"learning_tools/go-kit/v9/user_agent/pb"
@@ -38,7 +37,7 @@ func NewUserAgentClient(addr []string, logger log.Logger) (*UserAgent, error) {
 	}
 	tracer, _, err := utils.NewJaegerTracer("user_agent_client")
 	if err != nil {
-		grpclog.Errorf("new tracer err %v , continue", err)
+		return nil, err
 	}
 	etcdClient, err := etcdv3.NewClient(context.Background(), etcdAddrs, options)
 	if err != nil {

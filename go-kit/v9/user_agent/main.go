@@ -14,7 +14,6 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/grpclog"
 	"hash/crc32"
 	"learning_tools/go-kit/v9/user_agent/pb"
 	"learning_tools/go-kit/v9/user_agent/src"
@@ -78,9 +77,9 @@ func main() {
 		}
 		tracer, _, err := utils.NewJaegerTracer("user_agent_server")
 		if err != nil {
-			grpclog.Errorf("new tracer err %v , continue", err)
+			utils.GetLogger().Warn("[user_agent] NewJaegerTracer", zap.Error(err))
+			quitChan <- err
 		}
-
 		Registar.Register()
 		utils.GetLogger().Info("[user_agent] grpc run " + *grpcAddr)
 		chainUnaryServer := grpcmiddleware.ChainUnaryServer(
