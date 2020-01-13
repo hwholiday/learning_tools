@@ -8,6 +8,9 @@ import (
 	"github.com/go-kit/kit/sd/etcdv3"
 	"github.com/go-kit/kit/sd/lb"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	grpcmiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
+	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	"github.com/opentracing/opentracing-go"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"
@@ -74,8 +77,14 @@ func (u *UserAgent) UserAgentClient() (src.Service, error) {
 
 func (u *UserAgent) factoryFor(makeEndpoint func(src.Service) endpoint.Endpoint) sd.Factory {
 	return func(instance string) (endpoint.Endpoint, io.Closer, error) {
+		chainUnaryServer := grpcmiddleware.ChainUnaryClient(
+			grpc_opentracing.UnaryClientInterceptor(grpc_opentracing.WithTracer(u.tracer)),
+			grpc_zap.UnaryClientInterceptor(utils.GetLogger()),
+			//utils.JaegerServerMiddleware(tracer),
+		)
 		conn, err := grpc.Dial(instance, grpc.WithInsecure(),
-			grpc.WithUnaryInterceptor(utils.JaegerClientMiddleware(u.tracer)), )
+			grpc.WithUnaryInterceptor(chainUnaryServer))
+				/*utils.JaegerClientMiddleware(u.tracer)),*/
 		if err != nil {
 			return nil, nil, err
 		}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/go-kit/kit/metrics"
+	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
 	"learning_tools/go-kit/v9/user_agent/pb"
 	"learning_tools/go-kit/v9/utils"
@@ -11,7 +12,7 @@ import (
 	"time"
 )
 
-func init()  {
+func init() {
 	rand.Seed(time.Now().Unix())
 }
 
@@ -23,11 +24,12 @@ type baseServer struct {
 	logger *zap.Logger
 }
 
-func NewService(log *zap.Logger, counter metrics.Counter, histogram metrics.Histogram) Service {
+func NewService(log *zap.Logger, counter metrics.Counter, histogram metrics.Histogram, tracer opentracing.Tracer) Service {
 	var server Service
 	server = &baseServer{log}
-	server = NewLogMiddlewareServer(log)(server)
+	server = NewTracerMiddlewareServer(tracer)(server)
 	server = NewMetricsMiddlewareServer(counter, histogram)(server)
+	server = NewLogMiddlewareServer(log)(server)
 	return server
 }
 

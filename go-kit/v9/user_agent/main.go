@@ -9,6 +9,8 @@ import (
 	"github.com/go-kit/kit/sd/etcdv3"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	grpcmiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
+	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
@@ -54,6 +56,11 @@ func main() {
 		Value: *grpcAddr,
 	}, log.NewNopLogger())
 	go func() {
+		tracer, _, err := utils.NewJaegerTracer("user_agent_server")
+		if err != nil {
+			utils.GetLogger().Warn("[user_agent] NewJaegerTracer", zap.Error(err))
+			quitChan <- err
+		}
 		count := metricsprometheus.NewCounterFrom(prometheus.CounterOpts{
 			Subsystem: "user_agent",
 			Name:      "request_count",
@@ -66,8 +73,8 @@ func main() {
 			Help:      "Request consumes time",
 		}, []string{"method"})
 		golangLimit := rate.NewLimiter(10, 1)
-		server := src.NewService(utils.GetLogger(), count, histogram)
-		endpoints := src.NewEndPointServer(server, golangLimit)
+		server := src.NewService(utils.GetLogger(), count, histogram,tracer)
+		endpoints := src.NewEndPointServer(server, golangLimit,tracer)
 		grpcServer := src.NewGRPCServer(endpoints, utils.GetLogger())
 		grpcListener, err := net.Listen("tcp", *grpcAddr)
 		if err != nil {
@@ -75,16 +82,13 @@ func main() {
 			quitChan <- err
 			return
 		}
-		tracer, _, err := utils.NewJaegerTracer("user_agent_server")
-		if err != nil {
-			utils.GetLogger().Warn("[user_agent] NewJaegerTracer", zap.Error(err))
-			quitChan <- err
-		}
 		Registar.Register()
 		utils.GetLogger().Info("[user_agent] grpc run " + *grpcAddr)
 		chainUnaryServer := grpcmiddleware.ChainUnaryServer(
 			grpctransport.Interceptor,
-			utils.JaegerServerMiddleware(tracer),
+			grpc_opentracing.UnaryServerInterceptor(grpc_opentracing.WithTracer(tracer)),
+			grpc_zap.UnaryServerInterceptor(utils.GetLogger()),
+			//utils.JaegerServerMiddleware(tracer),
 		)
 		baseServer := grpc.NewServer(grpc.UnaryInterceptor(chainUnaryServer))
 		pb.RegisterUserServer(baseServer, grpcServer)

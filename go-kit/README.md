@@ -8,4 +8,5 @@
     6: v6 go-kit 微服务 服务注册与发现（etcd实现）
     7: v7 go-kit 微服务 服务监控（prometheus 实现）
     8: v8 go-kit 微服务 服务熔断（hystrix-go 实现）
-    9: v9 go-kit 微服务 服务链路追踪（jaeger 实现）
+    9: v9 go-kit 微服务 服务链路追踪（jaeger 实现）(1)
+    10: v10 go-kit 微服务 服务链路追踪（jaeger 实现）(2)

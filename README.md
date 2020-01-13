@@ -19,6 +19,7 @@
     7: v7 go-kit 微服务 服务监控（prometheus 实现）
     8: v8 go-kit 微服务 服务熔断（hystrix-go 实现）
     9: v9 go-kit 微服务 服务链路追踪（jaeger 实现）
+    10: v10 go-kit 微服务 服务链路追踪（jaeger 实现）(2)
 
 ### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/micro_agent) (micro微服务)
     1: base 基础方法

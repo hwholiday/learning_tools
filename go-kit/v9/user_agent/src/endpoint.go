@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/opentracing/opentracing-go"
 	"golang.org/x/time/rate"
 	"learning_tools/go-kit/v9/user_agent/pb"
 )
@@ -12,11 +13,12 @@ type EndPointServer struct {
 	LoginEndPoint endpoint.Endpoint
 }
 
-func NewEndPointServer(svc Service, limit *rate.Limiter) EndPointServer {
+func NewEndPointServer(svc Service, limit *rate.Limiter,tracer opentracing.Tracer) EndPointServer {
 	var loginEndPoint endpoint.Endpoint
 	{
 		loginEndPoint = MakeLoginEndPoint(svc)
-		//loginEndPoint = NewGolangRateAllowMiddleware(limit)(loginEndPoint)
+		loginEndPoint = NewGolangRateAllowMiddleware(limit)(loginEndPoint)
+		loginEndPoint = NewTracerEndpointMiddleware(tracer)(loginEndPoint)
 
 	}
 	return EndPointServer{LoginEndPoint: loginEndPoint}

@@ -22,6 +22,7 @@ func TestNewUserAgentClient(t *testing.T) {
 		logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 		logger = log.With(logger, "caller", log.DefaultCaller)
 	}
+	utils.NewLoggerServer()
 	client, err := NewUserAgentClient([]string{"127.0.0.1:2379"}, logger)
 	if err != nil {
 		t.Error(err)

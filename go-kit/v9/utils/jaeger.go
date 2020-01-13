@@ -61,6 +61,7 @@ func (c MDReaderWriter) Set(key, val string) {
 	c.MD[key] = append(c.MD[key], val)
 }
 
+
 func JaegerClientMiddleware(tracer opentracing.Tracer) grpc.UnaryClientInterceptor {
 	return func(
 		ctx context.Context,
@@ -71,27 +72,35 @@ func JaegerClientMiddleware(tracer opentracing.Tracer) grpc.UnaryClientIntercept
 		opts ...grpc.CallOption,
 	) error {
 		var parentCtx opentracing.SpanContext
+		//先判断ctx里面有没有 span 信息
+		//没有就生成一个
 		if parent := opentracing.SpanFromContext(ctx); parent != nil {
 			parentCtx = parent.Context()
 		}
 		cliSpan := tracer.StartSpan(
 			method,
-			opentracing.ChildOf(parentCtx),
-			TracingComponentTag,
-			ext.SpanKindRPCClient,
-		)
+			opentracing.ChildOf(parentCtx),//父子关系的span关系
+			TracingComponentTag,//grcp tag
+			ext.SpanKindRPCClient,//客户端 tag
+ 		)
 		defer cliSpan.Finish()
+		//从context中获取metadata。md.(type) == map[string][]string
 		md, ok := metadata.FromOutgoingContext(ctx)
 		if !ok {
 			md = metadata.New(nil)
 		} else {
+			////如果对metadata进行修改，那么需要用拷贝的副本进行修改。
 			md = md.Copy()
 		}
+		//定义一个carrier，下面的Inject注入数据需要用到。carrier.(type) == map[string]string
+		//carrier := opentracing.TextMapCarrier{}
 		mdWriter := MDReaderWriter{md}
+		////将span的context信息注入到carrier中
 		err := tracer.Inject(cliSpan.Context(), opentracing.TextMap, mdWriter)
 		if err != nil {
 			grpclog.Errorf("inject to metadata err %v", err)
 		}
+		////创建一个新的context，把metadata附带上
 		ctx = metadata.NewOutgoingContext(ctx, md)
 		err = invoker(ctx, method, req, resp, cc, opts...)
 		if err != nil {
