@@ -27,6 +27,7 @@ func (l tracerMiddlewareServer) Login(ctx context.Context, in *pb.Login) (out *p
 		Value: "NewTracerServerMiddleware",
 	})
 	defer func() {
+		span.LogKV("account", in.GetAccount(), "password", in.GetPassword())
 		span.Finish()
 	}()
 	out, err = l.next.Login(ctxContext, in)
