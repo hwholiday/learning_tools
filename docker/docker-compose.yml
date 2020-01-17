@@ -1,0 +1,27 @@
+version: "3"
+services:
+  agent:
+    hostname: "agent"
+    container_name: agent
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9999:9999"
+    depends_on:
+      - redis
+    networks:
+      - back
+  redis:
+    image: redis
+    hostname: "redis"
+    container_name: redis
+    restart: always
+    volumes:
+      - /home/ghost/redis:/data
+    command: redis-server --requirepass 123456
+    networks:
+      - back
+networks:
+  back:
