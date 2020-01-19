@@ -44,7 +44,7 @@ func main() {
 			})
 			if err != nil {
 				_, _ = writer.Write([]byte(err.Error()))
-				return nil
+				return err
 			}
 			_, _ = writer.Write([]byte(ack.Token))
 			return nil

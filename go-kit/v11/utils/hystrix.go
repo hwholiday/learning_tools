@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"errors"
+	"fmt"
 	"github.com/afex/hystrix-go/hystrix"
 	"sync"
 )
@@ -36,8 +36,9 @@ func (s *Hystrix) Run(name string, run runFunc) error {
 	err := hystrix.Do(name, func() error {
 		return run()
 	}, func(err error) error {
-		//fmt.Println("运行 run 方法错误", err)
-		return errors.New(s.fallback)
+		fmt.Println("运行 run 方法错误 ", err)
+		//return nil
+		return nil
 	})
 	if err != nil {
 		return err
