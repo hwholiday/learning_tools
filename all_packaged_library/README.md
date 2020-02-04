@@ -1,4 +1,29 @@
 # 实用工具库
+
+### 基于etcd实现的服务注册，发现，负载均衡
+```base
+  	var op = SelectorOptions{
+  		name: "svc.info",
+  		config: clientv3.Config{
+  			Endpoints:   []string{"http://localhost:2379/"},
+  			DialTimeout: 5 * time.Second},
+  	}
+  	s, err := NewSelector(op)
+  	if err != nil {
+  		t.Error(err)
+  		return
+  	}
+  	for {
+  		val, err := s.Next()
+  		if err != nil {
+  			t.Error(err)
+  			continue
+  		}
+  		fmt.Println(val)
+  		time.Sleep(time.Second * 2)
+  	}
+```
+
 ### perf 　开启http pprof进行系统监控
 ```base
     perf.StartPprof([]string{"127.0.0.1:8077"})
@@ -49,26 +74,3 @@
 ```
 
 
-### 基于etcd实现的服务注册，发现，负载均衡
-```base
-  	var op = SelectorOptions{
-  		name: "svc.info",
-  		config: clientv3.Config{
-  			Endpoints:   []string{"http://localhost:2379/"},
-  			DialTimeout: 5 * time.Second},
-  	}
-  	s, err := NewSelector(op)
-  	if err != nil {
-  		t.Error(err)
-  		return
-  	}
-  	for {
-  		val, err := s.Next()
-  		if err != nil {
-  			t.Error(err)
-  			continue
-  		}
-  		fmt.Println(val)
-  		time.Sleep(time.Second * 2)
-  	}
-```
