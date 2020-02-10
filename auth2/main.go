@@ -67,3 +67,9 @@ func validateToken(f http.HandlerFunc, srv *server.Server) http.HandlerFunc {
 		f.ServeHTTP(w, r)
 	})
 }
+
+//http://127.0.0.1:9096/credentials
+
+//http://localhost:9096/token?grant_type=client_credentials&client_id=6207a636&client_secret=4e897091&scope=all
+
+//http://127.0.0.1:9096/protected?access_token=AB7ODWY5P-YBI3AKAYDJ5Q
