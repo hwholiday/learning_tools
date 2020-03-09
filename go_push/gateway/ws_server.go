@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"time"
 )
 
 var wsUpgrader = websocket.Upgrader{
@@ -13,6 +14,20 @@ var wsUpgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},
+}
+
+func InitWsServer() {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/connect", getConn)
+	// HTTP服务
+	server := &http.Server{
+		Addr:         "0.0.0.0:8888",
+		ReadTimeout:  time.Duration(10) * time.Millisecond,
+		WriteTimeout: time.Duration(10) * time.Millisecond,
+		Handler:      mux,
+	}
+	_ = server.ListenAndServe()
+
 }
 
 func getConn(res http.ResponseWriter, req *http.Request) {
