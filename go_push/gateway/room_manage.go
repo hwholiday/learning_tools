@@ -5,13 +5,22 @@ import (
 	"sync"
 )
 
+var (
+	manage *RoomManage
+)
+
 type RoomManage struct {
 	AllRoom sync.Map
 	AllConn sync.Map
 }
 
-func NewRoomManage() *RoomManage {
-	return &RoomManage{}
+func NewRoomManage() {
+	manage = &RoomManage{}
+	return
+}
+
+func GetRoomManage() *RoomManage {
+	return manage
 }
 
 func (r *RoomManage) AddConn(ws *WsConnection) {

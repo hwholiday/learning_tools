@@ -21,7 +21,7 @@ func (r *Room) JoinRoom(ws *WsConnection) {
 }
 
 func (r *Room) LeaveRoom(ws *WsConnection) {
-	if _, ok := r.RConn.Load(ws.connId); ok {
+	if _, ok := r.RConn.Load(ws.GetWsId); ok {
 		r.RConn.Delete(ws.GetWsId())
 	}
 }

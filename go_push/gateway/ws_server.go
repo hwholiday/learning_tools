@@ -15,7 +15,6 @@ var wsUpgrader = websocket.Upgrader{
 	},
 }
 
-
 func getConn(res http.ResponseWriter, req *http.Request) {
 	var (
 		err    error
@@ -27,8 +26,8 @@ func getConn(res http.ResponseWriter, req *http.Request) {
 	gin.Context{}.ClientIP()
 	ws := NewWsConnection(wsConn)
 	ws.SetIp(ClientIP(req))
+	ws.WsHandle()
 }
-
 
 func ClientIP(c *http.Request) string {
 	clientIP := c.Header.Get("X-Forwarded-For")
