@@ -2,14 +2,17 @@ package gateway
 
 import "sync"
 
+//一个房间代表一个订阅推送类型
 type Room struct {
 	mu    sync.Mutex
+	title string
 	index int
 	RConn sync.Map
 }
 
-func NewRoom(id int) *Room {
+func NewRoom(id int, title string) *Room {
 	return &Room{
+		title: title,
 		index: id,
 	}
 }
