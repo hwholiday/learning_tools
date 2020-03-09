@@ -1,7 +1,6 @@
 package gateway
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net"
 	"net/http"
@@ -19,8 +18,9 @@ var wsUpgrader = websocket.Upgrader{
 func InitWsServer() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/connect", getConn)
+	NewRoomManage()
 	// HTTP服务
-	server := &http.Server{
+	server := http.Server{
 		Addr:         "0.0.0.0:8888",
 		ReadTimeout:  time.Duration(10) * time.Millisecond,
 		WriteTimeout: time.Duration(10) * time.Millisecond,
@@ -38,7 +38,6 @@ func getConn(res http.ResponseWriter, req *http.Request) {
 	if wsConn, err = wsUpgrader.Upgrade(res, req, nil); err != nil {
 		return
 	}
-	gin.Context{}.ClientIP()
 	ws := NewWsConnection(wsConn)
 	ws.SetIp(ClientIP(req))
 	ws.WsHandle()

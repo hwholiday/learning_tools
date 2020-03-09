@@ -1,7 +1,9 @@
 package gateway
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 	"sync"
@@ -21,8 +23,8 @@ type WsConnection struct {
 }
 
 type WSMessage struct {
-	Type int
-	Data []byte
+	Type int    `json:"type"`
+	Data string `json:"data"`
 }
 
 var (
@@ -35,6 +37,7 @@ func NewWsConnection(conn *websocket.Conn) *WsConnection {
 	ws.readChan = make(chan *WSMessage, 10)
 	ws.writeChan = make(chan *WSMessage, 10)
 	ws.closeChan = make(chan bool)
+	ws.isOpen = true
 	ws.addRoom = new(sync.Map)
 	ws.connId = uuid.NewV5(uuid.Must(uuid.NewV4()), "ws").String()
 	go ws.read()
@@ -54,21 +57,20 @@ func (w *WsConnection) GetWsId() string {
 
 func (w *WsConnection) read() {
 	var (
-		Type int
 		Data []byte
 		err  error
 	)
 	w.ws.SetReadLimit(1024)
 	_ = w.ws.SetReadDeadline(time.Now().Add(time.Second * 10))
-	w.ws.SetPongHandler(func(string) error { _ = w.ws.SetReadDeadline(time.Now().Add(time.Second * 10)); return nil })
-	defer w.close()
 	for {
-		if Type, Data, err = w.ws.ReadMessage(); err != nil {
+		if _, Data, err = w.ws.ReadMessage(); err != nil {
 			w.close()
+			return
 		}
-		message := &WSMessage{
-			Type: Type,
-			Data: Data,
+		message := &WSMessage{}
+		if err = json.Unmarshal(Data, message); err != nil {
+			w.close()
+			return
 		}
 		select {
 		case w.readChan <- message:
@@ -85,7 +87,7 @@ func (w *WsConnection) send() {
 	for {
 		select {
 		case message = <-w.writeChan:
-			if err = w.ws.WriteMessage(message.Type, message.Data); err != nil {
+			if err = w.ws.WriteJSON(&message); err != nil {
 				w.close()
 			}
 		case <-w.closeChan:
@@ -113,11 +115,12 @@ func (w *WsConnection) SendMsg(msg *WSMessage) (err error) {
 }
 
 func (w *WsConnection) close() {
-	_ = w.ws.Close()
 	w.mu.Lock()
 	defer w.mu.Unlock()
 	if w.isOpen {
+		fmt.Println("关闭链接: ", w.GetIp(), "ID", w.GetWsId())
+		_ = w.ws.Close()
 		w.isOpen = false
-		close(w.closeChan)
+		w.closeChan <- true
 	}
 }
