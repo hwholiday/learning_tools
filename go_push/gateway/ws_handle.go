@@ -23,7 +23,7 @@ func (w *WsConnection) WsHandle() {
 			_ = w.ws.SetReadDeadline(time.Now().Add(time.Second * 10))
 			_ = w.SendMsg(&WSMessage{Type: 1, Data: "PONG"})
 		default:
-			fmt.Println("OTHER", string(msg.Data), msg.Type)
+			fmt.Println("OTHER", msg.Type, msg.Data)
 
 		}
 	}
