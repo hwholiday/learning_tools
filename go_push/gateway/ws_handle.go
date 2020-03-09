@@ -10,7 +10,7 @@ func (w *WsConnection) WsHandle() {
 	GetRoomManage().AddConn(w)
 	for {
 		if msg, err = w.ReadMsg(); err != nil {
-			w.close()
+			w.CloseConn()
 		}
 		fmt.Println(msg)
 	}
@@ -22,6 +22,7 @@ func (w *WsConnection) CloseConn() {
 	GetRoomManage().DelConn(w)
 	w.addRoom.Range(func(key, _ interface{}) bool {
 		_ = GetRoomManage().LeaveRoom(key.(string), w)
+		w.addRoom.Delete(key)
 		return true
 	})
 }
