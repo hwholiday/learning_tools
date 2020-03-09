@@ -4,33 +4,35 @@ import "sync"
 
 //一个房间代表一个订阅推送类型
 type Room struct {
-	mu    sync.Mutex
-	title string
-	index int
+	id    string
 	RConn sync.Map
 }
 
-func NewRoom(id int, title string) *Room {
+func NewRoom(id string) *Room {
 	return &Room{
-		title: title,
-		index: id,
+		id: id,
 	}
 }
 
 func (r *Room) JoinRoom(ws *WsConnection) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
 	if _, ok := r.RConn.Load(ws.connId); !ok {
 		r.RConn.Store(ws.GetWsId(), ws)
 	}
 }
 
 func (r *Room) LeaveRoom(ws *WsConnection) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
 	if _, ok := r.RConn.Load(ws.connId); ok {
 		r.RConn.Delete(ws.GetWsId())
 	}
+}
+
+func (r *Room) Count() int {
+	var count int
+	r.RConn.Range(func(_, _ interface{}) bool {
+		count++
+		return true
+	})
+	return count
 }
 
 func (r *Room) Push(msg *WSMessage) {
@@ -38,8 +40,6 @@ func (r *Room) Push(msg *WSMessage) {
 		ws *WsConnection
 		ok bool
 	)
-	r.mu.Lock()
-	defer r.mu.Unlock()
 	r.RConn.Range(func(_, value interface{}) bool {
 		if ws, ok = value.(*WsConnection); ok {
 			_ = ws.SendMsg(msg)
