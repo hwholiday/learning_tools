@@ -1,9 +1,11 @@
 package gateway
 
 import (
+	"fmt"
 	"github.com/gorilla/websocket"
 	"net"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -14,11 +16,17 @@ var wsUpgrader = websocket.Upgrader{
 		return true
 	},
 }
+var roomTitle = []string{"健身", "体育", "电影", "音乐"}
 
 func InitWsServer() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/connect", getConn)
 	NewRoomManage()
+	//初始化房间
+	for i := 0; i < 4; i++ {
+		NewRoom(strconv.Itoa(i), roomTitle[i])
+		fmt.Println("新建房间推送类型", roomTitle[i])
+	}
 	// HTTP服务
 	server := http.Server{
 		Addr:         "0.0.0.0:8888",
@@ -26,6 +34,7 @@ func InitWsServer() {
 		WriteTimeout: time.Duration(10) * time.Millisecond,
 		Handler:      mux,
 	}
+	fmt.Println("启动HTTP服务器成功 ：", 8888)
 	_ = server.ListenAndServe()
 
 }

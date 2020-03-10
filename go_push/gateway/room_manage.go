@@ -31,13 +31,14 @@ func (r *RoomManage) DelConn(ws *WsConnection) {
 }
 
 func (r *RoomManage) AddRoom(id string, ws *WsConnection) error {
+	var room *Room
 	val, ok := r.AllRoom.Load(id)
 	if !ok {
 		//room = NewRoom(id)
 		//r.AllRoom.Store(id, room)
 		return errors.New("not find room")
 	}
-	room := val.(*Room)
+	room = val.(*Room)
 	room.JoinRoom(ws)
 	return nil
 }
