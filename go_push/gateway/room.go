@@ -20,7 +20,7 @@ func newRoom(id int, title string) *Room {
 }
 
 func (r *Room) JoinRoom(ws *WsConnection) error {
-	if _, ok := r.RConn.Load(ws.connId); ok {
+	if _, ok := r.RConn.Load(ws.GetWsId()); ok {
 		return errors.New("already exists")
 	}
 	r.RConn.Store(ws.GetWsId(), ws)

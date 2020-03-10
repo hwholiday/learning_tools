@@ -55,6 +55,7 @@ func (r *RoomManage) AddRoom(id int, wsId string) error {
 	if err := room.JoinRoom(ws); err != nil {
 		return err
 	}
+	ws.addRoom.Store(id, true)
 	return nil
 }
 
