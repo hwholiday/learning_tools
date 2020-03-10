@@ -1,4 +1,4 @@
-package gateway
+package logic
 
 import (
 	"fmt"
@@ -12,6 +12,8 @@ func InitHttpServer() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/push/all", HttpPushAll)
 	mux.HandleFunc("/push/room", HttpPushRoom)
+	mux.HandleFunc("/room/join", HttpRoomJoin)
+	mux.HandleFunc("/room/leave", HttpRoomLeave)
 	// HTTP服务
 	server := http.Server{
 		Addr:         "0.0.0.0:9999",

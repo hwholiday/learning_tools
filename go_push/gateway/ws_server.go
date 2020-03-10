@@ -16,7 +16,7 @@ var wsUpgrader = websocket.Upgrader{
 	},
 }
 var (
-	roomTitle = []string{"健身", "体育", "电影", "音乐"}
+	RoomTitle = []string{"健身", "体育", "电影", "音乐"}
 )
 
 func InitWsServer() {
@@ -25,10 +25,9 @@ func InitWsServer() {
 	NewRoomManage()
 	//初始化房间
 	for i := 0; i < 4; i++ {
-		_ = GetRoomManage().NewRoom(i, roomTitle[i])
-		fmt.Println("新建房间推送类型", roomTitle[i])
+		_ = GetRoomManage().NewRoom(i, RoomTitle[i])
 	}
-	NewPushTask(len(roomTitle), 3, 10)
+	NewPushTask(len(RoomTitle), 3, 10)
 	// HTTP服务
 	server := http.Server{
 		Addr:         "0.0.0.0:8888",

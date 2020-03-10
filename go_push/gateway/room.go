@@ -22,9 +22,9 @@ func (r *Room) JoinRoom(ws *WsConnection) {
 	}
 }
 
-func (r *Room) LeaveRoom(ws *WsConnection) {
-	if _, ok := r.RConn.Load(ws.GetWsId); ok {
-		r.RConn.Delete(ws.GetWsId())
+func (r *Room) LeaveRoom(wsId string) {
+	if _, ok := r.RConn.Load(wsId); ok {
+		r.RConn.Delete(wsId)
 	}
 }
 

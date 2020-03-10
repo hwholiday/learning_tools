@@ -5,8 +5,8 @@ import "fmt"
 type PushJob struct {
 	Type     int
 	PushType int
-	roomId   int
-	info     string
+	RoomId   int
+	Info     string
 }
 var pushTask *PushTask
 
