@@ -28,6 +28,7 @@ func (r *RoomManage) NewRoom(id int, title string) error {
 		return errors.New("already exists")
 	}
 	r.AllRoom.Store(id, newRoom(id, title))
+	return nil
 }
 
 func (r *RoomManage) AddConn(ws *WsConnection) {

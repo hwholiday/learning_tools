@@ -15,7 +15,9 @@ var wsUpgrader = websocket.Upgrader{
 		return true
 	},
 }
-var roomTitle = []string{"健身", "体育", "电影", "音乐"}
+var (
+	roomTitle = []string{"健身", "体育", "电影", "音乐"}
+)
 
 func InitWsServer() {
 	mux := http.NewServeMux()
@@ -26,6 +28,18 @@ func InitWsServer() {
 		_ = GetRoomManage().NewRoom(i, roomTitle[i])
 		fmt.Println("新建房间推送类型", roomTitle[i])
 	}
+	NewPushTask(len(roomTitle), 3, 10)
+	go func() {
+		for {
+			time.Sleep(time.Second * 5)
+			GetPushManage().Push(&PushJob{
+				Type:     1,
+				PushType: 1,
+				roomId:   1,
+				info:     "测试全推送",
+			})
+		}
+	}()
 	// HTTP服务
 	server := http.Server{
 		Addr:         "0.0.0.0:8888",
@@ -33,7 +47,7 @@ func InitWsServer() {
 		WriteTimeout: time.Duration(10) * time.Millisecond,
 		Handler:      mux,
 	}
-	fmt.Println("启动HTTP服务器成功 ：", 8888)
+	fmt.Println("启动WS服务器成功 ：", 8888)
 	_ = server.ListenAndServe()
 
 }
