@@ -5,7 +5,6 @@ import (
 	"github.com/gorilla/websocket"
 	"net"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -24,7 +23,7 @@ func InitWsServer() {
 	NewRoomManage()
 	//初始化房间
 	for i := 0; i < 4; i++ {
-		NewRoom(strconv.Itoa(i), roomTitle[i])
+		_ = GetRoomManage().NewRoom(i, roomTitle[i])
 		fmt.Println("新建房间推送类型", roomTitle[i])
 	}
 	// HTTP服务

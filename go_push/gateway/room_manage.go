@@ -22,6 +22,14 @@ func GetRoomManage() *RoomManage {
 	return manage
 }
 
+func (r *RoomManage) NewRoom(id int, title string) error {
+	_, ok := r.AllRoom.Load(id)
+	if ok {
+		return errors.New("already exists")
+	}
+	r.AllRoom.Store(id, newRoom(id, title))
+}
+
 func (r *RoomManage) AddConn(ws *WsConnection) {
 	r.AllConn.Store(ws.GetWsId(), ws)
 }
@@ -30,7 +38,7 @@ func (r *RoomManage) DelConn(ws *WsConnection) {
 	r.AllConn.Delete(ws.GetWsId())
 }
 
-func (r *RoomManage) AddRoom(id string, ws *WsConnection) error {
+func (r *RoomManage) AddRoom(id int, ws *WsConnection) error {
 	var room *Room
 	val, ok := r.AllRoom.Load(id)
 	if !ok {
@@ -43,7 +51,7 @@ func (r *RoomManage) AddRoom(id string, ws *WsConnection) error {
 	return nil
 }
 
-func (r *RoomManage) LeaveRoom(id string, ws *WsConnection) error {
+func (r *RoomManage) LeaveRoom(id int, ws *WsConnection) error {
 	val, ok := r.AllRoom.Load(id)
 	if !ok {
 		return errors.New("not find room")
@@ -56,7 +64,7 @@ func (r *RoomManage) LeaveRoom(id string, ws *WsConnection) error {
 	return nil
 }
 
-func (r *RoomManage) PushRoom(id string, msg *WSMessage) error {
+func (r *RoomManage) PushRoom(id int, msg *WSMessage) error {
 	val, ok := r.AllRoom.Load(id)
 	if !ok {
 		return errors.New("not find room")

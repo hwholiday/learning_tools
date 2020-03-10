@@ -4,12 +4,12 @@ import "sync"
 
 //一个房间代表一个订阅推送类型
 type Room struct {
-	id    string
+	id    int
 	title string
 	RConn sync.Map
 }
 
-func NewRoom(id,title string) *Room {
+func newRoom(id int ,title string) *Room {
 	return &Room{
 		id: id,
 		title:title,
