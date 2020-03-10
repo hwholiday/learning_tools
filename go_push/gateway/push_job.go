@@ -52,10 +52,10 @@ func (p *PushTask) distributionTask() {
 			if pushJob.Type == 1 {
 				GetRoomManage().PushAll(&WSMessage{
 					Type: pushJob.PushType,
-					Data: pushJob.info,
+					Data: pushJob.Info,
 				})
 			} else if pushJob.Type == 2 {
-				p.JobChan[pushJob.roomId] <- pushJob
+				p.JobChan[pushJob.RoomId] <- pushJob
 			}
 		}
 	}
@@ -71,7 +71,7 @@ func (p *PushTask) pushWork(roomId int) {
 		case job = <-p.JobChan[roomId]:
 			if err = GetRoomManage().PushRoom(roomId, &WSMessage{
 				Type: job.PushType,
-				Data: job.info,
+				Data: job.Info,
 			}); err != nil {
 				fmt.Println(err)
 			}
