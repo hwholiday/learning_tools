@@ -42,7 +42,7 @@ func HttpPushRoom(res http.ResponseWriter, req *http.Request) {
 		PushType: pushType,
 		Info:     val,
 	})
-	_, _ = res.Write([]byte("房间推送任务添加成功"))
+	_, _ = res.Write([]byte(fmt.Sprintf("[%s]房间推送任务添加成功", gateway.RoomTitle[roomId])))
 	return
 }
 

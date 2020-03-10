@@ -52,7 +52,9 @@ func (r *RoomManage) AddRoom(id int, wsId string) error {
 	}
 	room = val.(*Room)
 	ws = wsVal.(*WsConnection)
-	room.JoinRoom(ws)
+	if err := room.JoinRoom(ws); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -63,7 +65,9 @@ func (r *RoomManage) LeaveRoom(id int, wsId string) error {
 		return errors.New("not find room")
 	}
 	room = val.(*Room)
-	room.LeaveRoom(wsId)
+	if err := room.LeaveRoom(wsId); err != nil {
+		return err
+	}
 	if room.Count() <= 0 {
 		r.AllRoom.Delete(room.id)
 	}

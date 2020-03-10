@@ -1,6 +1,9 @@
 package gateway
 
-import "sync"
+import (
+	"errors"
+	"sync"
+)
 
 //一个房间代表一个订阅推送类型
 type Room struct {
@@ -9,23 +12,27 @@ type Room struct {
 	RConn sync.Map
 }
 
-func newRoom(id int ,title string) *Room {
+func newRoom(id int, title string) *Room {
 	return &Room{
-		id: id,
-		title:title,
+		id:    id,
+		title: title,
 	}
 }
 
-func (r *Room) JoinRoom(ws *WsConnection) {
-	if _, ok := r.RConn.Load(ws.connId); !ok {
-		r.RConn.Store(ws.GetWsId(), ws)
+func (r *Room) JoinRoom(ws *WsConnection) error {
+	if _, ok := r.RConn.Load(ws.connId); ok {
+		return errors.New("already exists")
 	}
+	r.RConn.Store(ws.GetWsId(), ws)
+	return nil
 }
 
-func (r *Room) LeaveRoom(wsId string) {
-	if _, ok := r.RConn.Load(wsId); ok {
-		r.RConn.Delete(wsId)
+func (r *Room) LeaveRoom(wsId string) error {
+	if _, ok := r.RConn.Load(wsId); !ok {
+		return errors.New("already delete")
 	}
+	r.RConn.Delete(wsId)
+	return nil
 }
 
 func (r *Room) Count() int {
