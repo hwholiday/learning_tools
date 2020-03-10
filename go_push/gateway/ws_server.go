@@ -29,17 +29,6 @@ func InitWsServer() {
 		fmt.Println("新建房间推送类型", roomTitle[i])
 	}
 	NewPushTask(len(roomTitle), 3, 10)
-	go func() {
-		for {
-			time.Sleep(time.Second * 5)
-			GetPushManage().Push(&PushJob{
-				Type:     1,
-				PushType: 1,
-				roomId:   1,
-				info:     "测试全推送",
-			})
-		}
-	}()
 	// HTTP服务
 	server := http.Server{
 		Addr:         "0.0.0.0:8888",
