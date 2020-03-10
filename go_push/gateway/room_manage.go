@@ -68,9 +68,10 @@ func (r *RoomManage) LeaveRoom(id int, wsId string) error {
 	if err := room.LeaveRoom(wsId); err != nil {
 		return err
 	}
-	if room.Count() <= 0 {
+	/*if room.Count() <= 0 {
+	    //房间人数为0 删除房间
 		r.AllRoom.Delete(room.id)
-	}
+	}*/
 	return nil
 }
 

@@ -30,6 +30,7 @@ func NewPushTask(roomLen, workNum, taskNum int)  {
 	}
 	for i := 0; i < roomLen; i++ {
 		//可以一个房间开多个pushWork(i)
+		pushTask.JobChan[i]=make(chan *PushJob,roomLen)
 		go pushTask.pushWork(i) //分发任务
 	}
 	for i := 0; i < workNum; i++ {
