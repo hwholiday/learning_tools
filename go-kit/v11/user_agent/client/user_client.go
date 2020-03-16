@@ -6,6 +6,7 @@ import (
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/go-kit/kit/log"
 	"go.uber.org/zap"
+	"learning_tools/all_packaged_library/logtool"
 	"learning_tools/go-kit/v11/user_agent/src"
 	"learning_tools/go-kit/v11/utils"
 	"net/http"
@@ -19,6 +20,11 @@ func main() {
 		logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 		logger = log.With(logger, "caller", log.DefaultCaller)
 	}
+	zapLogger := logtool.NewLogger(
+		logtool.SetAppName("go-kit-v11-client"),
+		logtool.SetDevelopment(true),
+		logtool.SetLevel(zap.DebugLevel),
+	)
 	utils.NewLoggerServer()
 	client, err := NewUserAgentClient([]string{"127.0.0.1:2379"}, logger)
 	if err != nil {
@@ -27,6 +33,7 @@ func main() {
 	}
 	hy := utils.NewHystrix("调用错误服务降级")
 	cbs, _, _ := hystrix.GetCircuit("login")
+	//curl  http://0.0.0.0:10010/login -X POST -d "account=hwholiday&password=123456"
 	http.HandleFunc("/login", func(writer http.ResponseWriter, request *http.Request) {
 		_ = request.ParseForm()
 		account := request.Form.Get("account")
@@ -43,19 +50,21 @@ func main() {
 				Password: password,
 			})
 			if err != nil {
+				zapLogger.Error("[login]", zap.Error(err))
 				_, _ = writer.Write([]byte(err.Error()))
 				return err
 			}
 			_, _ = writer.Write([]byte(ack.Token))
+			zapLogger.Error("[login]", zap.Any("返回值", ack.Token))
 			return nil
 		})
 		if err != nil {
 			_, _ = writer.Write([]byte(err.Error()))
 		}
-		fmt.Println("熔断器开启状态:", cbs.IsOpen(), "请求是否允许：", cbs.AllowRequest())
+		zapLogger.Debug("熔断器", zap.Any("开启状态", cbs.IsOpen()), zap.Any("请求是否允许：", cbs.AllowRequest()))
 	})
-	fmt.Println("服务启动成功 监听端口 9999")
-	er := http.ListenAndServe("0.0.0.0:9999", nil)
+	fmt.Println("服务启动成功 监听端口 10010")
+	er := http.ListenAndServe("0.0.0.0:10010", nil)
 	if er != nil {
 		fmt.Println("ListenAndServe: ", er)
 	}
