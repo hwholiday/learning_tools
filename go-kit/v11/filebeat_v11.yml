@@ -1,0 +1,33 @@
+filebeat.inputs:
+- type: log     
+  enabled: true
+  paths:
+    - /home/go/src/learning_tools/logs/go-kit-v11-client-*.log
+  document_type: "kit-client"   #指定类型  在elastic中可通过[type]识别
+  fields:
+    tag: kit-client                #指定标签  在logstahs中可通过[fields][tag]识别
+- type: log     
+  enabled: true
+  paths:
+    - /home/go/src/learning_tools/logs/go-kit-v11-server-*.log
+  document_type: "kit-server"   
+  fields:
+    tag: kit-server                
+
+# 积累1024条消息才上报
+#spool_size: 1024
+# 或者空闲5s上报
+#idle_timeout: "5s"
+
+output.logstash:
+  hosts: ["0.0.0.0:5044"]  
+
+
+
+
+
+
+
+
+
+
