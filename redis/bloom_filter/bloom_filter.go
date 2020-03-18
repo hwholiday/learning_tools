@@ -50,6 +50,6 @@ func main() {
 	}
 	v,err:=info4.Result()
 	fmt.Println("err",err)
-	fmt.Println("v",v)
+	fmt.Println("v",v)//存在 v==1  不存在 ==0
 	//fmt.Println(GlobalClient.Get("mykey").String())
 }
