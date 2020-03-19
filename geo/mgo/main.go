@@ -65,7 +65,7 @@ func main() {
 		}
 		fmt.Printf("InsertMany插入的消息ID:%v\n", insertMany.InsertedIDs)*/
 	userCollection.Indexes().CreateOne(context.Background(), mongo.IndexModel{
-		Keys: bsonx.Doc{{"location", bsonx.String("2d")}},
+		Keys: bsonx.Doc{{"location", bsonx.String("2dsphere")}},
 	})
 	//userCollection.Indexes().DropOne(context.Background(), "location_2d")
 }

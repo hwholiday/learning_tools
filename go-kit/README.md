@@ -11,3 +11,6 @@
     9: v9 go-kit 微服务 服务链路追踪（jaeger 实现）(1)
     10: v9 go-kit 微服务 服务链路追踪（jaeger 实现）(2)
     11: v11 go-kit 微服务 添加一个简单网关
+
+### 自动生成代码库 
+     github.com/kujtimiihoxha/kit
