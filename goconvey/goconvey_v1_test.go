@@ -10,4 +10,3 @@ func TestAddV1(t *testing.T) {
 		c.So(AddV1(1, 2), ShouldEqual, 3)
 	})
 }
-//go test -v
