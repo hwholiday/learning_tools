@@ -9,7 +9,6 @@ import (
 type Lru struct {
 	max   int
 	l     *list.List
-	Call  func(key interface{}, value interface{})
 	cache map[interface{}]*list.Element
 	mu    *sync.Mutex
 }
@@ -49,9 +48,6 @@ func (l *Lru) Add(key interface{}, val interface{}) error {
 			l.l.Remove(e)
 			node := e.Value.(*Node)
 			delete(l.cache, node.Key)
-			if l.Call != nil {
-				l.Call(node.Key, node.Val)
-			}
 		}
 	}
 	return nil
@@ -91,11 +87,6 @@ func (l *Lru) Del(key interface{}) {
 		if e := l.l.Back(); e != nil {
 			l.l.Remove(e)
 			delete(l.cache, key)
-			if l.Call != nil {
-				node := e.Value.(*Node)
-				l.Call(node.Key, node.Val)
-			}
 		}
 	}
-
 }
