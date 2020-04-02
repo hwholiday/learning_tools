@@ -28,3 +28,4 @@ func main() {
 	fmt.Println("Total:", total)                            // Total: 459.824961375
 	fmt.Println("Tax rate:", total.Sub(preTax).Div(preTax)) // Tax rate: 0.08875
 }
+
