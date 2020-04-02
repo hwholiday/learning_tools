@@ -5,7 +5,7 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-func main()  {
+func main() {
 	price, err := decimal.NewFromString("136.02")
 	if err != nil {
 		panic(err)
