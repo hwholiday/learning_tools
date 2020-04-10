@@ -69,6 +69,7 @@ func (m *MatchPool) match() {
 	m.allUser.Range(func(_, value interface{}) bool {
 		user := value.(*Match)
 		if time.Now().Unix()-user.StartTime > m.timeout { //该用户匹配时间超时，剔除队列
+			fmt.Println("该用户匹配时间超时，剔除队列", user.Uid)
 			m.Remove(user.Uid)
 		} else {
 			//加入对应的分数队列
@@ -91,8 +92,6 @@ func (m *MatchPool) match() {
 	})
 	ratingMap.Range(func(key, value interface{}) bool {
 		fmt.Println("key", key, "value", value)
-		fmt.Println("key", key, "value", value)
-		fmt.Println("key", key, "value", value)
 		m.matchUser(ratingMap, key, value)
 		return true
 	})
@@ -105,13 +104,16 @@ func (m *MatchPool) matchUser(ratingMap sync.Map, key, value interface{}) {
 		for continueMatch {*/
 	userArray := value.([]Match)
 	if len(userArray) <= 0 {
+		fmt.Println("len(userArray)")
 		return
 	}
 	var MatchUser []Match
 	maxUser := userArray[0] //等待时间最长的用户
+	fmt.Println("userArray start", userArray)
 	MatchUser = append(MatchUser, maxUser)
 	m.allUser.Delete(maxUser.Uid)
 	userArray = append(userArray[:0], userArray[0+1:]...)
+	fmt.Println("userArray end", userArray)
 	ratingMap.Store(key, userArray)
 	m.allUser.Delete(maxUser.Uid)
 	fmt.Println("用户 UID", maxUser.Uid, "是分数", maxUser.Rating, " 上等待最久的玩家", "已经等待时间 ", time.Now().UnixNano()/1e6-maxUser.StartTime, "开始匹配时间 ", time.Now().UnixNano()/1e6)
@@ -127,6 +129,7 @@ func (m *MatchPool) matchUser(ratingMap sync.Map, key, value interface{}) {
 	middle := maxUser.Rating //设置 rating 区间中位数
 	for searchRankUp, searchRankDown := middle, middle; searchRankUp <= max && searchRankDown >= min; searchRankUp, searchRankDown = searchRankUp+1, searchRankDown-1 {
 		if searchRankDown != searchRankUp && searchRankDown > 0 { //目前只选择比我评分低的人，体验会好一些
+			fmt.Println("目前只选择比我评分低的人，体验会好一些", searchRankDown)
 			rank, ok := ratingMap.Load(searchRankDown)
 			if !ok {
 				continue

@@ -18,24 +18,6 @@ func Test_NewMatchPool(t *testing.T) {
 		Rating:    1662,
 		StartTime: time.Now().UnixNano() / 1e6,
 	})
-	time.Sleep(time.Second)
-	macth.Add(&Match{
-		Uid:       3,
-		Rating:    1663,
-		StartTime: time.Now().UnixNano() / 1e6,
-	})
-	time.Sleep(time.Second)
-	macth.Add(&Match{
-		Uid:       4,
-		Rating:    1664,
-		StartTime: time.Now().UnixNano() / 1e6,
-	})
-	time.Sleep(time.Second)
-	macth.Add(&Match{
-		Uid:       5,
-		Rating:    1665,
-		StartTime: time.Now().UnixNano() / 1e6,
-	})
 	macth.Run()
 	time.Sleep(time.Hour)
 }
