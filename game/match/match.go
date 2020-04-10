@@ -87,36 +87,47 @@ func (m *MatchPool) match() {
 		}
 		return true
 	})
-	ratingMap.Range(func(rating, value interface{}) bool {
-		//找出同一分数段里，等待时间最长的玩家
-		continueMatch := true
-		for continueMatch {
-			userArray := value.([]Match)
-			if len(userArray) > 0 {
-				var MatchUser []Match
-				maxUser := userArray[0]
-				MatchUser = append(MatchUser, maxUser)
-				fmt.Println("用户 UID", maxUser.Uid, "是分数", maxUser.Rating, " 上等待最久的玩家", "已经等待时间 ", time.Now().UnixNano()/1e6-maxUser.StartTime, "开始匹配时间 ", time.Now().UnixNano()/1e6)
-				//先从本分数段上取数据
-				for _, v := range userArray {
-					if v.Uid == maxUser.Uid {
-						continue
-					}
-					MatchUser = append(MatchUser, v)
-					if len(MatchUser) >= m.num {
-						break
-					}
-				}
-				if len(MatchUser) >= m.num { //人员已经够了,不再判断
-					continue
-				}
-				//再上下每次加1分取 如果加到50都没成功者失败
-
-			} else {
-				continueMatch = false //该分段没有数据
-			}
-		}
+	ratingMap.Range(func(key, value interface{}) bool {
+		m.matchUser(key, value)
 		return true
 	})
 
 }
+
+func (m *MatchPool) matchUser(key, value interface{}) {
+	//找出同一分数段里，等待时间最长的玩家
+	rating, err := strconv.Atoi(key.(string))
+	if err != nil {
+		return
+	}
+	continueMatch := true
+	for continueMatch {
+		userArray := value.([]Match)
+		if len(userArray) <= 0 {
+			continueMatch = false //该分段没有数据
+			return
+		}
+		var MatchUser []Match
+		maxUser := userArray[0]
+		MatchUser = append(MatchUser, maxUser)
+		fmt.Println("用户 UID", maxUser.Uid, "是分数", maxUser.Rating, " 上等待最久的玩家", "已经等待时间 ", time.Now().UnixNano()/1e6-maxUser.StartTime, "开始匹配时间 ", time.Now().UnixNano()/1e6)
+		//先从本分数段上取数据
+		for _, v := range userArray {
+			if v.Uid == maxUser.Uid {
+				continue
+			}
+			MatchUser = append(MatchUser, v)
+			if len(MatchUser) >= m.num {
+				break
+			}
+		}
+		if len(MatchUser) >= m.num { //人员已经够了,不再判断
+			//移除已经匹配成功的数据
+
+			continue
+		}
+		//再上下每次加1分取 如果加到50都没成功者失败
+
+	}
+}
+
