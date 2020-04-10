@@ -97,6 +97,7 @@ func (m *MatchPool) match() {
 func (m *MatchPool) matchUser(key, value interface{}) {
 	//找出同一分数段里，等待时间最长的玩家
 	rating, err := strconv.Atoi(key.(string))
+	fmt.Println("当前分数",rating)
 	if err != nil {
 		return
 	}
@@ -123,10 +124,9 @@ func (m *MatchPool) matchUser(key, value interface{}) {
 		}
 		if len(MatchUser) >= m.num { //人员已经够了,不再判断
 			//移除已经匹配成功的数据
-
 			continue
 		}
-		//再上下每次加1分取 如果加到50都没成功者失败
+		//TODO 再上下每次加1分取 如果加到50都没成功者失败
 
 	}
 }
