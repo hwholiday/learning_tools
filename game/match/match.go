@@ -2,6 +2,7 @@ package match
 
 import (
 	"fmt"
+	"math"
 	"sort"
 	"strconv"
 	"sync"
@@ -88,46 +89,70 @@ func (m *MatchPool) match() {
 		return true
 	})
 	ratingMap.Range(func(key, value interface{}) bool {
-		m.matchUser(key, value)
+		m.matchUser(ratingMap, key, value)
 		return true
 	})
 
 }
 
-func (m *MatchPool) matchUser(key, value interface{}) {
+func (m *MatchPool) matchUser(ratingMap sync.Map, key, value interface{}) {
 	//找出同一分数段里，等待时间最长的玩家
-	rating, err := strconv.Atoi(key.(string))
-	fmt.Println("当前分数",rating)
-	if err != nil {
+	//continueMatch := true
+	//for continueMatch {
+	userArray := value.([]Match)
+	if len(userArray) <= 0 {
+		//continueMatch = false //该分段没有数据
 		return
 	}
-	continueMatch := true
-	for continueMatch {
-		userArray := value.([]Match)
-		if len(userArray) <= 0 {
-			continueMatch = false //该分段没有数据
-			return
-		}
-		var MatchUser []Match
-		maxUser := userArray[0]
-		MatchUser = append(MatchUser, maxUser)
-		fmt.Println("用户 UID", maxUser.Uid, "是分数", maxUser.Rating, " 上等待最久的玩家", "已经等待时间 ", time.Now().UnixNano()/1e6-maxUser.StartTime, "开始匹配时间 ", time.Now().UnixNano()/1e6)
-		//先从本分数段上取数据
-		for _, v := range userArray {
-			if v.Uid == maxUser.Uid {
+	var MatchUser []Match
+	maxUser := userArray[0] //等待时间最长的用户
+	MatchUser = append(MatchUser, maxUser)
+	fmt.Println("用户 UID", maxUser.Uid, "是分数", maxUser.Rating, " 上等待最久的玩家", "已经等待时间 ", time.Now().UnixNano()/1e6-maxUser.StartTime, "开始匹配时间 ", time.Now().UnixNano()/1e6)
+	waitSecond := time.Now().Unix() - maxUser.StartTime/1000
+	step := getRatingStep(waitSecond)
+	min := maxUser.Rating - step
+	if min < 0 {
+		min = 0
+	}
+	max := maxUser.Rating + step
+	fmt.Println("用户 UID ", maxUser.Uid, "本次搜索 rating 范围下限 ", min, "rating 范围上限 ", max)
+	//TODO 再上下每次加1分取 如果加到都没成功者失败
+	middle := maxUser.Rating //设置 rating 区间中位数
+	for searchRankUp, searchRankDown := middle, middle; searchRankUp <= max && searchRankDown >= min; searchRankUp, searchRankDown = searchRankUp+1, searchRankDown-1 {
+		if searchRankDown != searchRankUp && searchRankDown > 0 { //目前只选择比我评分低的人，体验会好一些
+			rank, ok := ratingMap.Load(searchRankDown)
+			if !ok {
 				continue
 			}
-			MatchUser = append(MatchUser, v)
-			if len(MatchUser) >= m.num {
-				break
+			rankArray := rank.([]Match)
+			if len(rankArray) <= 0 {
+				continue
+			}
+			if len(rankArray) < m.num { //数量大于需要匹配的人数 TODO 这里多人的话需要优化
+				continue
+			}
+			for _, v := range rankArray {
+				if v.Uid != maxUser.Uid {
+					MatchUser = append(MatchUser, v)
+					//移除该数据
+					fmt.Println("用户 UID ", maxUser.Uid, "在  rating", searchRankDown, " 找到匹配用户  ", v.Uid)
+
+				}
 			}
 		}
-		if len(MatchUser) >= m.num { //人员已经够了,不再判断
-			//移除已经匹配成功的数据
-			continue
-		}
-		//TODO 再上下每次加1分取 如果加到50都没成功者失败
-
 	}
 }
 
+//waitSecond 该用户等待了多少秒
+func getRatingStep(waitSecond int64) int {
+	var (
+		step             = 1.3
+		baseStep float64 = 3
+		maxStep  float64 = 100
+	)
+	u := math.Pow(float64(waitSecond), step)
+	u = u + baseStep
+	u = math.Round(u)
+	u = math.Min(u, maxStep) //等待时间越长，rating 区间越大
+	return int(u)
+}
