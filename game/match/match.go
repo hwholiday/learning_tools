@@ -24,12 +24,12 @@ type MatchPool struct {
 	count   int64 //匹配成功次数
 }
 
-func NewMatchPool(t int64) *MatchPool {
+func NewMatchPool(t int64, num int) *MatchPool {
 	pool := &MatchPool{
 		allUser: new(sync.Map),
 		timeout: t,
+		num:     num,
 	}
-	go pool.run()
 	return pool
 }
 func (m *MatchPool) Add(u *Match) {
@@ -40,15 +40,16 @@ func (m *MatchPool) Remove(id int) {
 	m.allUser.Delete(strconv.Itoa(id))
 }
 
-func (m *MatchPool) run() {
-	for {
-		select {
-		case <-time.After(time.Second * 1):
-			{
-				m.match()
-			}
-		}
-	}
+func (m *MatchPool) Run() {
+	m.match()
+	//for {
+	//	select {
+	//	case <-time.After(time.Second * 1):
+	//		{
+	//			m.match()
+	//		}
+	//	}
+	//}
 }
 
 func (m *MatchPool) match() {
@@ -62,7 +63,7 @@ func (m *MatchPool) match() {
 		m.mu.Unlock()
 		m.isWork = false
 	}()
-	fmt.Println("开始匹配时间", time.Now().UnixNano()/1e6)
+	fmt.Println("开始匹配时间", time.Now().UnixNano()/1e6, "次数", m.count)
 	//给每个分段都添加分别的队列 （这里可以设置区间）
 	var ratingMap sync.Map
 	m.allUser.Range(func(_, value interface{}) bool {
@@ -97,16 +98,19 @@ func (m *MatchPool) match() {
 
 func (m *MatchPool) matchUser(ratingMap sync.Map, key, value interface{}) {
 	//找出同一分数段里，等待时间最长的玩家
-	//continueMatch := true
-	//for continueMatch {
+	/*	continueMatch := true
+		for continueMatch {*/
 	userArray := value.([]Match)
 	if len(userArray) <= 0 {
-		//continueMatch = false //该分段没有数据
 		return
 	}
 	var MatchUser []Match
 	maxUser := userArray[0] //等待时间最长的用户
 	MatchUser = append(MatchUser, maxUser)
+	m.allUser.Delete(maxUser.Uid)
+	userArray = append(userArray[:0], userArray[0+1:]...)
+	ratingMap.Store(key, userArray)
+	m.allUser.Delete(maxUser.Uid)
 	fmt.Println("用户 UID", maxUser.Uid, "是分数", maxUser.Rating, " 上等待最久的玩家", "已经等待时间 ", time.Now().UnixNano()/1e6-maxUser.StartTime, "开始匹配时间 ", time.Now().UnixNano()/1e6)
 	waitSecond := time.Now().Unix() - maxUser.StartTime/1000
 	step := getRatingStep(waitSecond)
@@ -128,18 +132,29 @@ func (m *MatchPool) matchUser(ratingMap sync.Map, key, value interface{}) {
 			if len(rankArray) <= 0 {
 				continue
 			}
-			if len(rankArray) < m.num { //数量大于需要匹配的人数 TODO 这里多人的话需要优化
-				continue
-			}
-			for _, v := range rankArray {
+			for index, v := range rankArray {
 				if v.Uid != maxUser.Uid {
-					MatchUser = append(MatchUser, v)
-					//移除该数据
-					fmt.Println("用户 UID ", maxUser.Uid, "在  rating", searchRankDown, " 找到匹配用户  ", v.Uid)
-
+					if len(MatchUser) < m.num {
+						MatchUser = append(MatchUser, v)
+						fmt.Println("用户 UID ", maxUser.Uid, "在  rating", searchRankDown, " 找到匹配用户  ", v.Uid)
+						//移除该数据
+						rankArray = append(rankArray[:index], rankArray[index+1:]...)
+						ratingMap.Store(searchRankDown, rankArray)
+						m.allUser.Delete(v.Uid)
+					} else {
+						break
+					}
 				}
 			}
+			if len(MatchUser) >= m.num { //匹配人员成功
+				fmt.Println("匹配到人 ", MatchUser)
+			} else { //本地匹配失败
+				fmt.Println("这个分段匹配失败 ", key)
+				m.allUser.Store(maxUser.Uid, maxUser)
+				/*	continueMatch = false*/
+			}
 		}
+		/*	}*/
 	}
 }
 
