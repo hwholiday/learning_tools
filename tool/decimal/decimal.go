@@ -10,7 +10,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	quantity := decimal.NewFromInt(3)
 
 	fee, _ := decimal.NewFromString(".035")
