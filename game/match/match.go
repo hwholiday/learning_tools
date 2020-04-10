@@ -90,6 +90,9 @@ func (m *MatchPool) match() {
 		return true
 	})
 	ratingMap.Range(func(key, value interface{}) bool {
+		fmt.Println("key", key, "value", value)
+		fmt.Println("key", key, "value", value)
+		fmt.Println("key", key, "value", value)
 		m.matchUser(ratingMap, key, value)
 		return true
 	})
