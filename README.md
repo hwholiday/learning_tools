@@ -37,6 +37,27 @@
     3：handler 对外处理方法
     4：model 数据格式
     5：proto protobuf 文件
+    
+### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/project_layout) (golang 项目接口)
+    ```base
+    详细介绍查看文件夹内README.me内容
+    
+    ├─api
+    ├─build
+    ├─cmd
+    ├─configs
+    ├─internal
+    │  ├─app
+    │  │  ├─common
+    │  │  ├─controller
+    │  │  ├─entity
+    │  │  ├─repository
+    │  │  ├─router
+    │  │  │  └─middleware
+    │  │  └─service
+    │  └─pkg
+    └─tool
+    ```
 
 ###  [all_packaged_library](https://github.com/hwholiday/learning_tools/tree/master/all_packaged_library) 里面封装了一些常用的库，有详细的介绍，持续更新
     1: base 里面封装mysql，redis，mgo，minio文件储存库S3协议，雪花算法，退出程序方法，redis全局锁，日志库等（插件形式可单独引用）
