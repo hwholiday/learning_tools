@@ -38,7 +38,7 @@
     4：model 数据格式
     5：proto protobuf 文件
     
-### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/project_layout) (golang 项目接口)
+### [project_layout](https://github.com/hwholiday/learning_tools/tree/master/project_layout) (项目结构)
     ```base
     详细介绍查看文件夹内README.me内容
     
