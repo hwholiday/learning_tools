@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"net"
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 )
 
 //获取本地的IP
@@ -36,14 +38,45 @@ func Test_Path(t *testing.T) {
 	fmt.Println(appConfigPath)
 }
 
-func Test_Defer(t *testing.T)  {
-	 defer fmt.Println(1)
-	 A()
+func Test_Defer(t *testing.T) {
+	defer fmt.Println(1)
+	A()
 	defer fmt.Println(3)
 	return
 }
-func A()  {
+func A() {
 	defer func() {
 		fmt.Println(2)
 	}()
+}
+
+func Test_lottery(t *testing.T) {
+	var lottery = make(map[string]int)
+	lottery["特等奖"] = 5
+	lottery["一等奖"] = 10
+	lottery["二等奖"] = 35
+	lottery["三等奖"] = 50
+	//计算概率
+	rand.Seed(time.Now().Unix())
+	var (
+		randNum int
+	)
+	for _, v := range lottery {
+		randNum += v
+	}
+	fmt.Println("从 ", randNum, "中产生随机数")
+	for j := 0; j < 20; j++ {
+		i := rand.Intn(randNum)
+		var (
+			start int
+			end   int
+		)
+		for k, v := range lottery {
+			end += v
+			if start <= i && i < end {
+				fmt.Println("恭喜你中了 ", k)
+			}
+			start = end
+		}
+	}
 }
