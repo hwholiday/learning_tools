@@ -50,6 +50,7 @@ func A() {
 	}()
 }
 
+//抽奖
 func Test_lottery(t *testing.T) {
 	var lottery = make(map[string]int)
 	lottery["特等奖"] = 5
@@ -78,5 +79,32 @@ func Test_lottery(t *testing.T) {
 			}
 			start = end
 		}
+	}
+}
+
+type DataCommon struct {
+	A int
+}
+
+func NewDataCommon() *DataCommon {
+	return &DataCommon{A: 1}
+}
+
+func TestCommon(t *testing.T) {
+	info := NewDataCommon()
+	fmt.Println("info", info)
+	var a = make(map[string]*DataCommon)
+	a["a"] = info
+	for k, v := range a {
+		fmt.Println("a[\"a\"]", k, v)
+	}
+	info.A = 2
+	var b = make(map[string]*DataCommon)
+	b["a"] = info
+	for k, v := range b {
+		fmt.Println("b[\"a\"]", k, v)
+	}
+	for k, v := range a {
+		fmt.Println("a[\"a\"]", k, v)
 	}
 }
