@@ -108,3 +108,14 @@ func TestCommon(t *testing.T) {
 		fmt.Println("a[\"a\"]", k, v)
 	}
 }
+
+func TestAppent(t *testing.T) {
+	var info []int
+	info = append(info, 2, 3, 4, 5, 6)
+	fmt.Println("info", info)
+	info = append([]int{1}, info...)
+	if len(info) > 5 {
+		info = info[:5]
+	}
+	fmt.Println("info", info)
+}
