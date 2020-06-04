@@ -2,6 +2,7 @@ package cache
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
@@ -11,9 +12,7 @@ func TestGetSize(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if result != 102400 {
-		t.Fatal("size err")
-	}
+	assert.Equal(t, 102400, result, "获取内存大小")
 }
 
 func TestCache_Set(t *testing.T) {
