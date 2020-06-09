@@ -6,6 +6,7 @@ import (
 	"go.uber.org/zap/zapcore"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 )
@@ -16,8 +17,7 @@ type Options struct {
 	MaxSize    int //文件多大开始切分
 	MaxBackups int //保留文件个数
 	MaxAge     int //文件保留最大实际
-	Level      zapcore.Level
-	zap.Config
+	Level      string
 }
 
 var (
@@ -36,12 +36,12 @@ func init() {
 type Logger struct {
 	*zap.Logger
 	sync.RWMutex
-	Opts      *Options `json:"opts"`
+	Opts      *Options
 	zapConfig zap.Config
 	inited    bool
 }
 
-func initLogger(cf ...*Options) {
+func NewLogger(cf ...*Options) {
 	l.Lock()
 	defer l.Unlock()
 	if l.inited {
@@ -71,21 +71,37 @@ func (l *Logger) init() {
 	}
 	defer l.Logger.Sync()
 }
+func (l *Logger) GetLevel() (level zapcore.Level) {
+	switch strings.ToLower(l.Opts.Level) {
+	case "debug":
+		return zapcore.DebugLevel
+	case "info":
+		return zapcore.InfoLevel
+	case "warn":
+		return zapcore.WarnLevel
+	case "error":
+		return zapcore.ErrorLevel
+	case "dpanic":
+		return zapcore.DPanicLevel
+	case "panic":
+		return zapcore.PanicLevel
+	case "fatal":
+		return zapcore.FatalLevel
+	default:
+		return zapcore.DebugLevel //默认为调试模式
+	}
+}
 
 func (l *Logger) loadCfg() {
-	if l.Opts.Level == zapcore.DebugLevel {
+	if l.GetLevel() == zapcore.DebugLevel {
 		l.zapConfig = zap.NewDevelopmentConfig()
 		l.zapConfig.EncoderConfig.EncodeTime = timeEncoder
 	} else {
 		l.zapConfig = zap.NewProductionConfig()
 		l.zapConfig.EncoderConfig.EncodeTime = timeUnixNano
 	}
-	if l.Opts.OutputPaths == nil || len(l.Opts.OutputPaths) == 0 {
-		l.zapConfig.OutputPaths = []string{"stdout"}
-	}
-	if l.Opts.ErrorOutputPaths == nil || len(l.Opts.ErrorOutputPaths) == 0 {
-		l.zapConfig.OutputPaths = []string{"stderr"}
-	}
+	l.zapConfig.OutputPaths = []string{"stdout"}
+	l.zapConfig.OutputPaths = []string{"stderr"}
 	// 默认输出到程序运行目录的logs子目录
 	if l.Opts.LogFileDir == "" {
 		l.Opts.LogFileDir, _ = filepath.Abs(filepath.Dir(filepath.Join(".")))
@@ -123,10 +139,10 @@ func (l *Logger) cores() zap.Option {
 	encoderConfig.EncodeTime = timeEncoder
 	consoleEncoder := zapcore.NewConsoleEncoder(encoderConfig)
 	priority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl >= l.Opts.Level
+		return lvl >= l.GetLevel()
 	})
 	var cores []zapcore.Core
-	if l.Opts.Level == zapcore.DebugLevel {
+	if l.GetLevel() == zapcore.DebugLevel {
 		cores = append(cores, []zapcore.Core{
 			zapcore.NewCore(consoleEncoder, debugConsoleWS, priority),
 		}...)

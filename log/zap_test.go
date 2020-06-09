@@ -3,16 +3,15 @@ package log
 import (
 	"fmt"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"testing"
 	"time"
 )
 
 func TestGetLogger(t *testing.T) {
-	initLogger(&Options{
+	NewLogger(&Options{
 		LogFileDir: "logs",
 		AppName:    "gid",
-		Level:      zapcore.InfoLevel,
+		Level:      "debug",
 	})
 	log := GetLogger()
 	for i := 0; i < 20; i++ {
