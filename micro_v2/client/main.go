@@ -22,8 +22,8 @@ func main() {
 	var opss client.CallOption = func(o *client.CallOptions) {
 		o.RequestTimeout = time.Second * 30
 		o.DialTimeout = time.Second * 30
+		o.Retries = 3
 	}
-
 	info, err := agent.RpcUserInfo(context.TODO(), &test_agent.ReqMsg{
 		UserName: "test user",
 	}, opss)
