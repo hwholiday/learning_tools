@@ -6,7 +6,7 @@ import (
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/registry/etcd"
-	test_agent "learning_tools/micro_v2"
+	test_agent "micro_v2"
 	"os"
 	"time"
 )
