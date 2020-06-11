@@ -26,7 +26,7 @@ func (a *Agent) RpcUserInfo(ctx context.Context, in *test_agent.ReqMsg, out *tes
 func main() {
 	micReg := etcd.NewRegistry(registry.Addrs("192.168.1.86:2379"))
 	service := micro.NewService(
-		micro.Address("192.168.1.100:8080"),
+		//micro.Address("127.0.0.1:8080"),
 		micro.Name("srv.test"),
 		micro.Registry(micReg),
 		micro.RegisterTTL(time.Second*30),
