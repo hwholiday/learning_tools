@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"math/rand"
 	"net"
@@ -118,4 +119,20 @@ func TestAppent(t *testing.T) {
 		info = info[:5]
 	}
 	fmt.Println("info", info)
+}
+
+func TestBinary(t *testing.T) {
+	var info = []byte("123")             //要传输数据
+	id := make([]byte, 2)                //定义传输的类型
+	var data = make([]byte, len(info)+2) //定义发送内容
+	binary.BigEndian.PutUint16(id, 12)   // 将类型转换为二进制
+	copy(data[:2], id)                   // 前2位保存类型
+	copy(data[2:], info)                 //后面保存要传输的内容
+	t.Log("id", id)
+	t.Log("info", info)
+	t.Log("data", data)
+	i := binary.BigEndian.Uint16(data[:2]) //将二进制类型转换
+	t.Log(i)
+	t.Log(data[2:])
+
 }
