@@ -1,0 +1,25 @@
+syntax = "proto3";
+package gateway;
+//错误码
+enum STATUS {
+  //1~99, 通用错误码
+  SUCCESS = 0;
+  UNKNOWN_ERROR = 2; // 未知错误
+}
+// id 小于20的为保留协议 业务协议不能占用
+//id = 1
+message Ping{
+  int64  Times = 1;
+}
+
+//id = 2
+message Pong{
+  int64  Times = 1;
+}
+
+//id = 3 通用错误协议
+message ErrorEx {
+  STATUS status = 1;
+  string Msg = 2;
+  int64 Times = 3;
+}
