@@ -1,18 +1,10 @@
-package websocket
+package msg
 
 import (
 	"encoding/binary"
-	"errors"
 	"github.com/golang/protobuf/proto"
 	"math"
 	"reflect"
-)
-
-var (
-	ErrMsgNotProto = errors.New("msg not proto")
-	ErrProtocol    = errors.New("protocol too much")
-	ErrNotRegister = errors.New("protocol not register")
-	ErrMsgShort    = errors.New("msg too short")
 )
 
 var mgPrt *MsgProtocol

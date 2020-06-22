@@ -1,10 +1,11 @@
-package websocket
+package ws
 
 import (
 	"errors"
 	"fmt"
 	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
+	"learning_tools/websocket/gateway/msg"
 	"sync"
 	"time"
 )
@@ -12,6 +13,7 @@ import (
 type WsConnection struct {
 	mu        sync.Mutex
 	connId    string
+	uid       uint32
 	ws        *websocket.Conn
 	readChan  chan interface{}
 	writeChan chan interface{}
@@ -43,6 +45,13 @@ func (w *WsConnection) GetIp() string {
 	return w.clientIp
 }
 
+func (w *WsConnection) SetUid(uid uint32) {
+	w.uid = uid
+}
+func (w *WsConnection) GetUid() uint32 {
+	return w.uid
+}
+
 func (w *WsConnection) GetWsId() string {
 	return w.connId
 }
@@ -60,7 +69,7 @@ func (w *WsConnection) read() {
 			return
 		}
 		var message interface{}
-		if message, err = GetMsgProtocol().Unmarshal(Data); err != nil {
+		if message, err = msg.GetMsgProtocol().Unmarshal(Data); err != nil {
 			w.close()
 			return
 		}
@@ -78,7 +87,7 @@ func (w *WsConnection) send() {
 	for {
 		select {
 		case message = <-w.writeChan:
-			data, err := GetMsgProtocol().Marshal(message)
+			data, err := msg.GetMsgProtocol().Marshal(message)
 			if err != nil {
 				w.close()
 				return
