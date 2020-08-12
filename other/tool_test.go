@@ -136,3 +136,18 @@ func TestBinary(t *testing.T) {
 	t.Log(data[2:])
 
 }
+
+func TestTime(t *testing.T) {
+	var (
+		s   string
+		add int
+		//startTime, endTime string
+	)
+	s = "2020-08-12 00:00:00"
+	add = 3
+	cstLocal, _ := time.LoadLocation("Asia/Shanghai")
+	ti, _ := time.ParseInLocation("2006-01-02 15:04:05", s, cstLocal)
+	fmt.Println(ti.AddDate(0, 0, add).Format("2006-01-02 15:04:05"))
+	fmt.Println(ti.AddDate(0, 0, add).Add(time.Hour * 24).Format("2006-01-02 15:04:05"))
+
+}
