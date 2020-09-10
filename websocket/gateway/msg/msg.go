@@ -32,17 +32,16 @@ func GetMsgProtocol() *MsgProtocol {
 	return mgPrt
 }
 
-func (m *MsgProtocol) Register(msg proto.Message, eventType uint16) error {
+func (m *MsgProtocol) Register(msg proto.Message, eventType uint16) {
 	msgType := reflect.TypeOf(msg)
 	if msgType == nil || msgType.Kind() != reflect.Ptr {
-		return ErrMsgNotProto
+		panic(ErrMsgNotProto)
 	}
 	if len(m.msgInfo) >= math.MaxUint16 {
-		return ErrProtocol
+		panic(ErrProtocol)
 	}
 	m.msgInfo[eventType] = msgType
 	m.msgID[msgType] = eventType
-	return nil
 }
 
 func (m *MsgProtocol) Marshal(msg interface{}) ([]byte, error) {

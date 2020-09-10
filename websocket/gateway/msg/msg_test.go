@@ -13,10 +13,7 @@ func TestMain(m *testing.M) {
 
 func TestNewMsgProtocol(t *testing.T) {
 	p := GetMsgProtocol()
-	err := p.Register(&pb.Ping{}, 1)
-	if err != nil {
-		t.Error(err)
-	}
+	p.Register(&pb.Ping{}, 1)
 	data, err := p.Marshal(&pb.Ping{Times: 1})
 	if err != nil {
 		t.Error(err)

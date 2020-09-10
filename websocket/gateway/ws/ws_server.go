@@ -23,12 +23,8 @@ var wsUpgrader = websocket.Upgrader{
 
 func InitWsServer() {
 	msg.NewMsgProtocol(true)
-	if err := msg.GetMsgProtocol().Register(&pb.Ping{}, 1); err != nil {
-		panic(err)
-	}
-	if err := msg.GetMsgProtocol().Register(&pb.Pong{}, 2); err != nil {
-		panic(err)
-	}
+	msg.GetMsgProtocol().Register(&pb.Ping{}, 1)
+	msg.GetMsgProtocol().Register(&pb.Pong{}, 2)
 	NewWsCenter(10000)
 	mux := http.NewServeMux()
 	mux.HandleFunc("/connect", getConn)
