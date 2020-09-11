@@ -5,8 +5,6 @@ import (
 	"time"
 )
 
-
-
 type RedisLock struct {
 	conn    *redis.Client
 	timeout time.Duration
@@ -14,12 +12,13 @@ type RedisLock struct {
 	val     string
 }
 
-func NewRedisLock(conn *redis.Client, key, val string,timeout time.Duration) *RedisLock {
+func NewRedisLock(conn *redis.Client, key, val string, timeout time.Duration) *RedisLock {
 	return &RedisLock{conn: conn, timeout: timeout, key: key, val: val}
 }
 
 //return true ===> Get the lock successfully
 func (lock *RedisLock) TryLock() (bool, error) {
+	//lock.conn.Do("SET",lock.key,lock.val,"EX",int(lock.timeout), "NX").Result()
 	return lock.conn.SetNX(lock.key, lock.val, lock.timeout).Result()
 }
 
