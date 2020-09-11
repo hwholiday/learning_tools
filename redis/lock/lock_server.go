@@ -1,7 +1,7 @@
 package lock
 
 type RedisLockServer interface {
-	TryLock() (bool, error)
+	TryLock() error
 	UnLock() error
 	GetLockKey() string
 	GetLockVal() string
