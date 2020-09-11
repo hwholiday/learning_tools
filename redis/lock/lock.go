@@ -1,6 +1,7 @@
 package lock
 
 import (
+	"context"
 	"github.com/go-redis/redis"
 	"time"
 )
@@ -17,13 +18,12 @@ func NewRedisLock(conn *redis.Client, key, val string, timeout time.Duration) *R
 }
 
 //return true ===> Get the lock successfully
-func (lock *RedisLock) TryLock() (bool, error) {
-	//lock.conn.Do("SET",lock.key,lock.val,"EX",int(lock.timeout), "NX").Result()
-	return lock.conn.SetNX(lock.key, lock.val, lock.timeout).Result()
+func (lock *RedisLock) TryLock() error {
+	return lock.conn.Do(context.Background(), "set", lock.key, lock.val, "ex", int64(lock.timeout/time.Second), "nx").Err()
 }
 
 func (lock *RedisLock) UnLock() error {
-	return lock.conn.Del(lock.key).Err()
+	return lock.conn.Del(context.Background(), lock.key).Err()
 }
 
 func (lock *RedisLock) GetLockKey() string {

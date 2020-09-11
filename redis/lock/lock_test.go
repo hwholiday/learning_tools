@@ -1,6 +1,7 @@
 package lock
 
 import (
+	"context"
 	"fmt"
 	"github.com/go-redis/redis"
 	"testing"
@@ -19,11 +20,12 @@ func TestRedis(t *testing.T) {
 			DB:           0,
 		},
 	)
-	err := GlobalClient.Ping().Err()
+	ping, err := GlobalClient.Ping(context.Background()).Result()
 	if nil != err {
 		panic(err)
 	}
-	redisLock := NewRedisLock(GlobalClient, "1", "2", time.Second*3)
+	fmt.Println("ping", ping)
+	redisLock := NewRedisLock(GlobalClient, "test", "1", time.Second*3)
 	InitRedis(redisLock)
 	select {}
 }
@@ -31,14 +33,11 @@ func InitRedis(lock RedisLockServer) {
 	go func() {
 		for {
 			time.Sleep(time.Second)
-			succ, err := lock.TryLock()
+			err := lock.TryLock()
 			if err != nil {
-				panic(err)
-			}
-			if succ {
-				fmt.Println("获取锁成功")
-			} else {
 				fmt.Println("获取锁失败")
+			} else {
+				fmt.Println("获取锁成功")
 			}
 		}
 	}()
