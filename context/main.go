@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"os"
 	"os/signal"
 	"time"
@@ -62,16 +63,19 @@ func ContextWithDeadline() {
 	ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(10*time.Second))
 	defer cancel()
 	go func() {
-		for {
-			select {
-			case <-ctx.Done():
-				fmt.Println(time.Since(start))
-				fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
-				return
-			}
+		select {
+		case <-ctx.Done():
+			fmt.Println(time.Since(start))
+			fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
+			return
 		}
 	}()
 	Exit()
+	req, _ := http.NewRequest(http.MethodGet, "http://google.com", nil)
+	// Associate the cancellable context we just created to the request
+	req = req.WithContext(ctx)
+	client := &http.Client{}
+	res, err := client.Do(req)
 
 }
 
