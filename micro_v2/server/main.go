@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/micro/go-micro/v2/errors"
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/registry/etcd"
 	"github.com/micro/go-micro/v2/service"
@@ -21,7 +22,8 @@ func (a *Agent) RpcUserInfo(ctx context.Context, in *test_agent.ReqMsg, out *tes
 	}
 	out.Info = "test success"
 	fmt.Println("server  RpcUserInfo", "in", in, "out", out)
-	return nil
+
+	return errors.New("info", "123", 600)
 }
 
 func main() {
