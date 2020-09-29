@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/registry/etcd"
+	"github.com/micro/go-micro/v2/service"
+	"github.com/micro/go-micro/v2/service/grpc"
 	test_agent "micro_v2"
 	"os"
 	"time"
@@ -24,13 +25,13 @@ func (a *Agent) RpcUserInfo(ctx context.Context, in *test_agent.ReqMsg, out *tes
 }
 
 func main() {
-	micReg := etcd.NewRegistry(registry.Addrs("192.168.1.86:2379"))
-	service := micro.NewService(
-		//micro.Address("127.0.0.1:8080"),
-		micro.Name("srv.test"),
-		micro.Registry(micReg),
-		micro.RegisterTTL(time.Second*30),
-		micro.RegisterInterval(time.Second*10),
+	micReg := etcd.NewRegistry(registry.Addrs("127.0.0.1:2379"))
+	service := grpc.NewService(
+		service.Name("srv.test"),
+		service.Address("127.0.0.1:8080"),
+		service.Registry(micReg),
+		service.RegisterTTL(time.Second*10),
+		service.RegisterInterval(time.Second*10),
 	)
 	service.Init()
 	if err := test_agent.RegisterTestHandler(service.Server(), &Agent{}); err != nil {
