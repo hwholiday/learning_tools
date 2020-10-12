@@ -16,7 +16,7 @@ import (
 
 func main() {
 	fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
-	micReg := etcd.NewRegistry(registry.Addrs("127.0.0.1:2379"))
+	micReg := etcd.NewRegistry(registry.Addrs("172.13.3.160:2379"))
 	agent := test_agent.NewTestService("srv.test.client", grpc.NewClient(
 		client.Registry(micReg),
 		client.Selector(selector.NewSelector(
