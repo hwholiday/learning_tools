@@ -23,7 +23,9 @@ func (lock *RedisLock) TryLock() error {
 }
 
 func (lock *RedisLock) UnLock() error {
-	return lock.conn.Del(context.Background(), lock.key).Err()
+	luaDel := redis.NewScript("if redis.call('get',KEYS[1]) == ARGV[1] then " +
+		"return redis.call('del',KEYS[1]) else return 0 end")
+	return luaDel.Run(context.Background(), lock.conn, []string{lock.key}, lock.val).Err()
 }
 
 func (lock *RedisLock) GetLockKey() string {
