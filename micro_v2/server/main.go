@@ -22,8 +22,7 @@ func (a *Agent) RpcUserInfo(ctx context.Context, in *test_agent.ReqMsg, out *tes
 	}
 	out.Info = "test success"
 	fmt.Println("server  RpcUserInfo", "in", in, "out", out)
-
-	return errors.New("info", "123", 600)
+	return errors.New("info", "123", 600600)
 }
 
 func main() {
