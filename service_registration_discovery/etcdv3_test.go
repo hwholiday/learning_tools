@@ -3,8 +3,8 @@ package service_registration_discovery
 import (
 	"context"
 	"fmt"
-	"github.com/coreos/etcd/clientv3"
-	"github.com/coreos/etcd/mvcc/mvccpb"
+	"go.etcd.io/etcd/api/mvccpb"
+	"go.etcd.io/etcd/clientv3"
 	"testing"
 	"time"
 )
@@ -87,7 +87,7 @@ func WatchData() {
 	watchChan := watcher.Watch(context.TODO(), "/server/", clientv3.WithPrefix(), clientv3.WithRev(curRevision))
 	for watchResp := range watchChan {
 		for _, event := range watchResp.Events {
-			switch (event.Type) {
+			switch event.Type {
 			case mvccpb.PUT:
 				fmt.Println("PUT事件 Key >> ", string(event.Kv.Key), "Value >> ", event.Kv.Value)
 			case mvccpb.DELETE:
@@ -102,3 +102,5 @@ func CheckErr(err error) {
 		panic(err)
 	}
 }
+
+
