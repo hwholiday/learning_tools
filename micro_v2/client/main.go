@@ -6,11 +6,11 @@ import (
 	"github.com/micro/go-micro/v2/client"
 	"github.com/micro/go-micro/v2/client/grpc"
 	"github.com/micro/go-micro/v2/client/selector"
-	"github.com/micro/go-micro/v2/errors"
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/registry/etcd"
 	"log"
 	test_agent "micro_v2"
+	"micro_v2/ecode"
 	"time"
 )
 
@@ -19,6 +19,7 @@ func main() {
 	micReg := etcd.NewRegistry(registry.Addrs("172.13.3.160:2379"))
 	agent := test_agent.NewTestService("srv.test.client", grpc.NewClient(
 		client.Registry(micReg),
+		client.WrapCall(ecode.ClientEcodeCallWrapper),
 		client.Selector(selector.NewSelector(
 			selector.Registry(micReg),
 		)),
@@ -34,13 +35,8 @@ func main() {
 	}, opss)
 	fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
 	if err != nil {
-		s := errors.FromError(err)
-		if s != nil { // 可转为Status
-			log.Println(s.GetCode())
-			log.Println(s.String())
-		} else { // 普通error
-			log.Println(err)
-		}
+		log.Println(err)
+		log.Println(ecode.Cause(err).Message())
 	}
 	fmt.Println(info)
 }
