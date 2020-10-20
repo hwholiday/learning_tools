@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/micro/go-micro/v2/errors"
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/registry/etcd"
 	"github.com/micro/go-micro/v2/service"
 	"github.com/micro/go-micro/v2/service/grpc"
 	test_agent "micro_v2"
+	"micro_v2/ecode"
 	"os"
 	"time"
 )
@@ -22,7 +22,7 @@ func (a *Agent) RpcUserInfo(ctx context.Context, in *test_agent.ReqMsg, out *tes
 	}
 	out.Info = "test success"
 	fmt.Println("server  RpcUserInfo", "in", in, "out", out)
-	return errors.New("info", "123", 600600)
+	return ecode.ParamErr
 }
 
 func main() {
@@ -33,6 +33,7 @@ func main() {
 		service.Registry(micReg),
 		service.RegisterTTL(time.Second*10),
 		service.RegisterInterval(time.Second*10),
+		service.WrapHandler(ecode.ServerEcodeWrapper("srv.test")),
 	)
 	service.Init()
 	if err := test_agent.RegisterTestHandler(service.Server(), &Agent{}); err != nil {
