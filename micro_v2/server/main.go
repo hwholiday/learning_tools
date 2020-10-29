@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/registry/etcd"
+	"github.com/micro/go-micro/v2/server"
 	"github.com/micro/go-micro/v2/service"
 	"github.com/micro/go-micro/v2/service/grpc"
 	test_agent "micro_v2"
@@ -27,12 +28,15 @@ func (a *Agent) RpcUserInfo(ctx context.Context, in *test_agent.ReqMsg, out *tes
 
 func main() {
 	micReg := etcd.NewRegistry(registry.Addrs("172.13.3.160:2379"))
+	md := server.DefaultOptions().Metadata
+	md["gateway"] = "a"
 	service := grpc.NewService(
 		service.Name("srv.test"),
-		service.Address("127.0.0.1:8080"),
 		service.Registry(micReg),
+		service.Address("127.0.0.1:8088"),
 		service.RegisterTTL(time.Second*10),
 		service.RegisterInterval(time.Second*10),
+		service.Metadata(md),
 		service.WrapHandler(ecode.ServerEcodeWrapper("srv.test")),
 	)
 	service.Init()
