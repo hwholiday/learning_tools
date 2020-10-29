@@ -17,7 +17,7 @@ import (
 func main() {
 	fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
 	micReg := etcd.NewRegistry(registry.Addrs("172.13.3.160:2379"))
-	agent := test_agent.NewTestService("srv.test.client", grpc.NewClient(
+	agent := test_agent.NewTestService("srv.test", grpc.NewClient(
 		client.Registry(micReg),
 		client.WrapCall(ecode.ClientEcodeCallWrapper),
 		client.Selector(selector.NewSelector(
@@ -25,10 +25,11 @@ func main() {
 		)),
 	))
 	var opss client.CallOption = func(o *client.CallOptions) {
-		o.RequestTimeout = time.Second * 30
-		o.DialTimeout = time.Second * 30
+		o.RequestTimeout = time.Second * 5
+		o.DialTimeout = time.Second * 5
 		o.Retries = 3
-		o.Address = []string{"127.0.0.1:8080"}
+		o.SelectOptions = []selector.SelectOption{selector.WithFilter(selector.FilterLabel("gateway", "a"))}
+		//o.Address = []string{"127.0.0.1:8088"}
 	}
 	info, err := agent.RpcUserInfo(context.TODO(), &test_agent.ReqMsg{
 		UserName: "test user",
