@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_QSORT(t *testing.T) {
 	a := []int{-1, 0, 1, 2, -1, -4}
@@ -26,7 +28,6 @@ func qsort(array []int) {
 			right--
 		}
 	}
-	array[left] = mod
 	qsort(array[:left])
 	qsort(array[left+1:])
 }

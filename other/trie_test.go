@@ -15,4 +15,5 @@ func NewTrie() *Trie {
 	trie := new(Trie)
 	trie.isEnd = false
 	trie.next = make(map[string]*Trie)
+	return trie
 }
