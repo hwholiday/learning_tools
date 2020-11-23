@@ -1,6 +1,7 @@
 package rocketmq
 
 import (
+	"context"
 	"fmt"
 	"github.com/apache/rocketmq-client-go/v2"
 	"github.com/apache/rocketmq-client-go/v2/primitive"
@@ -12,10 +13,20 @@ import (
 )
 
 func Test(t *testing.T) {
-	rocketmq.NewTransactionProducer(&UserListener{
+	p, err := rocketmq.NewTransactionProducer(&UserListener{
 		localTrans: new(sync.Map),
 	}, producer.WithNsResovler(primitive.NewPassthroughResolver([]string{"172.13.3.160:9876"})),
 		producer.WithRetry(2))
+	if err != nil {
+		panic(err)
+	}
+	p.Start()
+	res, err := p.SendMessageInTransaction(context.Background(), primitive.NewMessage("transaction_topic", []byte("6666666666")))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(res)
+	select {}
 }
 
 type UserListener struct {
