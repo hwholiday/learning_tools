@@ -36,7 +36,7 @@ func Test_Producer(t *testing.T) {
 			case err := <-AsyncProducer.Errors():
 				fmt.Println("AsyncProducer.Errors()", err.Error())
 			}
-		}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ，	，，	}
 	}()
 	for {
 		Message := &sarama.ProducerMessage{
