@@ -1,4 +1,4 @@
-package rocketmq
+package main
 
 import (
 	"context"
@@ -8,25 +8,35 @@ import (
 	"github.com/apache/rocketmq-client-go/v2/producer"
 	"sync"
 	"sync/atomic"
-	"testing"
 	"time"
 )
 
-func Test(t *testing.T) {
-	p, err := rocketmq.NewTransactionProducer(&UserListener{
+func NewUserListener() *UserListener {
+	return &UserListener{
 		localTrans: new(sync.Map),
-	}, producer.WithNsResovler(primitive.NewPassthroughResolver([]string{"172.13.3.160:9876"})),
-		producer.WithRetry(2))
+	}
+}
+
+func main() {
+	p, err := rocketmq.NewTransactionProducer(NewUserListener(), producer.WithNsResovler(primitive.NewPassthroughResolver([]string{"172.13.3.160:9876"})),
+		producer.WithRetry(1))
 	if err != nil {
 		panic(err)
 	}
-	p.Start()
-	res, err := p.SendMessageInTransaction(context.Background(), primitive.NewMessage("transaction_topic", []byte("6666666666")))
+	err = p.Start()
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(res)
-	select {}
+	res, err := p.SendMessageInTransaction(context.Background(), primitive.NewMessage("transaction_topic", []byte("123123123")))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("send  res ", res)
+	time.Sleep(5 * time.Minute)
+	err = p.Shutdown()
+	if err != nil {
+		fmt.Printf("shutdown producer error: %s", err.Error())
+	}
 }
 
 type UserListener struct {
