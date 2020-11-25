@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/opentracing/opentracing-go"
-	"github.com/opentracing/opentracing-go/ext"
 	"github.com/uber/jaeger-client-go"
 	jaegerConfig "github.com/uber/jaeger-client-go/config"
 	"io"
@@ -41,10 +40,14 @@ func node2(data map[string]string) {
 		panic(err)
 	}
 	// 创建server span
-	serverSpan := tracer.StartSpan(
+	/*serverSpan := tracer.StartSpan(
 		"span_child",
 		ext.RPCServerOption(spanContext),
 		ext.SpanKindRPCServer,
+	)*/
+	serverSpan := tracer.StartSpan(
+		"span_child",
+		opentracing.ChildOf(spanContext),
 	)
 	serverSpan.SetTag("node", "node2")
 	defer serverSpan.Finish()
