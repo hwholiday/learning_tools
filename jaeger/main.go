@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"time"
 )
+
 //docker run -d -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:latest
 func NewJaegerTracer(serviceName string, jaegerHostPort string) (opentracing.Tracer, io.Closer) {
 
@@ -72,7 +73,7 @@ func main() {
 		WriteTimeout: 20 * time.Second,
 	}
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		fmt.Println("HTTP server listen: %s\n", err)
+		panic(err)
 	}
 }
 
