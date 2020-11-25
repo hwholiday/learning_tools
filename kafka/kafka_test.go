@@ -14,8 +14,7 @@ func Test_Queue(t *testing.T) {
 	SyncProducer, err := sarama.NewSyncProducer([]string{"localhost:9092"}, nil)
 	CheckErr(err)
 	defer SyncProducer.Close()
-	SyncProducer.SendMessage(&sarama.ProducerMessage{
-	})
+	SyncProducer.SendMessage(&sarama.ProducerMessage{})
 }
 
 func Test_Producer(t *testing.T) {
@@ -25,7 +24,7 @@ func Test_Producer(t *testing.T) {
 	config.Producer.Return.Successes = true
 	config.Producer.Return.Errors = true
 	//异步
-	AsyncProducer, err := sarama.NewAsyncProducer([]string{"localhost:9092","localhost:9093","localhost:9094"}, config)
+	AsyncProducer, err := sarama.NewAsyncProducer([]string{"localhost:9092", "localhost:9093", "localhost:9094"}, config)
 	CheckErr(err)
 	defer AsyncProducer.AsyncClose()
 	go func() {
@@ -36,7 +35,7 @@ func Test_Producer(t *testing.T) {
 			case err := <-AsyncProducer.Errors():
 				fmt.Println("AsyncProducer.Errors()", err.Error())
 			}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ，	，，	}
+		}
 	}()
 	for {
 		Message := &sarama.ProducerMessage{
@@ -52,7 +51,7 @@ func Test_Producer(t *testing.T) {
 func Test_ConsumerGroup(t *testing.T) {
 	config := sarama.NewConfig()
 	config.Version = sarama.V2_2_0_0
-	consumerGroup, err := sarama.NewConsumerGroup([]string{"localhost:9092","localhost:9093","localhost:9094"}, "test_group", config)
+	consumerGroup, err := sarama.NewConsumerGroup([]string{"localhost:9092", "localhost:9093", "localhost:9094"}, "test_group", config)
 	CheckErr(err)
 	consumer := Consumer1{}
 	for {
@@ -65,7 +64,7 @@ func Test_ConsumerGroup(t *testing.T) {
 func Test_ConsumerGroup2(t *testing.T) {
 	config := sarama.NewConfig()
 	config.Version = sarama.V2_2_0_0
-	consumerGroup, err := sarama.NewConsumerGroup([]string{"localhost:9092","localhost:9093","localhost:9094"}, "test_group_1", config)
+	consumerGroup, err := sarama.NewConsumerGroup([]string{"localhost:9092", "localhost:9093", "localhost:9094"}, "test_group_1", config)
 	CheckErr(err)
 	consumer := Consumer{}
 	for {
