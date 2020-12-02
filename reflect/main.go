@@ -10,8 +10,9 @@ type Howie struct {
 	Sex  int
 }
 
-func (h Howie) Do() {
+func (h Howie) Do()string {
 	fmt.Println("调用该方法")
+	return "调用该方法2"
 }
 
 func main() {
@@ -29,6 +30,7 @@ func main() {
 		fmt.Println(hh.Field(i).Name)
 		fmt.Println(hh.Field(i).Type)
 	}
+	fmt.Println("hh.Kind()",hh.Kind())
 	fmt.Println("--------------------")
 	fmt.Println(reflect.ValueOf(i))
 	fmt.Println(reflect.ValueOf(ii))
@@ -42,7 +44,7 @@ func main() {
 		fmt.Println(rv.Field(i).Type())
 		fmt.Println(rv.Field(i).Interface())
 	}
-	//reflect ValueOf 赋值
+ 	//reflect ValueOf 赋值
 	fv := reflect.ValueOf(i)
 	fe := reflect.ValueOf(&i).Elem()
 	fmt.Println(fv)
@@ -53,5 +55,5 @@ func main() {
 	fmt.Println(reflect.ValueOf(i).Interface())
 	//reflect ValueOf 调用方法
 	data := reflect.ValueOf(hhh).MethodByName("Do").Call([]reflect.Value{})
-	fmt.Println(data)
+	fmt.Println(data[0].String())
 }

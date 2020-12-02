@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+service Greeter {
+  rpc Hello(Request) returns (Response) {
+  }
+}
+
+message Request {
+  string name = 1;
+}
+
+message Response {
+  string msg = 1;
+}
+
+enum GameCommand {
+  Nothing = 0;
+  Hello = 1;
+  PushExample = 2;
+}
+
+message Message {
+  int64 PlayerId = 1;
+  int32 Ops = 2;
+  bytes Data = 3;
+}
