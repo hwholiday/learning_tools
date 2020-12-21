@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
 
 func Test_QSORT(t *testing.T) {
-	a := []int{-1, 0, 1, 2, -1, -4}
+	a := []int{-1, 0, 1, 2, -1, -4, -5}
 	qsort(a)
+	fmt.Println(a)
 	t.Log(a)
 }
 

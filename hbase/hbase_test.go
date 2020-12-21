@@ -34,6 +34,16 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
+func TestCreateTable(t *testing.T) {
+	val := map[string]map[string]string{
+		"info": {
+			"name": fmt.Sprintf("test%d", 2),
+			"age":  fmt.Sprintf("%d", 2),
+		},
+	}
+	hrpc.NewCreateTable(context.Background(), []byte("log_table"), val)
+}
+
 func TestCreate(t *testing.T) {
 	for i := 10; i <= 60; i++ {
 		val := map[string]map[string][]byte{
