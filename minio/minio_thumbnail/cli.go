@@ -10,6 +10,7 @@ var (
 	endpoint        string
 	accessKeyID     string
 	secretAccessKey string
+	bucketName      string
 	useSSL          bool
 	maxWidth        uint
 	maxHeight       uint
@@ -47,12 +48,17 @@ func init() {
 			Name:  "height",
 			Value: 200,
 			Usage: "压缩后图片高",
+		}, &cli.StringFlag{
+			Name:  "bucket",
+			Value: "images",
+			Usage: "要监控的桶名",
 		},
 	}
 	app.Action = func(c *cli.Context) error {
 		endpoint = c.String("endpoint")
 		accessKeyID = c.String("key")
 		secretAccessKey = c.String("access_key")
+		bucketName = c.String("bucket")
 		useSSL = c.Bool("ssl")
 		maxWidth = c.Uint("width")
 		maxHeight = c.Uint("height")
