@@ -23,7 +23,7 @@ func StartMinio() {
 	doneCh := make(chan struct{})
 	defer close(doneCh)
 	fmt.Println("server start success")
-	for notificationInfo := range minioClient.ListenBucketNotification("images", "", ".jpg", []string{
+	for notificationInfo := range minioClient.ListenBucketNotification(bucketName, "", "", []string{
 		"s3:ObjectCreated:*",
 	}, doneCh) {
 		if notificationInfo.Err != nil {
