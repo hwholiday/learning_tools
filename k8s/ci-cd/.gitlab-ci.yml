@@ -1,0 +1,35 @@
+variables:
+  REGISTRY: "harbor.huoys-im.xyz"
+  REGISTRY_IMAGE: "harbor.huoys-im.xyz/hw/app"
+  REGISTRY_USER: "admin"
+  REGISTRY_PASSWORD: "Harbor12345"
+before_script:
+  - export VERSION=`echo ${CI_COMMIT_TAG} | awk -F"_" '{print $1}'`
+stages:
+  - logs
+  - build
+logs:
+  stage: logs
+  tags:
+    - test
+  script:
+    - echo "我是 logs 任务"
+    - echo "CI_COMMIT_TAG"
+    - echo ${CI_COMMIT_TAG}
+    - echo "CI_PROJECT_NAME"
+    - echo ${CI_PROJECT_NAME}
+  only:
+    - tags
+build:
+  stage: build
+  tags:
+    - test
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [ "" ]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$REGISTRY\":{\"username\":\"$REGISTRY_USER\",\"password\":\"$REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $REGISTRY_IMAGE:$CI_COMMIT_TAG
+  only:
+    - tags
