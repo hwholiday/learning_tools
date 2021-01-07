@@ -161,6 +161,11 @@ func TestCreate2(t *testing.T) {
 	}
 }
 
+type Data struct {
+	Name string
+	Age  string
+}
+
 //分页查询
 func TestScanRangeStr(t *testing.T) {
 	f := filter.NewPageFilter(11)
@@ -170,6 +175,7 @@ func TestScanRangeStr(t *testing.T) {
 		return
 	}
 	scanRsp := client.Scan(q)
+	var d []Data
 	for {
 		res, err := scanRsp.Next()
 		if err == io.EOF {
@@ -178,11 +184,20 @@ func TestScanRangeStr(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+		var data Data
 		for _, v := range res.Cells {
 			val := v
+			switch string(val.Qualifier) {
+			case "age":
+				data.Age = string(val.Value)
+			case "name":
+				data.Name = string(val.Value)
+			}
 			t.Log(string(val.Qualifier), string(val.Value), string(val.Row))
 		}
+		d = append(d, data)
 	}
+	fmt.Println(d)
 }
 
 func TestScanRangeStr2(t *testing.T) {
