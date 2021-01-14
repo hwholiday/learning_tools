@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-14T02:48:45.028Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="VN9-FmQAwVSSLteY0Mt4" version="14.1.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-01-14T03:16:26.180Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="OZnuAe52XHyKvqlZ4amG" version="14.1.9" type="github">
   <diagram name="Page-1" id="929967ad-93f9-6ef4-fab6-5d389245f69c">
     <mxGraphModel dx="1422" dy="801" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
@@ -116,6 +116,31 @@
           <mxGeometry width="80" relative="1" as="geometry">
             <mxPoint x="560" y="650" as="sourcePoint" />
             <mxPoint x="410" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-27" value="pushSrv" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="780" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-28" value="推送离线消息" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry x="-0.0508" y="6" width="80" relative="1" as="geometry">
+            <mxPoint x="620" y="700" as="sourcePoint" />
+            <mxPoint x="550" y="770" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-29" value="ANPS/PushKit" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="780" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-32" value="" style="endArrow=open;endFill=1;endSize=12;html=1;" edge="1" parent="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="90" y="770" as="sourcePoint" />
+            <mxPoint x="90" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-34" value="推送" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="440" y="805" as="sourcePoint" />
+            <mxPoint x="190" y="805" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
