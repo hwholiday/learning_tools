@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-14T02:28:45.715Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="57RQsvjnUnGJY0H0PJYB" version="14.1.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-01-14T02:48:45.028Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36" etag="VN9-FmQAwVSSLteY0Mt4" version="14.1.9" type="github">
   <diagram name="Page-1" id="929967ad-93f9-6ef4-fab6-5d389245f69c">
     <mxGraphModel dx="1422" dy="801" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
@@ -6,6 +6,117 @@
         <mxCell id="1" style=";html=1;" parent="0" />
         <mxCell id="1672d66443f91eb5-23" value="Title" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" parent="1" vertex="1">
           <mxGeometry x="120" y="40" width="1510" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-1" value="Client" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="500" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-2" value="queue/httpdns" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="220" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-4" value="auth" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="310" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-5" value="gateway" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="500" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-6" value="获取 Token,并分配网关地址" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="170" y="500" as="sourcePoint" />
+            <mxPoint x="420" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-7" value="获取auth地址&lt;br&gt;,gateway列表，版本信息等" style="html=1;verticalAlign=bottom;endArrow=block;exitX=1;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="0LhElkvIsWKuEvxpdALa-1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="180" y="490" as="sourcePoint" />
+            <mxPoint x="240" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-8" value="链接" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="170" y="524.5" as="sourcePoint" />
+            <mxPoint x="310" y="525" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-10" value="userSrv" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="360" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-11" value="验证" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="390" y="490" as="sourcePoint" />
+            <mxPoint x="440" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-12" value="注册,校验" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="490" y="334.5" as="sourcePoint" />
+            <mxPoint x="630" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-13" value="accountSrv" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="230" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-14" value="获取帐号" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="690" y="350" as="sourcePoint" />
+            <mxPoint x="690" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-15" value="msgSrv" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="510" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-16" value="发送/获取消息" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry x="-0.0508" y="6" width="80" relative="1" as="geometry">
+            <mxPoint x="450" y="536" as="sourcePoint" />
+            <mxPoint x="580" y="535.5" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-17" value="gidSrv" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="560" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-18" value="获取消息ID" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="710" y="540" as="sourcePoint" />
+            <mxPoint x="800" y="585" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-19" value="获取用户信息" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="620" y="500" as="sourcePoint" />
+            <mxPoint x="690" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-20" value="statucSrv" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="640" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-21" value="上报用户状态" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry x="0.25" width="80" relative="1" as="geometry">
+            <mxPoint x="370" y="560" as="sourcePoint" />
+            <mxPoint x="370" y="630" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-23" value="routeSrv" style="html=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="640" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-24" value="发送组装好的消息" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry x="-0.0508" y="6" width="80" relative="1" as="geometry">
+            <mxPoint x="630" y="570.5" as="sourcePoint" />
+            <mxPoint x="630" y="630" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-25" value="获取用户状态" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="440" y="670" as="sourcePoint" />
+            <mxPoint x="560" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0LhElkvIsWKuEvxpdALa-26" value="推送消息给网关" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="560" y="650" as="sourcePoint" />
+            <mxPoint x="410" y="560" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
