@@ -46,7 +46,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: hwholiday/gateway:v3.01
+          image: hwholiday/gateway:v3.0.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8888

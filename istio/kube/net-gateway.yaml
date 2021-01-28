@@ -26,8 +26,6 @@ spec:
     - im/gateway
   http:
     - match:
-  #      - authority:
-  #          exact: "*:8888"
         - uri:
             prefix: /
       route:
