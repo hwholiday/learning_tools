@@ -15,16 +15,12 @@ sudo docker run --privileged -d --restart=unless-stopped -p 88:80 -p 433:443 ran
 
 - 网关：ws 服务
     - 在目录 gateway 下
-    - docker push hwholiday/gateway:v1
 - 服务 V1:grpc 服务
     - 在目录 logic_v1 下
-    - docker push hwholiday/logic:v1
 - 服务 V2:grpc 服务
     - 在目录 logic_v2 下
-    - docker push hwholiday/logic:v2
 - 服务 V3:grpc 服务
     - 在目录 logic_v3 下
-    - docker push hwholiday/logic:v3
 
 ## 安装 istio
 
@@ -67,4 +63,10 @@ istioctl dashboard kiali
 
 ```base
 istioctl proxy-config routes istio-ingressgateway-865d46c7f5-2qgdh -n istio-system -o json
+```
+
+- 部署中的自动缩放
+```base
+kubectl autoscale deployment logic-v1 --cpu-percent=50 --min=1 --max=10 -n im
+kubectl get hpa -n im
 ```
