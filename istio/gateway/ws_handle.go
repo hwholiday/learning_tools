@@ -30,7 +30,7 @@ func wsHandle(w *WsConnection) {
 			fmt.Println("Unmarshal", err)
 			continue
 		}
-		conn, err := grpc.Dial("logic.im.svc.cluster.local", grpc.WithInsecure())
+		conn, err := grpc.Dial("logic.im.svc.cluster.local:8099", grpc.WithInsecure())
 		if err != nil {
 			fmt.Println("Dial", err)
 			continue

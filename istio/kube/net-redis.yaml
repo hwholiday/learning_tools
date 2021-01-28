@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master-1
+spec:
+  ports:
+    - port: 7001
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: redis-master-1
+subsets:
+  - addresses:
+      - ip: 172.13.3.160
+    ports:
+      - port: 7001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master-2
+spec:
+  ports:
+    - port: 7002
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: redis-master-2
+subsets:
+  - addresses:
+      - ip: 172.13.3.160
+    ports:
+      - port: 7002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master-3
+spec:
+  ports:
+    - port: 7003
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: redis-master-3
+subsets:
+  - addresses:
+      - ip: 172.13.3.160
+    ports:
+      - port: 7003
