@@ -34,6 +34,24 @@ kubectl create namespace im
 kubectl label namespace im istio-injection=enabled //在这个命名空间下的服务都会被自动注入 istio proxy
 
 kubectl apply -f <(istioctl kube-inject -f 你的配置文件.yaml) -n 命令空间   //手动注入
+
+```
+- 查看是否有 EXTERNA-IP
+
+```base
+kubectl get service -n istio-system                                                                                                                                                     
+NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                                      AGE
+istio-ingressgateway   LoadBalancer   10.43.50.213   <pending>     15021:31954/TCP,80:32725/TCP,443:32687/TCP,15012:30629/TCP,15443:32721/TCP   20m
+
+如果看到 EXTERNAL-IP 不为真实IP
+# kubectl edit service/istio-ingressgateway -n istio-system
+# 手动指定边缘网络IP在 clusterIP 下输入
+externalIPs:
+ - 172.13.3.131
+
+kubectl get service -n istio-system                                                                                                                                                     
+NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)                                                                      AGE
+istio-ingressgateway   LoadBalancer   10.43.50.213   172.13.3.131   15021:31954/TCP,80:32725/TCP,443:32687/TCP,15012:30629/TCP,15443:32721/TCP   26m
 ```
 
 - 安装 kiali
@@ -57,6 +75,7 @@ istioctl dashboard kiali
   
   kubectl apply -f logic.yaml -n im
   kubectl apply -f net-logic.yaml -n im
+  kubectl apply -f net-redis.yaml -n im
 ```
 
 - 查看 gateway 路由规则
