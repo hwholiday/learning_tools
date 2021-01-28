@@ -1,0 +1,15 @@
+syntax = "proto3";
+package api;
+
+message Req{
+  string name = 1;
+}
+
+message Res{
+  string name = 2;
+}
+
+service Name{
+  rpc ReqName(Req)returns(Res);
+  rpc ReqVersion(Req)returns(Res);
+}

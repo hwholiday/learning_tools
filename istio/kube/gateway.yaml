@@ -1,0 +1,52 @@
+##################################################################################################
+# gateway service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  labels:
+    app: gateway
+    service: gateway
+spec:
+  ##################################################################################################
+  # externalIPs 如果在 kubectl get services -n im
+  # EXTERNAL-IP  =  <pending>
+  # 手动指定边缘网络IP
+  #externalIPs:
+  #  - 172.13.3.131
+  ##################################################################################################
+  ports:
+    - port: 8888
+      name: http
+  selector:
+    app: gateway
+---
+##################################################################################################
+# gateway Deployment
+##################################################################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-v3
+  labels:
+    app: gateway
+    version: v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+      version: v3
+  template:
+    metadata:
+      labels:
+        app: gateway
+        version: v3
+    spec:
+      containers:
+        - name: gateway
+          image: hwholiday/gateway:v3.01
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8888
