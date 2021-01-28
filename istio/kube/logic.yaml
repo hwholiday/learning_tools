@@ -1,0 +1,106 @@
+##################################################################################################
+# logic service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: logic
+  labels:
+    app: logic
+    service: logic
+spec:
+  ports:
+    - port: 8099
+      name: grpc
+  selector:
+    app: logic
+---
+##################################################################################################
+# logic-v1 Deployment
+##################################################################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logic-v1
+  labels:
+    app: logic
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logic
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: logic
+        version: v1
+    spec:
+      containers:
+        - name: logic
+          image: hwholiday/logic:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8099
+              name: grpc
+---
+##################################################################################################
+# logic-v1 Deployment
+##################################################################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logic-v2
+  labels:
+    app: logic
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logic
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: logic
+        version: v2
+    spec:
+      containers:
+        - name: logic
+          image: hwholiday/logic:v2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8099
+              name: grpc
+---
+##################################################################################################
+# logic-v1 Deployment
+##################################################################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logic-v3
+  labels:
+    app: logic
+    version: v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logic
+      version: v3
+  template:
+    metadata:
+      labels:
+        app: logic
+        version: v3
+    spec:
+      containers:
+        - name: logic
+          image: hwholiday/logic:v3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8099
+              name: grpc
