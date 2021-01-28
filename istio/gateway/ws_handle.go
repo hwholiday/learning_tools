@@ -35,10 +35,11 @@ func wsHandle(w *WsConnection) {
 			fmt.Println("Dial", err)
 			continue
 		}
+		ctx := context.WithValue(context.Background(), "data", data.Data)
 		c := api.NewNameClient(conn)
 		switch data.Code {
 		case 1:
-			info, err := c.ReqVersion(context.Background(), &api.Req{})
+			info, err := c.ReqVersion(ctx, &api.Req{})
 			if err != nil {
 				fmt.Println("ReqVersion", err)
 				fmt.Println(err)
@@ -51,7 +52,7 @@ func wsHandle(w *WsConnection) {
 			_ = w.SendMsg(d)
 			fmt.Println("ReqVersion", info.Name)
 		case 2:
-			info, err := c.ReqName(context.Background(), &api.Req{
+			info, err := c.ReqName(ctx, &api.Req{
 				Name: data.Data,
 			})
 			if err != nil {
