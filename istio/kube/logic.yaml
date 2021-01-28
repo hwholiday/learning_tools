@@ -46,7 +46,7 @@ spec:
               name: grpc
 ---
 ##################################################################################################
-# logic-v1 Deployment
+# logic-v2 Deployment
 ##################################################################################################
 apiVersion: apps/v1
 kind: Deployment
@@ -76,7 +76,7 @@ spec:
               name: grpc
 ---
 ##################################################################################################
-# logic-v1 Deployment
+# logic-v3 Deployment
 ##################################################################################################
 apiVersion: apps/v1
 kind: Deployment
@@ -99,7 +99,7 @@ spec:
     spec:
       containers:
         - name: logic
-          image: hwholiday/logic:v3
+          image: hwholiday/logic:v3.04
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8099
