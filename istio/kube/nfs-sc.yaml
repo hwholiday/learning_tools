@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: hw-nfs-storage
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: g.hw.com/nfs # or choose another name, must match deployment's env PROVISIONER_NAME'
+reclaimPolicy: Retain
+parameters:
+  archiveOnDelete: "false"

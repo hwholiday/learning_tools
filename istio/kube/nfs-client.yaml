@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  labels:
+    app: nfs-client-provisioner
+  # replace with namespace where provisioner is deployed
+  namespace: db-tool
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: guopeiyuan/nfs-client-provisioner:latest
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes/
+          env:
+            - name: PROVISIONER_NAME
+              value: g.hw.com/nfs
+            - name: NFS_SERVER
+              value: 172.12.17.167
+            - name: NFS_PATH
+              value: /root/nfs_root
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 172.12.17.167
+            path: /root/nfs_root
