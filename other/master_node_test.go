@@ -65,6 +65,7 @@ func Node(ip string) {
 		}
 		_, err = lease.KeepAliveOnce(context.TODO(), ID)
 		if err != nil {
+			master = false
 			fmt.Println(ip, "Put", err)
 			continue
 		}
