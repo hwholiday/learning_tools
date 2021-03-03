@@ -47,7 +47,7 @@ func (d *DiscoveryNode) watch() error {
 	go func() {
 		curRevision := rangeResp.Header.Revision + 1
 		watcher := clientv3.NewWatcher(d.etcd)
-		watchChan := watcher.Watch(context.TODO(), d.key, clientv3.WithPrefix(), clientv3.WithRev(curRevision))
+		watchChan := watcher.Watch(context.TODO(), "/"+d.key, clientv3.WithPrefix(), clientv3.WithRev(curRevision))
 		for watchResp := range watchChan {
 			for _, event := range watchResp.Events {
 				switch event.Type {
