@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-11T07:55:59.045Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36" etag="pSjG07k5fA6hIXm_KWJU" version="14.4.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-11T07:59:14.813Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36" etag="ez0XkFKnBe-hHp-rNRDZ" version="14.4.3" type="github">
   <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
     <mxGraphModel dx="1422" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="#ffffff" math="0" shadow="0">
       <root>
@@ -111,6 +111,9 @@
             <mxPoint x="720" y="549.5" as="sourcePoint" />
             <mxPoint x="800" y="549.5" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="CLl8KxzAFQSvIbFFcxK8-68" value="登陆: 返回Token,网关地址&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="175" y="230" width="170" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
