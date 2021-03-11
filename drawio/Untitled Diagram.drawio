@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-11T08:14:35.411Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36" etag="eyjy6VDhZUgO2oEKuSyx" version="14.4.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-11T08:44:43.167Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36" etag="dt5xNTBtDBZyv4yUi3fx" version="14.4.3" type="github">
   <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
     <mxGraphModel dx="1422" dy="1599" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="#ffffff" math="0" shadow="0">
       <root>
@@ -118,8 +118,8 @@
         <mxCell id="CLl8KxzAFQSvIbFFcxK8-69" value="私聊，收消息" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="190" y="560" width="110" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="CLl8KxzAFQSvIbFFcxK8-70" value="&lt;h1&gt;用户信息&lt;/h1&gt;&lt;p&gt;BizTag&amp;nbsp; &amp;nbsp; 游戏名&lt;/p&gt;&lt;p&gt;Channel&amp;nbsp; 渠道&lt;/p&gt;&lt;p&gt;DeviceId 设置ID&lt;/p&gt;&lt;p&gt;Uid&amp;nbsp; &amp;nbsp; &amp;nbsp;用户ID&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="20" y="-60" width="190" height="150" as="geometry" />
+        <mxCell id="CLl8KxzAFQSvIbFFcxK8-70" value="&lt;h1&gt;用户信息&lt;/h1&gt;&lt;p&gt;Uid&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 用户ID&lt;br&gt;&lt;/p&gt;&lt;p&gt;BizTag&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;游戏名&lt;/p&gt;&lt;p&gt;Channel&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 渠道&lt;/p&gt;&lt;p&gt;Tag&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 归于与哪类用户（可用做游戏服区分）&lt;/p&gt;&lt;p&gt;BroadcastTag&amp;nbsp; &amp;nbsp; 广播标识&amp;nbsp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;Tid&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;第三方用户ID&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="15" y="-110" width="330" height="200" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
