@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-22T04:25:11.042Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="CQAr-SLmSaXd3a63cBmU" version="14.4.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-22T06:30:54.920Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="NuVGPKFQoOKiC2WQy9rO" version="14.4.8" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
     <mxGraphModel dx="2522" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
       <root>
@@ -159,6 +159,15 @@
             <mxPoint x="140" y="450" as="sourcePoint" />
             <mxPoint x="170" y="430" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-65" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="559" y="530" as="sourcePoint" />
+            <mxPoint x="650" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-66" value="消息同步库:每一个接收方对应一个 Timeline&lt;br&gt;消息储存库:每个会话对应一个Timeline,用作消息漫游和历史消息读取" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="570" y="670" width="399" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
