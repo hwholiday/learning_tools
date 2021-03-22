@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-22T04:19:55.196Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="-knYaLCnh-TJFQM2_OQR" version="14.4.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-22T04:23:18.079Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="H2qXqbqb1K66mjUHP-rn" version="14.4.8" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
     <mxGraphModel dx="2522" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
       <root>
@@ -149,6 +149,15 @@
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="590" y="425" as="sourcePoint" />
             <mxPoint x="560" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-63" value="用户信息,群组等" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="162" y="420" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-64" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="450" as="sourcePoint" />
+            <mxPoint x="170" y="430" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
