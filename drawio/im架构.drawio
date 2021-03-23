@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-22T08:11:36.804Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="c3qMJUSemfKQL24uwZac" version="14.4.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-23T06:50:45.170Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="jSAzegCPCxFFb1lnqEix" version="14.4.9" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
     <mxGraphModel dx="2522" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
       <root>
@@ -166,25 +166,25 @@
             <mxPoint x="650" y="660" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="a5Ak6_2se2JZx46MMR0y-66" value="消息同步库:每一个接收方对应一个 Timeline&lt;br&gt;消息储存库:每个会话对应一个Timeline,用作消息漫游和历史消息读取" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="570" y="670" width="399" height="30" as="geometry" />
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-66" value="消息同步库:对于每个会话缓存3天的消息,动态计算未读,用户拉去的时候计算一次并记录时间,除非新增加消息,用户等一次拉的时候再计算,会话与用户好友群绑定,对于不活动的会话信息30天自动删除&lt;br&gt;消息储存库:每个会话对应一个Timeline,用作消息漫游和历史消息读取" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="570" y="670" width="410" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="SYExMcw8g-FPcCZQf1Q--2" value="基于UID+msg time+device id 做重复过滤(在内存做就可以,一个设备只能链接一个login)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--2" value="基于UID+msg time+device id 做重复过滤(在内存做就可以,一个设备只能链接一个login)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="180" y="180" width="250" as="geometry" />
         </mxCell>
-        <mxCell id="SYExMcw8g-FPcCZQf1Q--3" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--3" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="140" y="240" as="sourcePoint" />
             <mxPoint x="190" y="190" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="SYExMcw8g-FPcCZQf1Q--4" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--4" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="570" y="530" as="sourcePoint" />
             <mxPoint x="740" y="600" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="SYExMcw8g-FPcCZQf1Q--5" value="基于消息fp做幕等" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--5" value="基于消息fp做幕等" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="740" y="600" width="130.5" height="20" as="geometry" />
         </mxCell>
       </root>
