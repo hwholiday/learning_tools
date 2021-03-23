@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-23T06:50:45.170Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="jSAzegCPCxFFb1lnqEix" version="14.4.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-23T07:06:23.404Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="PqlHJmirbJfgor1r3c_1" version="14.4.9" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
     <mxGraphModel dx="2522" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
       <root>
@@ -166,8 +166,8 @@
             <mxPoint x="650" y="660" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="a5Ak6_2se2JZx46MMR0y-66" value="消息同步库:对于每个会话缓存3天的消息,动态计算未读,用户拉去的时候计算一次并记录时间,除非新增加消息,用户等一次拉的时候再计算,会话与用户好友群绑定,对于不活动的会话信息30天自动删除&lt;br&gt;消息储存库:每个会话对应一个Timeline,用作消息漫游和历史消息读取" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="570" y="670" width="410" height="90" as="geometry" />
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-66" value="消息同步库 ==== &amp;gt; 对于每个会话缓存3天的消息,动态计算未读(发生消息的&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 时候自动去修改会话未读,撤消等也要动态修改),会话与用&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 户好友群绑定,对于不活动的会话信息30天自动删除&lt;br&gt;&lt;br&gt;消息储存库 ====&amp;gt; 每个会话保存30天的信息&lt;br&gt;&lt;br&gt;消息同步库相当于缓存了消息储存库3天的消息" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="570" y="670" width="420" height="110" as="geometry" />
         </mxCell>
         <mxCell id="SYExMcw8g-FPcCZQf1Q--2" value="基于UID+msg time+device id 做重复过滤(在内存做就可以,一个设备只能链接一个login)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="180" y="180" width="250" as="geometry" />
@@ -186,6 +186,9 @@
         </mxCell>
         <mxCell id="SYExMcw8g-FPcCZQf1Q--5" value="基于消息fp做幕等" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="740" y="600" width="130.5" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="XAy0RjqfLc8c8spvn7cI-1" value="会话redis (hash)&lt;br&gt;&lt;br&gt;_s&amp;nbsp; 单聊&lt;br&gt;_g&amp;nbsp; 群聊&lt;br&gt;_c&amp;nbsp; 频道&amp;nbsp; &amp;nbsp;&lt;br&gt;&lt;br&gt;uid_uid_s:unread&amp;nbsp; &amp;nbsp; = &amp;gt;&amp;nbsp; &amp;nbsp;5&lt;br&gt;uid_uid_s:msg&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; = &amp;gt;&amp;nbsp; &amp;nbsp; msg&lt;br&gt;uid_uid_s:update_time&amp;nbsp; = &amp;gt; time&lt;br&gt;uid_uid_s:lask_ack&amp;nbsp; &amp;nbsp;= &amp;gt; msgId&lt;br&gt;................&lt;br&gt;eg:&lt;br&gt;1_2_s:unread =&amp;gt; 3&lt;br&gt;1_3_s:unread =&amp;gt; 4" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="830" y="310" width="270" height="270" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
