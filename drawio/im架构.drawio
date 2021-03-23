@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-23T07:22:45.476Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="lGTT--HtnqrZqUx5KL_Q" version="14.4.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-23T07:59:06.337Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="OoNhE6lZSWeFULjiOpP5" version="14.4.9" type="github">
   <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
     <mxGraphModel dx="2522" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
       <root>
@@ -184,8 +184,8 @@
             <mxPoint x="740" y="600" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="SYExMcw8g-FPcCZQf1Q--5" value="基于消息fp做幕等" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="740" y="600" width="130.5" height="20" as="geometry" />
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--5" value="基于消息fp做幕等,在redis里面存fp 2分钟,服务器会拒绝2分钟以外的请求" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="740" y="600" width="290" height="60" as="geometry" />
         </mxCell>
         <mxCell id="XAy0RjqfLc8c8spvn7cI-1" value="会话redis (hash)&lt;br&gt;&lt;br&gt;_s&amp;nbsp; 单聊&lt;br&gt;_g&amp;nbsp; 群聊&lt;br&gt;_c&amp;nbsp; 频道&amp;nbsp; &amp;nbsp;&lt;br&gt;&lt;br&gt;key&amp;nbsp; &amp;nbsp;field&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;val&lt;br&gt;&lt;br&gt;uid&amp;nbsp; &amp;nbsp; fid_s:unread&amp;nbsp; &amp;nbsp; = &amp;gt;&amp;nbsp; &amp;nbsp;5&lt;br&gt;uid&amp;nbsp; &amp;nbsp; fid_s:msg&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; = &amp;gt;&amp;nbsp; &amp;nbsp; msg&lt;br&gt;uid&amp;nbsp; &amp;nbsp; fid_s:update_time&amp;nbsp; = &amp;gt; time&lt;br&gt;uid&amp;nbsp; &amp;nbsp; fid_s:lask_ack&amp;nbsp; &amp;nbsp;= &amp;gt; msgId&lt;br&gt;................&lt;br&gt;eg:&lt;br&gt;1&amp;nbsp; 2_s:unread =&amp;gt; 3&lt;br&gt;1&amp;nbsp; 3_s:unread =&amp;gt; 4&lt;br&gt;&lt;br&gt;去申请消息Id时候的会话Id为 (uid_fid_s /_g /_r 等)消息同步库会使用zset 存全部的消息并使用 msgid排序&lt;br&gt;每天对于有活动的会话ID需要保存起来,6小时清理一次消息长度(分批进行清理)&lt;br&gt;&lt;br&gt;用户的会话信息每天3点清理一次,30天未活动的&lt;br&gt;(用户多的情况下,分批运行)&lt;br&gt;&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="830" y="190" width="270" height="390" as="geometry" />
