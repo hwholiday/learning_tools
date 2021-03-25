@@ -1,0 +1,196 @@
+<mxfile host="app.diagrams.net" modified="2021-03-23T08:08:50.084Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="w9vRMKDY3X3tK2QqgMcv" version="14.4.9" type="github">
+  <diagram name="Page-1" id="58cdce13-f638-feb5-8d6f-7d28b1aa9fa0">
+    <mxGraphModel dx="2522" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-18" value="login" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="250" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-19" value="online" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="250" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-20" value="route" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="360" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-21" value="improxy" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="550" y="360" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-22" value="imwriter" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="480" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-23" value="imreader" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="640" y="480" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-24" value="pushserver" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="330" y="550" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-25" value="pushworker" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="650" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-26" value="client" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-70" y="450" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-28" value="imbiz" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="450" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-32" value="" style="endArrow=block;startArrow=block;endFill=1;startFill=1;html=1;" parent="1" edge="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="20" y="469.5" as="sourcePoint" />
+            <mxPoint x="120" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-33" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="220" y="270" as="sourcePoint" />
+            <mxPoint x="320" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-34" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="300" as="sourcePoint" />
+            <mxPoint x="360" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-35" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="210" y="300" as="sourcePoint" />
+            <mxPoint x="320" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-36" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="430" y="380" as="sourcePoint" />
+            <mxPoint x="540" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-37" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="410" as="sourcePoint" />
+            <mxPoint x="680" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-39" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="500" as="sourcePoint" />
+            <mxPoint x="380" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-42" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="540" as="sourcePoint" />
+            <mxPoint x="360" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-44" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-20" y="440" as="sourcePoint" />
+            <mxPoint x="110" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-46" value="Kafka" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="519" y="430" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-48" value="nginx" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="50" y="450" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-49" value="TCP/WS" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="370" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-51" value="PushKit/Firebase" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="-10" y="560" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-52" value="gid" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="600" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-53" value="" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="525" y="590" as="sourcePoint" />
+            <mxPoint x="525" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-54" value="敏感词汇过滤等" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="700" y="370" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-55" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="370" as="sourcePoint" />
+            <mxPoint x="700" y="375" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-56" value="" style="endArrow=classic;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" parent="1" target="a5Ak6_2se2JZx46MMR0y-57" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="480" y="380" as="sourcePoint" />
+            <mxPoint x="501" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-57" value="可Hook子业务系统" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="520" y="260" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-58" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="550" as="sourcePoint" />
+            <mxPoint x="220" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-59" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="595" as="sourcePoint" />
+            <mxPoint x="220" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-60" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="110" y="640" as="sourcePoint" />
+            <mxPoint x="10" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-62" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="425" as="sourcePoint" />
+            <mxPoint x="560" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-63" value="用户信息,群组等" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="162" y="420" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-64" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="450" as="sourcePoint" />
+            <mxPoint x="170" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-65" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="559" y="530" as="sourcePoint" />
+            <mxPoint x="650" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a5Ak6_2se2JZx46MMR0y-66" value="消息同步库 ==== &amp;gt; 对于每个会话缓存100条消息,动态计算未读(发生消息的&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 时候自动去修改会话未读,撤消等也要动态修改),会话与用&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 户好友群绑定,对于不活动的会话信息30天自动删除&lt;br&gt;&lt;br&gt;消息储存库 ====&amp;gt; 每个会话保存30天的信息&lt;br&gt;&lt;br&gt;消息同步库相当于缓存了消息储存库3天的消息" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="570" y="670" width="420" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--2" value="基于UID+msg time+device id 做重复过滤(在内存做就可以,一个设备只能链接一个login)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="180" y="180" width="250" as="geometry" />
+        </mxCell>
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--3" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="240" as="sourcePoint" />
+            <mxPoint x="190" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--4" value="" style="endArrow=classic;html=1;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="530" as="sourcePoint" />
+            <mxPoint x="740" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SYExMcw8g-FPcCZQf1Q--5" value="幕等由客户端保证,消息里面有消息FP" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="740" y="580" width="290" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="XAy0RjqfLc8c8spvn7cI-1" value="会话redis (hash)&lt;br&gt;&lt;br&gt;_s&amp;nbsp; 单聊&lt;br&gt;_g&amp;nbsp; 群聊&lt;br&gt;_c&amp;nbsp; 频道&amp;nbsp; &amp;nbsp;&lt;br&gt;&lt;br&gt;key&amp;nbsp; &amp;nbsp;field&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;val&lt;br&gt;&lt;br&gt;uid&amp;nbsp; &amp;nbsp; fid_s:unread&amp;nbsp; &amp;nbsp; = &amp;gt;&amp;nbsp; &amp;nbsp;5&lt;br&gt;uid&amp;nbsp; &amp;nbsp; fid_s:msg&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; = &amp;gt;&amp;nbsp; &amp;nbsp; msg&lt;br&gt;uid&amp;nbsp; &amp;nbsp; fid_s:update_time&amp;nbsp; = &amp;gt; time&lt;br&gt;uid&amp;nbsp; &amp;nbsp; fid_s:lask_ack&amp;nbsp; &amp;nbsp;= &amp;gt; msgId&lt;br&gt;................&lt;br&gt;eg:&lt;br&gt;1&amp;nbsp; 2_s:unread =&amp;gt; 3&lt;br&gt;1&amp;nbsp; 3_s:unread =&amp;gt; 4&lt;br&gt;&lt;br&gt;去申请消息Id时候的会话Id为 (uid_fid_s /_g /_r 等)消息同步库会使用zset 存全部的消息并使用 msgid排序&lt;br&gt;每天对于有活动的会话ID需要保存起来,6小时清理一次消息长度(分批进行清理)&lt;br&gt;&lt;br&gt;用户的会话信息每天3点清理一次,30天未活动的&lt;br&gt;(用户多的情况下,分批运行)&lt;br&gt;&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="830" y="190" width="270" height="390" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
