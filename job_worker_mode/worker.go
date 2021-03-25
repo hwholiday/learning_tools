@@ -1,8 +1,8 @@
 package main
 
-import "fmt"
-
-
+import (
+	"fmt"
+)
 
 type Worker struct {
 	WorkerPool chan chan Goods
@@ -20,13 +20,13 @@ func NewWorker(pool chan chan Goods) *Worker {
 func (w *Worker) Start() {
 	go func() {
 		for {
-
 			//将当前工作者注册到工作队列中
 			w.WorkerPool <- w.JobChannel
 			select {
 			case goods := <-w.JobChannel:
 				//执行该程序
 				goods.UpdateServer()
+				fmt.Println("worker  UpdateServer ")
 			case <-w.Quit:
 				fmt.Println("worker服务停止")
 				return
