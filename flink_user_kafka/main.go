@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/Shopify/sarama"
 	"time"
@@ -35,12 +36,20 @@ func main() {
 			Timestamp: time.Now(),
 		}
 		var data []byte
-		date := time.Now().Unix()
+		date := time.Now().UnixNano() / 1e6
 		if i == 1 {
-			data = []byte(fmt.Sprintf("%s:%d:%d", "hw", date, 1))
+			data, _ = json.Marshal(&Login{
+				Username:  "hw",
+				LoginTime: date,
+				Num:       1,
+			})
 			i = 2
 		} else {
-			data = []byte(fmt.Sprintf("%s:%d:%d", "hr", date, 1))
+			data, _ = json.Marshal(&Login{
+				Username:  "hr",
+				LoginTime: date,
+				Num:       1,
+			})
 			i = 1
 		}
 
@@ -48,9 +57,29 @@ func main() {
 		AsyncProducer.Input() <- Message
 		time.Sleep(time.Second * 1)
 	}
+	//for {
+	//	Message := &sarama.ProducerMessage{
+	//		Topic:     "user_login",
+	//		Timestamp: time.Now(),
+	//	}
+	//	var data []byte
+	//	date := time.Now().UnixNano() / 1e6
+	//	if i == 1 {
+	//		data = []byte(fmt.Sprintf("%s:%d:%d", "hw", date, 1))
+	//		i = 2
+	//	} else {
+	//		data = []byte(fmt.Sprintf("%s:%d:%d", "hr", date, 1))
+	//		i = 1
+	//	}
+	//
+	//	Message.Value = sarama.ByteEncoder(data)
+	//	AsyncProducer.Input() <- Message
+	//	time.Sleep(time.Second * 1)
+	//}
 }
 
 type Login struct {
-	Username  string `json:"username"`
-	LoginTime int64  `json:"loginTime"`
+	Username  string `json:"l_name"`
+	LoginTime int64  `json:"l_loginTime"`
+	Num       int64  `json:"l_num"`
 }
