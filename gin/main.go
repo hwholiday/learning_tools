@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"github.com/cihub/seelog"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 	"learning_tools/gin/model"
-	"learning_tools/gin/router"
 	"net/http"
 	"os"
 	"os/signal"
@@ -35,11 +36,11 @@ func init() {
 // @license.url https://github.com/hwholiday/test
 func main() {
 	gin.SetMode(gin.ReleaseMode)
+	h2s := &http2.Server{}
 	g := gin.Default()
-	router.SetRouters(g)
 	model.InitDb(*mysqlPath)
 	s := &http.Server{
-		Handler:        g,
+		Handler:        h2c.NewHandler(g, h2s),
 		Addr:           *addr,
 		WriteTimeout:   10 * time.Second,
 		ReadTimeout:    10 * time.Second,
