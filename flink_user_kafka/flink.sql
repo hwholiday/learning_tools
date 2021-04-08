@@ -62,7 +62,9 @@ GROUP BY  TUMBLE(ts, INTERVAL '1' MINUTE);
 
 
 
-
+-- 测试数据
 INSERT INTO msg_event_sk (biz_tag, event, tag, create_time, uid, num)
 VALUES ('22', '1', '1', 1, 1, 1);
+
+-- 客户端程序
 clickhouse-client -h 172.12.17.161 --port 9090 -u default  --password 123456
