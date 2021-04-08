@@ -32,30 +32,34 @@ func main() {
 	var i = 1
 	for {
 		Message := &sarama.ProducerMessage{
-			Topic:     "user_login",
+			Topic:     "msg_event",
 			Timestamp: time.Now(),
 		}
 		var data []byte
 		date := time.Now().UnixNano() / 1e6
 		if i == 1 {
-			data, _ = json.Marshal(&Login{
-				Username:  "hw",
-				LoginTime: date,
-				Num:       1,
+			data, _ = json.Marshal(map[string]interface{}{
+				"biz_tag":     "11",
+				"uid":         1,
+				"create_time": date,
+				"event":       "login",
+				"tag":         "1",
 			})
 			i = 2
 		} else {
-			data, _ = json.Marshal(&Login{
-				Username:  "hr",
-				LoginTime: date,
-				Num:       1,
+			data, _ = json.Marshal(map[string]interface{}{
+				"biz_tag":     "22",
+				"uid":         222222,
+				"create_time": date,
+				"event":       "msg",
+				"tag":         "1",
 			})
 			i = 1
 		}
 
 		Message.Value = sarama.ByteEncoder(data)
 		AsyncProducer.Input() <- Message
-		time.Sleep(time.Second * 1)
+		time.Sleep(time.Second * 10)
 	}
 	//for {
 	//	Message := &sarama.ProducerMessage{
