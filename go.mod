@@ -22,6 +22,7 @@ require (
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-xorm/xorm v0.7.9
+	github.com/gocolly/colly/v2 v2.1.0
 	github.com/golang/protobuf v1.4.3
 	github.com/google/uuid v1.2.0
 	github.com/google/wire v0.5.0
@@ -72,6 +73,4 @@ require (
 	gopkg.in/oauth2.v3 v3.12.0
 )
 
-replace (
-	google.golang.org/grpc v1.35.0 => google.golang.org/grpc v1.26.0
-)
+replace google.golang.org/grpc v1.35.0 => google.golang.org/grpc v1.26.0
