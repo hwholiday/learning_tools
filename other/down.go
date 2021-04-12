@@ -10,6 +10,7 @@ import (
 	"os"
 	"path"
 	"sync"
+	"sync/atomic"
 )
 
 var w sync.WaitGroup
@@ -49,7 +50,7 @@ func main() {
 	fmt.Println("输出路径", dirPath)
 	for i := *startPage; i <= *endPage; i++ {
 		url := fmt.Sprintf("https://community.justlanded.com/zh/friend_finder?location=&page=%d%s", i, d)
-		log.Println("爬到多少页了 : ", i)
+		log.Println("爬到多少页了 : ", i, url)
 
 		res, err := http.Get(url)
 		if err != nil {
@@ -77,6 +78,8 @@ func main() {
 		doc.Find(".user-link-name").Each(func(i int, selection *goquery.Selection) {
 			na = append(na, selection.Text())
 		})
+		fmt.Println("img", img)
+		fmt.Println("na", na)
 		if len(img) == 6 && len(na) == 6 {
 			for j := 0; j < 6; j++ {
 				w.Add(1)
@@ -91,9 +94,12 @@ func main() {
 	select {}
 }
 
+var kk int64
+
 func downImage(url string, n1 string) {
 	defer w.Done()
-	n := fmt.Sprintf("%s/%s.jpg", dirPath, n1)
+	atomic.AddInt64(&kk, 1)
+	n := fmt.Sprintf("%s/%s-%d.jpg", dirPath, n1, atomic.LoadInt64(&kk))
 	res, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -114,4 +120,5 @@ func downImage(url string, n1 string) {
 		log.Fatal(err)
 		return
 	}
+	fmt.Println("success", n)
 }
