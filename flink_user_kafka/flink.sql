@@ -187,11 +187,15 @@ FROM (
          --找到2020-08-01活跃用户在第2、3、6、13、29日的登录情况，1/0 => 登录/未登录
          WITH toDate('2020-08-01') AS tt
          SELECT uid,
-             retention(toDate(ds) = tt, toDate(subtractDays(ds, 1)) = tt, toDate(subtractDays(ds, 2)) = tt, toDate(subtractDays(ds, 6)) = tt, toDate(subtractDays(ds, 13)) = tt, toDate(subtractDays(ds, 29)) = tt) AS r
+             retention(
+             toDate(ds) = tt and event = 'login',
+             toDate(subtractDays(ds, 1)) = tt and event = 'login',
+             toDate(subtractDays(ds, 2)) = tt and event = 'login',
+             toDate(subtractDays(ds, 6)) = tt and event = 'login',
+             toDate(subtractDays(ds, 13)) = tt and event = 'login',
+             toDate(subtractDays(ds, 29)) = tt and event = 'login') AS r
          FROM test.t_event
-         WHERE (toDate(ds) >= '2020-08-01')
-           AND (toDate(ds) <= addDays(toDate('2020-08-01')
-             , 29))
+         WHERE (toDate(ds) >= '2020-08-01') AND (toDate(ds) <= addDays(toDate('2020-08-01'), 29))
          GROUP BY uid
      )
 --┌─────────ds─┬─activeAccountNum─┬─次留─┬──3留─┬─7留─┬─14留─┬─30留─┐
