@@ -202,5 +202,73 @@ FROM (
 --│ 2020-08-01 │                4 │ 0.25 │ 0.25 │   0 │  0.5 │ 0.75 │
 --└────────────┴──────────────────┴──────┴──────┴─────┴──────┴──────┘
 
+-- 漏斗分析
+-- 分析"2020-01-02"这天 路径为“浏览->点击->下单->支付”的转化情况。
+
+CREATE TABLE test.action
+(
+    `uid`        Int32,
+    `event_type` String,
+    `time`       DateTime
+)ENGINE = MergeTree()
+PARTITION BY uid
+ORDER BY xxHash32(uid)
+SAMPLE BY xxHash32(uid)
+SETTINGS index_granularity = 8192
+
+INSERT INTO action
+VALUES (1,'浏览','2020-01-02 11:00:00'),
+       (1,'点击','2020-01-02 11:10:00'),
+       (1,'下单','2020-01-02 11:20:00'),
+       (1,'支付','2020-01-02 11:30:00'),
+       (2,'下单','2020-01-02 11:00:00'),
+       (2,'支付','2020-01-02 11:10:00'),
+       (1,'浏览','2020-01-02 11:00:00'),
+       (3,'浏览','2020-01-02 11:20:00'),
+       (3,'点击','2020-01-02 12:00:00'),
+       (4,'浏览','2020-01-02 11:50:00'),
+       (4,'点击','2020-01-02 12:00:00'),
+       (5,'浏览','2020-01-02 11:50:00'),
+       (5,'点击','2020-01-02 12:00:00'),
+       (5,'下单','2020-01-02 11:10:00'),
+       (6,'浏览','2020-01-02 11:50:00'),
+       (6,'点击','2020-01-02 12:00:00'),
+       (6,'下单','2020-01-02 12:10:00');
+
+SELECT
+    level_index,
+    count(1)
+FROM
+    (
+        SELECT
+            user_id,
+            arrayWithConstant(level, 1) AS levels,
+            arrayJoin(arrayEnumerate(levels)) AS level_index
+        FROM
+            (
+                SELECT
+                    user_id,
+                    windowFunnel(1800)(time, event_type = '浏览', event_type = '点击', event_type = '下单', event_type = '支付') AS level
+                FROM
+                    (
+                        SELECT
+                            time,
+                            event_type,
+                            uid AS user_id
+                        FROM test.action
+                        WHERE toDate(time) = '2020-01-02'
+                    )
+                GROUP BY user_id
+            )
+    )
+GROUP BY level_index
+ORDER BY level_index ASC
+
+--┌─level_index─┬─count(1)─┐
+--│           1 │        5 │
+--│           2 │        4 │
+--│           3 │        2 │
+--│           4 │        1 │
+--└─────────────┴──────────┘
 
 
