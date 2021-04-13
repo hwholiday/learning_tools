@@ -1,5 +1,6 @@
 -- 客户端程序
-clickhouse-client -h 172.12.17.161 --port 9090 -u default  --password 123456
+clickhouse
+-client -h 172.12.17.161 --port 9090 -u default  --password 123456
 
 
 
@@ -107,7 +108,7 @@ where t >= '2020-08-01'
   and uid = 10001
 
 
--- 留存
+-- 留存分析
 SELECT toDate('2020-08-01')  AS ds,
        SUM(r[1])             AS activeAccountNum,
        SUM(r[2]) / SUM(r[1]) AS `次留`,
@@ -133,6 +134,41 @@ FROM (
 --┌─────────ds─┬─activeAccountNum─┬─次留─┬──3留─┬─7留─┬─14留─┬─30留─┐
 --│ 2020-08-01 │                4 │ 0.25 │ 0.25 │   0 │  0.5 │ 0.75 │
 --└────────────┴──────────────────┴──────┴──────┴─────┴──────┴──────┘
+
+-- 路径分析
+create table test.user_act
+(
+    uid UInt32,
+    act String,
+    ds  DateTime('Asia/Shanghai')
+)ENGINE = MergeTree()
+PARTITION BY toYYYYMM(ds)
+order by (uid,act)
+SETTINGS index_granularity = 8192;
+
+INSERT INTO test.user_act
+VALUES (222, 'login', '2021-04-13 10:01:10'),
+       (222, 'blog', '2021-04-13 10:03:10'),
+       (222, 'msg', '2021-04-13 10:10:10'),
+       (333, 'login', '2021-04-13 10:01:10'),
+       (333, 'msg', '2021-04-13 10:02:10');
+
+-- 关键路径分析
+-- 查询 2021-04-13 login 后大于 120 就开始 msg 的用户
+select count(1) as userNum, sum(cn) as num
+from (
+         SELECT uid,
+                sequenceCount('(?1)(?t>120)(?2)') (toDateTime(ds), act = 'login', act = 'msg') AS cn
+         FROM test.user_act
+         WHERE toDate(ds) = '2021-04-13'
+         GROUP BY uid
+     )
+-- userNum 在2021-04-13 满足 即login也msg的用户数 /  num 是满足login 后大于 120 就开始 msg 的用户
+--┌─userNum─┬─num─┐
+--│       2 │   1 │
+--└─────────┴─────┘
+
+
 
 -- 漏斗分析
 -- 分析"2020-01-02"这天 路径为“浏览->点击->下单->支付”的转化情况。
@@ -167,32 +203,26 @@ VALUES (1,'浏览','2020-01-02 11:00:00'),
        (6,'点击','2020-01-02 12:00:00'),
        (6,'下单','2020-01-02 12:10:00');
 
-SELECT
-    level_index,
-    count(1)
-FROM
-    (
-        SELECT
-            user_id,
-            arrayWithConstant(level, 1) AS levels,
-            arrayJoin(arrayEnumerate(levels)) AS level_index
-        FROM
-            (
-                SELECT
-                    user_id,
-                    windowFunnel(1800)(time, event_type = '浏览', event_type = '点击', event_type = '下单', event_type = '支付') AS level
-                FROM
-                    (
-                        SELECT
-                            time,
-                            event_type,
-                            uid AS user_id
-                        FROM test.action
-                        WHERE toDate(time) = '2020-01-02'
-                    )
-                GROUP BY user_id
-            )
-    )
+SELECT level_index,
+       count(1)
+FROM (
+         SELECT user_id,
+                arrayWithConstant(level, 1)       AS levels,
+                arrayJoin(arrayEnumerate(levels)) AS level_index
+         FROM (
+                  SELECT user_id,
+                         windowFunnel(1800) (time, event_type = '浏览', event_type = '点击', event_type = '下单', event_type = '支付') AS level
+                  FROM (
+                           SELECT
+                               time,
+                               event_type,
+                               uid AS user_id
+                           FROM test.action
+                           WHERE toDate(time) = '2020-01-02'
+                       )
+                  GROUP BY user_id
+              )
+     )
 GROUP BY level_index
 ORDER BY level_index ASC
 
