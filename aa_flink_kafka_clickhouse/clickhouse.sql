@@ -168,6 +168,53 @@ from (
 --│       2 │   1 │
 --└─────────┴─────┘
 
+SELECT
+    result_chain,
+    uniqCombined(user_id) AS user_count
+FROM (
+         WITH
+             toDateTime(maxIf(time, act = '会员支付成功')) AS end_event_maxt,  #以终点事件时间作为路径查找结束时间
+             arrayCompact(arraySort(  #对事件按照时间维度排序后进行相邻去重
+             x -> x.1,
+             arrayFilter(  #根据end_event_maxt筛选出所有满足条件的事件 并按照<时间, <事件名, 页面名>>结构返回
+             x -> x.1 <= end_event_maxt,
+             groupArray((toDateTime(time), (act, page_name)))
+             )
+             )) AS sorted_events,
+             arrayEnumerate(sorted_events) AS event_idxs,  #或取事件链的下标掩码序列，后面在对事件切割时会用到
+             arrayFilter(  #将目标事件或当前事件与上一个事件间隔10分钟的数据为切割点
+             (x, y, z) -> z.1 <= end_event_maxt AND (z.2.1 = '会员支付成功' OR y > 600),
+             event_idxs,
+             arrayDifference(sorted_events.1),
+             sorted_events
+             ) AS gap_idxs,
+             arrayMap(x -> x + 1, gap_idxs) AS gap_idxs_,  #如果不加1的话上一个事件链的结尾事件会成为下个事件链的开始事件
+             arrayMap(x -> if(has(gap_idxs_, x), 1, 0), event_idxs) AS gap_masks,  #标记切割点
+             arraySplit((x, y) -> y, sorted_events, gap_masks) AS split_events  #把用户的访问数据切割成多个事件链
+         SELECT
+             user_id,
+             arrayJoin(split_events) AS event_chain_,
+             arrayCompact(event_chain_.2) AS event_chain,  #相邻去重
+             hasAll(event_chain, [('pay_button_click', '会员购买页')]) AS has_midway_hit,
+             arrayStringConcat(arrayMap(
+             x -> concat(x.1, '#', x.2),
+             event_chain
+             ), ' -> ') AS result_chain  #用户访问路径字符串
+         FROM (
+             SELECT time,act,page_name,u_i as user_id
+             FROM app.scene_tracker
+             WHERE toDate(time) >= '2020-09-30' AND toDate(time) <= '2020-10-02'
+             AND user_id IN (10266,10022,10339,10030)  #指定要分析的用户群
+             )
+         GROUP BY user_id
+         HAVING length(event_chain) > 1
+     )
+WHERE event_chain[length(event_chain)].1 = '会员支付成功'  #事件链最后一个事件必须是目标事件
+  AND has_midway_hit = 1   #必须包含途经点
+GROUP BY result_chain
+ORDER BY user_count DESC LIMIT 20;
+
+
 
 
 -- 漏斗分析
