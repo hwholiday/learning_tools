@@ -30,7 +30,7 @@ func SaramaProducer() {
 	config.Version = sarama.V2_2_0_0
 	fmt.Println("start make producer")
 	//使用配置,新建一个异步生产者
-	producer, e := sarama.NewAsyncProducer([]string{"localhost:9092"}, config)
+	producer, e := sarama.NewAsyncProducer([]string{"172.12.17.161:9092"}, config)
 	if e != nil {
 		fmt.Println(e)
 		return
@@ -67,7 +67,7 @@ func SaramaProducer() {
 	}
 }
 
-func SaramaConsumer()  {
+func SaramaConsumer() {
 
 	fmt.Println("start consume")
 	config := sarama.NewConfig()
@@ -79,32 +79,31 @@ func SaramaConsumer()  {
 	config.Version = sarama.V0_10_0_1
 
 	//consumer新建的时候会新建一个client，这个client归属于这个consumer，并且这个client不能用作其他的consumer
-	consumer, err := sarama.NewConsumer([]string{"localhost:9092"}, config)
+	consumer, err := sarama.NewConsumer([]string{"172.12.17.161:9092"}, config)
 	if err != nil {
 		panic(err)
 	}
 
 	//新建一个client，为了后面offsetManager做准备
-	client, err := sarama.NewClient([]string{"localhost:9092"}, config)
+	client, err := sarama.NewClient([]string{"172.12.17.161:9092"}, config)
 	if err != nil {
 		panic("client create error")
 	}
 	defer client.Close()
 
 	//新建offsetManager，为了能够手动控制offset
-	offsetManager,err:=sarama.NewOffsetManagerFromClient("group111",client)
+	offsetManager, err := sarama.NewOffsetManagerFromClient("group111", client)
 	if err != nil {
 		panic("offsetManager create error")
 	}
 	defer offsetManager.Close()
 
 	//创建一个第2分区的offsetManager，每个partition都维护了自己的offset
-	partitionOffsetManager,err:=offsetManager.ManagePartition("0606_test",0)
+	partitionOffsetManager, err := offsetManager.ManagePartition("0606_test", 0)
 	if err != nil {
 		panic("partitionOffsetManager create error")
 	}
 	defer partitionOffsetManager.Close()
-
 
 	fmt.Println("consumer init success")
 
@@ -115,13 +114,13 @@ func SaramaConsumer()  {
 	}()
 
 	//sarama提供了一些额外的方法，以便我们获取broker那边的情况
-	topics,_:=consumer.Topics()
+	topics, _ := consumer.Topics()
 	fmt.Println(topics)
-	partitions,_:=consumer.Partitions("0606_test")
+	partitions, _ := consumer.Partitions("0606_test")
 	fmt.Println(partitions)
 
 	//第一次的offset从kafka获取(发送OffsetFetchRequest)，之后从本地获取，由MarkOffset()得来
-	nextOffset,_:=partitionOffsetManager.NextOffset()
+	nextOffset, _ := partitionOffsetManager.NextOffset()
 	fmt.Println(nextOffset)
 
 	//创建一个分区consumer，从上次提交的offset开始进行消费
@@ -146,12 +145,12 @@ ConsumerLoop:
 	for {
 		select {
 		case msg := <-partitionConsumer.Messages():
-			log.Printf("Consumed message offset %d\n message:%s", msg.Offset,string(msg.Value))
+			log.Printf("Consumed message offset %d\n message:%s", msg.Offset, string(msg.Value))
 			//拿到下一个offset
-			nextOffset,offsetString:=partitionOffsetManager.NextOffset()
-			fmt.Println(nextOffset+1,"...",offsetString)
+			nextOffset, offsetString := partitionOffsetManager.NextOffset()
+			fmt.Println(nextOffset+1, "...", offsetString)
 			//提交offset，默认提交到本地缓存，每秒钟往broker提交一次（可以设置）
-			partitionOffsetManager.MarkOffset(nextOffset+1,"modified metadata")
+			partitionOffsetManager.MarkOffset(nextOffset+1, "modified metadata")
 
 		case <-signals:
 			break ConsumerLoop
