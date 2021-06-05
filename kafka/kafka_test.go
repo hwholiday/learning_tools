@@ -113,21 +113,21 @@ func (consumer *Consumer1) ConsumeClaim(session sarama.ConsumerGroupSession, cla
 }
 
 func Test_Consumer(t *testing.T) {
-	consumer, err := sarama.NewConsumer([]string{"localhost:9092"}, nil)
+	consumer, err := sarama.NewConsumer([]string{"172.12.12.188:9092"}, nil)
 	CheckErr(err)
 	defer consumer.Close()
-	client, err := sarama.NewClient([]string{"localhost:9092"}, nil)
+	client, err := sarama.NewClient([]string{"172.12.12.188:9092"}, nil)
 	CheckErr(err)
 	defer client.Close()
 	offset, err := sarama.NewOffsetManagerFromClient("test_group", client)
 	CheckErr(err)
 	defer offset.Close()
-	offsetManager, err := offset.ManagePartition("Test_Producer", 0)
+	offsetManager, err := offset.ManagePartition("test_topic11", 0)
 	CheckErr(err)
 	defer offsetManager.Close()
 	nextOffset, _ := offsetManager.NextOffset()
 	fmt.Println(nextOffset)
-	PartitionConsumer, err := consumer.ConsumePartition("Test_Producer", 0, nextOffset+1)
+	PartitionConsumer, err := consumer.ConsumePartition("test_topic11", 0, nextOffset+1)
 	CheckErr(err)
 	defer PartitionConsumer.Close()
 	for {
