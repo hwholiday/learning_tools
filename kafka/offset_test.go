@@ -15,8 +15,8 @@ func TestKafkaSyncProducer(t *testing.T) {
 	conf.Producer.Return.Successes = true
 	conf.Producer.Return.Errors = true
 	conf.Producer.Retry.Max = 1000
-	conf.Version = sarama.V2_5_0_0
-	producer, err := sarama.NewSyncProducer([]string{"172.12.12.188:9092"}, conf)
+	conf.Version = sarama.V2_8_0_0
+	producer, err := sarama.NewSyncProducer([]string{"172.12.12.165:9092"}, conf)
 	if err != nil {
 		t.Error(err)
 		return
@@ -24,26 +24,32 @@ func TestKafkaSyncProducer(t *testing.T) {
 	defer producer.Close()
 	fmt.Println(producer.SendMessage(&sarama.ProducerMessage{
 		Topic: "test_topic11",
-		Value: sarama.ByteEncoder("1111:2222"),
+		Value: sarama.ByteEncoder("1"),
 	}))
 	select {}
 }
 
 func TestConsumer(t *testing.T) {
 	conf := sarama.NewConfig()
-	conf.Version = sarama.V2_5_0_0
-	conf.Consumer.Return.Errors = false
-	consumer, err := sarama.NewConsumerGroup([]string{"172.12.12.188:9092"}, "test_group", conf)
+	conf.Version = sarama.V2_8_0_0
+	conf.Consumer.Return.Errors = true
+	conf.Consumer.Offsets.Initial = sarama.OffsetNewest
+	consumer, err := sarama.NewConsumerGroup([]string{"172.12.12.165:9092"}, "test_group", conf)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	defer consumer.Close()
-	for {
-		if err := consumer.Consume(context.Background(), []string{"test_topic11"}, &Job{}); err != nil {
-			fmt.Println("err", err)
+	ctx := context.Background()
+	go func() {
+		for {
+			j := &Job{}
+			if err := consumer.Consume(ctx, []string{"test_topic11"}, j); err != nil {
+				fmt.Println("err", err)
+			}
 		}
-	}
+	}()
+	select {}
 }
 
 type Job struct {
