@@ -39,13 +39,25 @@ func TestConsumer(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	defer consumer.Close()
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer func() {
+		cancel()
+		consumer.Close()
+	}()
+	go func() {
+		for err := range consumer.Errors() {
+			fmt.Println("err", err)
+		}
+	}()
 	go func() {
 		for {
 			j := &Job{}
 			if err := consumer.Consume(ctx, []string{"test_topic11"}, j); err != nil {
 				fmt.Println("err", err)
+			}
+			if ctx.Err() != nil {
+				fmt.Println("err", err)
+				return
 			}
 		}
 	}()
@@ -56,14 +68,17 @@ type Job struct {
 }
 
 func (consumer *Job) Setup(data sarama.ConsumerGroupSession) error {
+	fmt.Println("Setup")
 	return nil
 }
 
 func (consumer *Job) Cleanup(sarama.ConsumerGroupSession) error {
+	fmt.Println("Cleanup")
 	return nil
 }
 
 func (consumer *Job) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
+	fmt.Println("ConsumeClaim")
 	for message := range claim.Messages() {
 		log.Printf("Job Message claimed: value = %s, timestamp = %v, topic = %s , partition = %d , offset = %d",
 			string(message.Value), message.Timestamp, message.Topic, message.Partition, message.Offset)
