@@ -39,7 +39,6 @@ func main() {
 func (c *cache) Take(v interface{}, key string, query func(v interface{}) error) error {
 	return c.Take2(v, key, query, func(v interface{}) error {
 		//保存DB数据到缓存
-		fmt.Println("保存DB数据到缓存")
 		return c.Set(key, v)
 	})
 }
@@ -99,8 +98,6 @@ func (c *cache) Get(key string, v interface{}) error {
 }
 
 func (c *cache) Set(key string, v interface{}) error {
-	fmt.Println("v", v)
-	fmt.Println("key", key)
 	data, err := json.Marshal(v)
 	if err != nil {
 		return err
