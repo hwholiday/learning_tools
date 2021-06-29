@@ -23,7 +23,7 @@ func TestKafkaSyncProducer(t *testing.T) {
 	}
 	defer producer.Close()
 	fmt.Println(producer.SendMessage(&sarama.ProducerMessage{
-		Topic: "test_topic11",
+		Topic: "gs_stats_topic",
 		Value: sarama.ByteEncoder("1"),
 	}))
 	select {}

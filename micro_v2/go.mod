@@ -7,5 +7,4 @@ require (
 	github.com/golang/protobuf v1.4.2
 	github.com/micro/go-micro/v2 v2.8.0
 	github.com/pkg/errors v0.9.1
-	go.etcd.io/etcd v3.3.25+incompatible
 )

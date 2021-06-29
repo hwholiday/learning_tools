@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/hwholiday/libs/perf"
-	"github.com/hwholiday/libs/quit"
 	"fmt"
-	"net/rpc"
+	"learning_tools/all_packaged_library/perf"
+	"learning_tools/all_packaged_library/quit"
 	"net"
+	"net/rpc"
 )
 
 // RPC
@@ -45,6 +45,6 @@ func rpcListen(network, addr string) {
 }
 
 func (r *RPC) Ping(arg *Arg, reply *Reply) error {
-	reply.Reply=arg.Arg+"howie"
+	reply.Reply = arg.Arg + "howie"
 	return nil
 }
