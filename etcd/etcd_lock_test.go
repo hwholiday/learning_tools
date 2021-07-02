@@ -8,7 +8,7 @@ import (
 
 func TestEtcdLock_TryLock(t *testing.T) {
 	cli := NewEtcd(&Conf{
-		Addr:        []string{"172.12.12.165:2379"},
+		Addr:        []string{"127.0.0.1:2379"},
 		DialTimeout: 5,
 	})
 	lock := NewEtcdLock(cli, "/get/post", 5)
@@ -23,7 +23,7 @@ func TestEtcdLock_TryLock(t *testing.T) {
 	go fmt.Println(lock.TryLock())
 	go fmt.Println(lock.TryLock())
 	go fmt.Println(lock.TryLock())
-	time.Sleep(5 * time.Second)
+	time.Sleep(3 * time.Second)
 	fmt.Println(1, lock.UnLock())
 	go func() {
 		time.Sleep(6 * time.Second)
