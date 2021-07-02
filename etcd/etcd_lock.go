@@ -63,8 +63,8 @@ func (lock *EtcdLock) Lock() error {
 }
 
 func (lock *EtcdLock) UnLock() error {
-	lock.cancel()
 	_ = lock.session.Close()
+	lock.cancel()
 	return lock.mutex.Unlock(context.TODO())
 }
 
