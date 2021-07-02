@@ -8,13 +8,13 @@ import (
 
 func TestEtcdLock_TryLock(t *testing.T) {
 	cli := NewEtcd(&Conf{
-		Addr:        []string{"172.12.17.165:2379"},
+		Addr:        []string{"172.12.12.165:2379"},
 		DialTimeout: 5,
 	})
 	lock := NewEtcdLock(cli, "/get/post", 5)
 
 	if err := lock.TryLock(); err != nil {
-		fmt.Println("1 err")
+		fmt.Println("1 err", err)
 		return
 	}
 	fmt.Println("1 success")
