@@ -6,6 +6,10 @@ import (
 )
 
 func main() {
+	if f, ok := decimal.NewFromInt(136668569852182528).Float64(); ok {
+		fmt.Println(f)
+	}
+
 	price, err := decimal.NewFromString("136.02")
 	if err != nil {
 		panic(err)
@@ -27,4 +31,3 @@ func main() {
 	fmt.Println("Total:", total)                            // Total: 459.824961375
 	fmt.Println("Tax rate:", total.Sub(preTax).Div(preTax)) // Tax rate: 0.08875
 }
-
