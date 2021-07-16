@@ -1,4 +1,4 @@
-package service_req_hystrix
+package hystrix
 
 import (
 	"errors"

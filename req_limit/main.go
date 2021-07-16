@@ -20,7 +20,7 @@ func main() {
 		Addr:           *addr,
 		WriteTimeout:   15 * time.Second,
 		ReadTimeout:    15 * time.Second,
-		 MaxHeaderBytes: 1 << 20,
+		MaxHeaderBytes: 1 << 20,
 	}
 	err := s.ListenAndServe()
 	if err != nil {

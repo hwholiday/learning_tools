@@ -14,7 +14,7 @@ const (
 	numberMax   int64 = -1 ^ (-1 << numberBits)
 	timeShift   uint8 = workerBits + numberBits
 	workerShift uint8 = numberBits
-	startTime   int64 = 1525705533000 // 如果在程序跑了一段时间修改了epoch这个值 可能会导致生成相同的ID
+	startTime   int64 = 1626408485000 // 如果在程序跑了一段时间修改了epoch这个值 可能会导致生成相同的ID
 )
 
 type Worker struct {
