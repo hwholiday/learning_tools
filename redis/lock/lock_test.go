@@ -11,7 +11,7 @@ import (
 func TestRedis(t *testing.T) {
 	GlobalClient := redis.NewClient(
 		&redis.Options{
-			Addr:         "127.0.0.1:6379",
+			Addr:         "172.12.12.165:6379",
 			DialTimeout:  10 * time.Second,
 			ReadTimeout:  30 * time.Second,
 			WriteTimeout: 30 * time.Second,

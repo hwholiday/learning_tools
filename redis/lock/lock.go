@@ -19,7 +19,7 @@ func NewRedisLock(conn *redis.Client, key, val string, timeout time.Duration) *R
 
 //return true ===> Get the lock successfully
 func (lock *RedisLock) TryLock() error {
-	return lock.conn.Do(context.Background(), "set", lock.key, lock.val, "ex", int64(lock.timeout/time.Second), "nx").Err()
+	return lock.conn.SetNX(context.Background(), lock.key, lock.val, lock.timeout).Err()
 }
 
 func (lock *RedisLock) UnLock() error {
