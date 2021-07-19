@@ -6,6 +6,7 @@ import (
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/balancer/base"
 	"google.golang.org/grpc/resolver"
+	"learning_tools/etcd/register"
 	"math/rand"
 	"sync"
 )
@@ -25,7 +26,7 @@ func (*rrPickerBuilder) Build(info base.PickerBuildInfo) balancer.Picker {
 	if len(info.ReadySCs) == 0 {
 		return base.NewErrPicker(balancer.ErrNoSubConnAvailable)
 	}
-	var scs = make(map[balancer.SubConn]*NodeInfo, len(info.ReadySCs))
+	var scs = make(map[balancer.SubConn]*register.Options, len(info.ReadySCs))
 	for conn, addr := range info.ReadySCs {
 		nodeInfo := GetNodeInfo(addr.Address)
 		if nodeInfo != nil {
@@ -41,7 +42,7 @@ func (*rrPickerBuilder) Build(info base.PickerBuildInfo) balancer.Picker {
 }
 
 type rrPicker struct {
-	node map[balancer.SubConn]*NodeInfo
+	node map[balancer.SubConn]*register.Options
 	mu   sync.Mutex
 }
 
@@ -50,7 +51,7 @@ func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 	version := info.Ctx.Value("version")
 	var subConns []balancer.SubConn
 	for conn, node := range p.node {
-		fmt.Println("node", node)
+		fmt.Println("FullMethodName", info.FullMethodName, "nodeInfo Node", node.Node, "Endpoints", node.Endpoints)
 		if version != "" {
 			if node.Node.Version == version.(string) {
 				subConns = append(subConns, conn)
@@ -68,13 +69,13 @@ func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 
 type attrKey struct{}
 
-func SetNodeInfo(addr resolver.Address, hInfo *NodeInfo) resolver.Address {
+func SetNodeInfo(addr resolver.Address, hInfo *register.Options) resolver.Address {
 	addr.Attributes = addr.Attributes.WithValues(attrKey{}, hInfo)
 	return addr
 }
 
-func GetNodeInfo(attr resolver.Address) *NodeInfo {
+func GetNodeInfo(attr resolver.Address) *register.Options {
 	v := attr.Attributes.Value(attrKey{})
-	hi, _ := v.(*NodeInfo)
+	hi, _ := v.(*register.Options)
 	return hi
 }
