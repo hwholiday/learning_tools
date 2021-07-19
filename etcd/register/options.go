@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	clientv3 "go.etcd.io/etcd/client/v3"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -17,11 +18,19 @@ type Node struct {
 }
 
 type Options struct {
-	EtcdConf    clientv3.Config   `json:"-"`
-	RegisterTtl int64             `json:"-"`
-	Node        *Node             `json:"node"`
-	Metadata    map[string]string `json:"metadata"`
-	Endpoints   map[string]string `json:"endpoints"`
+	EtcdConf    clientv3.Config      `json:"-"`
+	RegisterTtl int64                `json:"-"`
+	Node        *Node                `json:"node"`
+	Metadata    map[string]string    `json:"metadata"`
+	Endpoints   map[string]Endpoints `json:"endpoints"`
+}
+
+type Endpoints struct {
+	Online         bool   `json:"online"`
+	LimitingSwitch bool   `json:"limiting_switch"` //每秒多少次
+	Limiting       int64  `json:"limiting"`        //每秒多少次
+	Fuse           bool   `json:"fuse"`            //熔断
+	Defaults       []byte `json:"defaults"`        //熔断默认值
 }
 
 type RegisterOptions func(*Options)
@@ -34,6 +43,7 @@ func newOptions(opt ...RegisterOptions) *Options {
 		},
 		Node:        &Node{Version: "latest"},
 		RegisterTtl: 10,
+		Endpoints:   make(map[string]Endpoints),
 	}
 	for _, o := range opt {
 		o(opts)
@@ -44,29 +54,35 @@ func newOptions(opt ...RegisterOptions) *Options {
 func SetName(name string) RegisterOptions {
 	return func(options *Options) {
 		path := strings.Split(name, ".")
-		if options.Node == nil {
-			options.Node = &Node{}
-		}
 		options.Node.Name = path[len(path)-1]
 		options.Node.Id = fmt.Sprintf("%s-%s", options.Node.Name, uuid.Must(uuid.NewUUID()).String())
 		options.Node.Path = fmt.Sprintf("/%s", strings.Join(path, "/"))
 	}
 }
 
+func SetSrv(srv interface{}) RegisterOptions {
+	return func(options *Options) {
+		typ := reflect.TypeOf(srv)
+		for m := 0; m < reflect.TypeOf(srv).NumMethod(); m++ {
+			options.Endpoints[typ.Method(m).Name] = Endpoints{
+				Online:         true,
+				LimitingSwitch: false,
+				Limiting:       10,
+				Fuse:           false,
+				Defaults:       nil,
+			}
+		}
+	}
+}
+
 func SetRegisterTtl(registerTtl int64) RegisterOptions {
 	return func(options *Options) {
-		if options.Node == nil {
-			options.Node = &Node{}
-		}
 		options.RegisterTtl = registerTtl
 	}
 }
 
 func SetVersion(version string) RegisterOptions {
 	return func(options *Options) {
-		if options.Node == nil {
-			options.Node = &Node{}
-		}
 		options.Node.Version = version
 	}
 }
@@ -78,9 +94,6 @@ func SetEtcdConf(conf clientv3.Config) RegisterOptions {
 
 func SetAddress(address string) RegisterOptions {
 	return func(options *Options) {
-		if options.Node == nil {
-			options.Node = &Node{}
-		}
 		options.Node.Address = address
 	}
 }

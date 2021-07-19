@@ -7,24 +7,12 @@ import (
 	"go.etcd.io/etcd/api/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc/resolver"
+	"learning_tools/etcd/register"
 	"sync"
 )
 
-type Node struct {
-	Name    string `json:"name"`
-	Path    string `json:"path"`
-	Id      string `json:"id"`
-	Version string `json:"version"`
-	Address string `json:"address"`
-}
-type NodeInfo struct {
-	Node      Node              `json:"node"`
-	Metadata  map[string]string `json:"metadata"`
-	Endpoints map[string]string `json:"endpoints"`
-}
-
 type NodeArray struct {
-	Node []NodeInfo `json:"node"`
+	Node []register.Options `json:"node"`
 }
 
 type Discovery struct {
@@ -68,7 +56,7 @@ func (d *Discovery) Build(target resolver.Target, cc resolver.ClientConn, opts r
 }
 
 func (d *Discovery) AddNode(key, val []byte) error {
-	var data = new(NodeInfo)
+	var data = new(register.Options)
 	err := json.Unmarshal(val, data)
 	if err != nil {
 		return err
