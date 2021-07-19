@@ -8,6 +8,7 @@ import (
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc/resolver"
 	"learning_tools/etcd/register"
+	"log"
 	"sync"
 )
 
@@ -21,8 +22,6 @@ type Discovery struct {
 	Node    sync.Map
 	opts    *Options
 }
-
-type attributesEmpty struct{}
 
 const scheme = "grpclb"
 
@@ -47,30 +46,30 @@ func (d *Discovery) Build(target resolver.Target, cc resolver.ClientConn, opts r
 		return nil, err
 	}
 	for _, v := range res.Kvs {
-		if err = d.AddNode(v.Key, v.Value); err != nil {
-			return nil, err
-		}
+		d.AddNode(v.Key, v.Value)
 	}
-	go d.watcher()
-	return nil, err
+	go func(dd *Discovery) {
+		dd.watcher()
+	}(d)
+	return d, err
 }
 
-func (d *Discovery) AddNode(key, val []byte) error {
+func (d *Discovery) AddNode(key, val []byte) {
 	var data = new(register.Options)
 	err := json.Unmarshal(val, data)
 	if err != nil {
-		return err
+		return
 	}
 	addr := resolver.Address{Addr: data.Node.Address}
 	addr = SetNodeInfo(addr, data)
 	d.Node.Store(string(key), addr)
-	return d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
+	d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
 }
 
-func (d *Discovery) DelNode(key []byte) error {
+func (d *Discovery) DelNode(key []byte) {
 	keyStr := string(key)
 	d.Node.Delete(keyStr)
-	return d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
+	d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
 }
 
 func (d *Discovery) GetAddress() []resolver.Address {
@@ -101,6 +100,10 @@ func (d *Discovery) watcher() {
 	}
 }
 
-func (s *Discovery) Close() error {
-	return s.etcdCli.Close()
+func (s *Discovery) ResolveNow(rn resolver.ResolveNowOptions) {
+	log.Println("ResolveNow")
+}
+
+func (s *Discovery) Close() {
+	s.etcdCli.Close()
 }
