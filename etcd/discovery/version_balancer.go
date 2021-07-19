@@ -2,7 +2,7 @@ package discovery
 
 import (
 	"errors"
-	"fmt"
+	"google.golang.org/grpc/attributes"
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/balancer/base"
 	"google.golang.org/grpc/resolver"
@@ -13,7 +13,7 @@ import (
 
 // NewBuilder creates a new weight balancer builder.
 func newBuilder() balancer.Builder {
-	return base.NewBalancerBuilder("version", &rrPickerBuilder{}, base.Config{HealthCheck: true})
+	return base.NewBalancerBuilder("version", &rrPickerBuilder{}, base.Config{HealthCheck: false})
 }
 
 func init() {
@@ -51,7 +51,6 @@ func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 	version := info.Ctx.Value("version")
 	var subConns []balancer.SubConn
 	for conn, node := range p.node {
-		fmt.Println("FullMethodName", info.FullMethodName, "nodeInfo Node", node.Node, "Endpoints", node.Endpoints)
 		if version != "" {
 			if node.Node.Version == version.(string) {
 				subConns = append(subConns, conn)
@@ -70,6 +69,7 @@ func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 type attrKey struct{}
 
 func SetNodeInfo(addr resolver.Address, hInfo *register.Options) resolver.Address {
+	addr.Attributes = attributes.New()
 	addr.Attributes = addr.Attributes.WithValues(attrKey{}, hInfo)
 	return addr
 }

@@ -32,17 +32,13 @@ func TestClient(t *testing.T) {
 	}
 	defer conn.Close()
 	apiClient := api.NewApiClient(conn)
-	ctx := context.WithValue(context.Background(), "version", "v1")
-	req, err := apiClient.ApiTest(ctx, &api.Request{Input: "v1v1v1v1v1v1v1v1"})
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(req.String())
-	ctx = context.WithValue(context.Background(), "version", "v2")
-	req, err = apiClient.ApiTest(ctx, &api.Request{Input: "v2v2v2v2v2v2v2v2v2"})
-	if err != nil {
-		fmt.Println(err)
+	for i := 0; i < 100; i++ {
+		ctx := context.WithValue(context.Background(), "version", "v1")
+		_, err := apiClient.ApiTest(ctx, &api.Request{Input: fmt.Sprint(i)})
+		if err != nil {
+			fmt.Println(err)
+		}
+		time.Sleep(time.Second)
 	}
 	select {}
-
 }
