@@ -3,7 +3,7 @@ package main
 import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"learning_tools/grpc/simple_rpc/proto"
+	"learning_tools/grpc/etcd-grpc/proto"
 	"testing"
 )
 

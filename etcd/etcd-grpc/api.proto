@@ -1,0 +1,15 @@
+syntax = "proto3";
+package proto;
+option go_package = "/api";
+
+message Request {
+  string input = 1;
+}
+
+message Response {
+  string output = 1;
+}
+//protoc -I. --go_out=plugins=grpc:. api.proto
+service Api{
+  rpc ApiTest (Request) returns (Response){}
+}
