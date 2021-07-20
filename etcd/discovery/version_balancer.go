@@ -48,6 +48,7 @@ type rrPicker struct {
 
 func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 	p.mu.Lock()
+	defer p.mu.Unlock()
 	version := info.Ctx.Value("version")
 	var subConns []balancer.SubConn
 	for conn, node := range p.node {
@@ -62,7 +63,6 @@ func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 	}
 	index := rand.Intn(len(subConns))
 	sc := subConns[index]
-	p.mu.Unlock()
 	return balancer.PickResult{SubConn: sc}, nil
 }
 
