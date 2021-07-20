@@ -13,7 +13,7 @@ import (
 
 // NewBuilder creates a new weight balancer builder.
 func newBuilder() balancer.Builder {
-	return base.NewBalancerBuilder("version", &rrPickerBuilder{}, base.Config{HealthCheck: false})
+	return base.NewBalancerBuilder("version", &rrPickerBuilder{}, base.Config{HealthCheck: true})
 }
 
 func init() {
