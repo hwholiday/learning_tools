@@ -8,6 +8,7 @@ import (
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc/resolver"
 	"learning_tools/etcd/register"
+	"log"
 	"sync"
 )
 
@@ -43,7 +44,10 @@ func (d *Discovery) Build(target resolver.Target, cc resolver.ClientConn, opts r
 		return nil, err
 	}
 	for _, v := range res.Kvs {
-		d.AddNode(v.Key, v.Value)
+		if err = d.AddNode(v.Key, v.Value); err != nil {
+			log.Println(err)
+			continue
+		}
 	}
 	go func(dd *Discovery) {
 		dd.watcher()
@@ -51,22 +55,22 @@ func (d *Discovery) Build(target resolver.Target, cc resolver.ClientConn, opts r
 	return d, err
 }
 
-func (d *Discovery) AddNode(key, val []byte) {
+func (d *Discovery) AddNode(key, val []byte) error {
 	var data = new(register.Options)
 	err := json.Unmarshal(val, data)
 	if err != nil {
-		return
+		return err
 	}
 	addr := resolver.Address{Addr: data.Node.Address}
 	addr = SetNodeInfo(addr, data)
 	d.Node.Store(string(key), addr)
-	d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
+	return d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
 }
 
-func (d *Discovery) DelNode(key []byte) {
+func (d *Discovery) DelNode(key []byte) error {
 	keyStr := string(key)
 	d.Node.Delete(keyStr)
-	d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
+	return d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
 }
 
 func (d *Discovery) GetAddress() []resolver.Address {
@@ -89,9 +93,13 @@ func (d *Discovery) watcher() {
 		for _, ev := range res.Events {
 			switch ev.Type {
 			case mvccpb.PUT: //新增或修改
-				d.AddNode(ev.Kv.Key, ev.Kv.Value)
+				if err := d.AddNode(ev.Kv.Key, ev.Kv.Value); err != nil {
+					log.Println(err)
+				}
 			case mvccpb.DELETE: //删除
-				d.DelNode(ev.Kv.Key)
+				if err := d.DelNode(ev.Kv.Key); err != nil {
+					log.Println(err)
+				}
 			}
 		}
 	}
