@@ -8,7 +8,6 @@ import (
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc/resolver"
 	"learning_tools/etcd/register"
-	"log"
 	"sync"
 )
 
@@ -22,8 +21,6 @@ type Discovery struct {
 	Node    sync.Map
 	opts    *Options
 }
-
-const scheme = "grpclb"
 
 func NewDiscovery(opt ...ClientOptions) resolver.Builder {
 	s := &Discovery{
@@ -82,7 +79,7 @@ func (d *Discovery) GetAddress() []resolver.Address {
 }
 
 func (d *Discovery) Scheme() string {
-	return scheme
+	return "discovery"
 }
 
 //watcher 监听前缀
@@ -101,7 +98,7 @@ func (d *Discovery) watcher() {
 }
 
 func (s *Discovery) ResolveNow(rn resolver.ResolveNowOptions) {
-	log.Println("ResolveNow")
+	//log.Println("ResolveNow")
 }
 
 func (s *Discovery) Close() {

@@ -10,9 +10,9 @@ import (
 
 type Register struct {
 	etcdCli       *clientv3.Client
-	leaseID       clientv3.LeaseID
 	keepAliveChan <-chan *clientv3.LeaseKeepAliveResponse
 	opts          *Options
+	name          string
 }
 
 func NewRegister(opt ...RegisterOptions) (*Register, error) {
@@ -34,8 +34,8 @@ func NewRegister(opt ...RegisterOptions) (*Register, error) {
 	if err != nil {
 		return s, err
 	}
-	_, err = etcdCli.Put(ctx,
-		fmt.Sprintf("%s/%s", s.opts.Node.Path, s.opts.Node.Id), string(data), clientv3.WithLease(resp.ID))
+	s.name = fmt.Sprintf("%s/%s", s.opts.Node.Path, s.opts.Node.Id)
+	_, err = etcdCli.Put(ctx, s.name, string(data), clientv3.WithLease(resp.ID))
 	if err != nil {
 		return s, err
 	}
@@ -43,7 +43,6 @@ func NewRegister(opt ...RegisterOptions) (*Register, error) {
 	if err != nil {
 		return s, err
 	}
-	s.leaseID = resp.ID
 	return s, nil
 }
 
@@ -55,7 +54,7 @@ func (s *Register) ListenKeepAliveChan() (isClose bool) {
 
 // Close 注销服务
 func (s *Register) Close() error {
-	if _, err := s.etcdCli.Revoke(context.Background(), s.leaseID); err != nil {
+	if _, err := s.etcdCli.Delete(context.Background(), s.name); err != nil {
 		return err
 	}
 	return s.etcdCli.Close()
