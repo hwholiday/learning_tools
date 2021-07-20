@@ -22,8 +22,10 @@ func (a ApiService) ApiTest(ctx context.Context, request *api.Request) (*api.Res
 	return &api.Response{Output: "v1v1v1v1v1v1v1v1v1v1"}, nil
 }
 
+var Addr = "0.0.0.0:8089"
+
 func main() {
-	listener, err := net.Listen("tcp", "0.0.0.0:8089")
+	listener, err := net.Listen("tcp", Addr)
 	if err != nil {
 		log.Fatalf("net.Listen err: %v", err)
 	}
@@ -41,7 +43,7 @@ func main() {
 	}()
 	s, err := register.NewRegister(
 		register.SetName("hwholiday.srv.msg"),
-		register.SetAddress("0.0.0.0:8089"),
+		register.SetAddress(Addr),
 		register.SetVersion("v1"),
 		register.SetSrv(srv),
 		register.SetEtcdConf(clientv3.Config{
@@ -58,12 +60,13 @@ func main() {
 			c <- syscall.SIGQUIT
 		}
 	}()
+	fmt.Println("启动成功 === > ", Addr)
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	for a := range c {
 		switch a {
 		case syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT:
 			fmt.Println("退出")
-			_ = s.Close()
+			fmt.Println(s.Close())
 			return
 		default:
 			return
