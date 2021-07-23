@@ -30,15 +30,18 @@ func NewRegister(opt ...RegisterOptions) (*Register, error) {
 		return nil, err
 	}
 	s.etcdCli = etcdCli
+	//申请租约
 	resp, err := etcdCli.Grant(ctx, s.opts.RegisterTtl)
 	if err != nil {
 		return s, err
 	}
 	s.name = fmt.Sprintf("%s/%s", s.opts.Node.Path, s.opts.Node.Id)
+	//注册节点
 	_, err = etcdCli.Put(ctx, s.name, string(data), clientv3.WithLease(resp.ID))
 	if err != nil {
 		return s, err
 	}
+	//续约租约
 	s.keepAliveChan, err = etcdCli.KeepAlive(context.Background(), resp.ID)
 	if err != nil {
 		return s, err

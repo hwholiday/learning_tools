@@ -42,7 +42,7 @@ func main() {
 		}
 	}()
 	s, err := register.NewRegister(
-		register.SetName("hwholiday.srv.msg"),
+		register.SetName("hwholiday.srv.app"),
 		register.SetAddress(Addr),
 		register.SetVersion("v1"),
 		register.SetSrv(srv),
