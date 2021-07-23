@@ -3,7 +3,6 @@ package discovery
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"go.etcd.io/etcd/api/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc/resolver"
@@ -37,7 +36,6 @@ func NewDiscovery(opt ...ClientOptions) resolver.Builder {
 
 // Build 当调用`grpc.Dial()`时执行
 func (d *Discovery) Build(target resolver.Target, cc resolver.ClientConn, opts resolver.BuildOptions) (resolver.Resolver, error) {
-	fmt.Println("target", target)
 	d.cc = cc
 	res, err := d.etcdCli.Get(context.Background(), d.opts.SrvName, clientv3.WithPrefix())
 	if err != nil {
