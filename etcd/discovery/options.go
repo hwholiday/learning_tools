@@ -8,8 +8,9 @@ import (
 )
 
 type Options struct {
-	EtcdConf clientv3.Config `json:"-"`
-	SrvName  string
+	EtcdConf            clientv3.Config `json:"-"`
+	SrvName             string
+	LoadBalancingPolicy string
 }
 
 type ClientOptions func(*Options)
@@ -23,6 +24,12 @@ func SetName(name string) ClientOptions {
 func SetEtcdConf(conf clientv3.Config) ClientOptions {
 	return func(options *Options) {
 		options.EtcdConf = conf
+	}
+}
+
+func SetLoadBalancingPolicy(name string) ClientOptions {
+	return func(options *Options) {
+		options.LoadBalancingPolicy = name
 	}
 }
 
