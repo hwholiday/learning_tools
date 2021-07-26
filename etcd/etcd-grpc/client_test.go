@@ -32,7 +32,7 @@ func TestClient(t *testing.T) {
 	}
 	defer conn.Close()
 	apiClient := api.NewApiClient(conn)
-	ctx := context.WithValue(context.Background(), "version", "v2")
+	ctx := context.WithValue(context.Background(), "version", "v1")
 	res, err := apiClient.ApiTest(ctx, &api.Request{Input: "v1v1v1v1v1"})
 	if err != nil {
 		fmt.Println(err)
