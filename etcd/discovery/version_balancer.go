@@ -2,6 +2,7 @@ package discovery
 
 import (
 	"errors"
+	"fmt"
 	"google.golang.org/grpc/attributes"
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/balancer/base"
@@ -9,6 +10,7 @@ import (
 	"learning_tools/etcd/register"
 	"math/rand"
 	"sync"
+	"time"
 )
 
 // NewBuilder creates a new weight balancer builder.
@@ -48,6 +50,7 @@ type rrPicker struct {
 
 func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 	p.mu.Lock()
+	t := time.Now().UnixNano() / 1e6
 	defer p.mu.Unlock()
 	version := info.Ctx.Value("version")
 	var subConns []balancer.SubConn
@@ -63,7 +66,9 @@ func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 	}
 	index := rand.Intn(len(subConns))
 	sc := subConns[index]
-	return balancer.PickResult{SubConn: sc}, nil
+	return balancer.PickResult{SubConn: sc, Done: func(data balancer.DoneInfo) {
+		fmt.Println("test", info.FullMethodName, "end", data.Err, "time", time.Now().UnixNano()/1e6-t)
+	}}, nil
 }
 
 type attrKey struct{}
