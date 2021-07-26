@@ -9,6 +9,7 @@ import (
 	"learning_tools/etcd/register"
 	"log"
 	"sync"
+	"time"
 )
 
 type NodeArray struct {
@@ -37,7 +38,9 @@ func NewDiscovery(opt ...ClientOptions) resolver.Builder {
 // Build 当调用`grpc.Dial()`时执行
 func (d *Discovery) Build(target resolver.Target, cc resolver.ClientConn, opts resolver.BuildOptions) (resolver.Resolver, error) {
 	d.cc = cc
-	res, err := d.etcdCli.Get(context.Background(), d.opts.SrvName, clientv3.WithPrefix())
+	var ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	res, err := d.etcdCli.Get(ctx, d.opts.SrvName, clientv3.WithPrefix())
 	if err != nil {
 		return nil, err
 	}
@@ -47,6 +50,7 @@ func (d *Discovery) Build(target resolver.Target, cc resolver.ClientConn, opts r
 			continue
 		}
 	}
+	log.Printf("no %s service found , waiting for the service to join \n", d.opts.SrvName)
 	go func(dd *Discovery) {
 		dd.watcher()
 	}(d)
