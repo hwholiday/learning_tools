@@ -3,6 +3,7 @@ package discovery
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"go.etcd.io/etcd/api/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc/resolver"
@@ -11,6 +12,8 @@ import (
 	"sync"
 	"time"
 )
+
+var ErrLoadBalancingPolicy = errors.New("LoadBalancingPolicy is empty or not apply")
 
 type NodeArray struct {
 	Node []register.Options `json:"node"`
@@ -23,16 +26,21 @@ type Discovery struct {
 	opts    *Options
 }
 
-func NewDiscovery(opt ...ClientOptions) resolver.Builder {
+func NewDiscovery(opt ...ClientOptions) (resolver.Builder, error) {
 	s := &Discovery{
 		opts: newOptions(opt...),
 	}
+	if s.opts.LoadBalancingPolicy == VersionLB {
+		newVersionBuilder(s.opts)
+	} else {
+		return nil, ErrLoadBalancingPolicy
+	}
 	etcdCli, err := clientv3.New(s.opts.EtcdConf)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	s.etcdCli = etcdCli
-	return s
+	return s, nil
 }
 
 // Build 当调用`grpc.Dial()`时执行
@@ -50,7 +58,9 @@ func (d *Discovery) Build(target resolver.Target, cc resolver.ClientConn, opts r
 			continue
 		}
 	}
-	log.Printf("no %s service found , waiting for the service to join \n", d.opts.SrvName)
+	if len(res.Kvs) == 0 {
+		log.Printf("no %s service found , waiting for the service to join \n", d.opts.SrvName)
+	}
 	go func(dd *Discovery) {
 		dd.watcher()
 	}(d)

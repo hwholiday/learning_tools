@@ -13,18 +13,26 @@ import (
 	"time"
 )
 
+const VersionLB = "version"
+
 // NewBuilder creates a new weight balancer builder.
-func newBuilder() balancer.Builder {
-	return base.NewBalancerBuilder("version", &rrPickerBuilder{}, base.Config{HealthCheck: true})
+func newVersionBuilder(opt *Options) {
+	//balancer.Builder
+	builder := base.NewBalancerBuilder(VersionLB, &rrPickerBuilder{opt: opt}, base.Config{HealthCheck: true})
+	balancer.Register(builder)
+	return
 }
 
-func init() {
-	balancer.Register(newBuilder())
+//move discovery init
+/*func init() {
+	newBuilder(nil)
+}*/
+
+type rrPickerBuilder struct {
+	opt *Options // discovery Options info
 }
 
-type rrPickerBuilder struct{}
-
-func (*rrPickerBuilder) Build(info base.PickerBuildInfo) balancer.Picker {
+func (r *rrPickerBuilder) Build(info base.PickerBuildInfo) balancer.Picker {
 	if len(info.ReadySCs) == 0 {
 		return base.NewErrPicker(balancer.ErrNoSubConnAvailable)
 	}
@@ -52,7 +60,7 @@ func (p *rrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 	p.mu.Lock()
 	t := time.Now().UnixNano() / 1e6
 	defer p.mu.Unlock()
-	version := info.Ctx.Value("version")
+	version := info.Ctx.Value(VersionLB)
 	var subConns []balancer.SubConn
 	for conn, node := range p.node {
 		if version != "" {
