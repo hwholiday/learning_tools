@@ -11,6 +11,7 @@ import (
 	"hash"
 	"io"
 	"os"
+	"testing"
 )
 
 var PseronA_KDF_Prefix []byte
@@ -50,7 +51,7 @@ type PseronA struct {
 }
 
 //x3dh
-func main() {
+func Test_x3curve25519(t *testing.T) {
 	var a PseronA
 	a.IdentityPri, a.IdentityPub = GetCurve25519KeypPair()
 	a.SignedPri, a.SignedPub = GetCurve25519KeypPair()
@@ -80,15 +81,15 @@ func main() {
 
 	var bKey = bytes.Join([][]byte{b.DH1[:], b.DH2[:], b.DH3[:], b.DH4[:]}, []byte{})
 
-	fmt.Println("ADH1",  base64.StdEncoding.EncodeToString(a.DH1[:]))
-	fmt.Println("ADH2",  base64.StdEncoding.EncodeToString(a.DH2[:]))
-	fmt.Println("ADH3",  base64.StdEncoding.EncodeToString(a.DH3[:]))
-	fmt.Println("ADH4",  base64.StdEncoding.EncodeToString(a.DH4[:]))
+	fmt.Println("ADH1", base64.StdEncoding.EncodeToString(a.DH1[:]))
+	fmt.Println("ADH2", base64.StdEncoding.EncodeToString(a.DH2[:]))
+	fmt.Println("ADH3", base64.StdEncoding.EncodeToString(a.DH3[:]))
+	fmt.Println("ADH4", base64.StdEncoding.EncodeToString(a.DH4[:]))
 
-	fmt.Println("BDH1",  base64.StdEncoding.EncodeToString(b.DH1[:]))
-	fmt.Println("BDH2",  base64.StdEncoding.EncodeToString(b.DH2[:]))
-	fmt.Println("BDH3",  base64.StdEncoding.EncodeToString(b.DH3[:]))
-	fmt.Println("BDH4",  base64.StdEncoding.EncodeToString(b.DH4[:]))
+	fmt.Println("BDH1", base64.StdEncoding.EncodeToString(b.DH1[:]))
+	fmt.Println("BDH2", base64.StdEncoding.EncodeToString(b.DH2[:]))
+	fmt.Println("BDH3", base64.StdEncoding.EncodeToString(b.DH3[:]))
+	fmt.Println("BDH4", base64.StdEncoding.EncodeToString(b.DH4[:]))
 
 	fmt.Println("aKey", base64.StdEncoding.EncodeToString(aKey))
 	fmt.Println("aKey", base64.StdEncoding.EncodeToString(kdf(aKey)))
@@ -100,12 +101,12 @@ func main() {
 
 	for i := 1; i <= 3; i++ {
 		aSalt := GetCurve25519Key(a.EphemeralPri, b.EphemeralPub)
-		fmt.Println("计算Ａ的salt第 ",i," 次",  base64.StdEncoding.EncodeToString(aSalt[:]))
-		fmt.Println("计算A的KEY第 ",i," 次", base64.StdEncoding.EncodeToString(Signalkdf(aKey, aSalt, "A")))
+		fmt.Println("计算Ａ的salt第 ", i, " 次", base64.StdEncoding.EncodeToString(aSalt[:]))
+		fmt.Println("计算A的KEY第 ", i, " 次", base64.StdEncoding.EncodeToString(Signalkdf(aKey, aSalt, "A")))
 
 		bSalt := GetCurve25519Key(b.EphemeralPri, a.EphemeralPub)
-		fmt.Println("计算B的salt第 ",i," 次",  base64.StdEncoding.EncodeToString(bSalt[:]))
-		fmt.Println("计算B的KEY第 ",i," 次", base64.StdEncoding.EncodeToString(Signalkdf(bKey, bSalt, "B")))
+		fmt.Println("计算B的salt第 ", i, " 次", base64.StdEncoding.EncodeToString(bSalt[:]))
+		fmt.Println("计算B的KEY第 ", i, " 次", base64.StdEncoding.EncodeToString(Signalkdf(bKey, bSalt, "B")))
 	}
 
 }
