@@ -16,5 +16,5 @@ func TestNewBitMapFileTer(t *testing.T) {
 	})
 	b := NewBitMapFileTer(r, "gs_bitmap")
 	t.Log(b.Add("0x0a0f824b9e1e951560d9fa1fd4b89403d092d046"))
-	t.Log(b.Exist("0x0a0f824b9e1e951560d9fa1fd4b89403d092d046"))
+	t.Log(b.Exist("0x0a0f824b9e1e951560d9fa1fd4b89403d092d0461"))
 }

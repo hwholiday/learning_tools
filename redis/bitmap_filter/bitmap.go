@@ -3,7 +3,7 @@ package bitmap_filter
 import (
 	"context"
 	"github.com/go-redis/redis"
-	"hash/crc32"
+	"hash/fnv"
 )
 
 type BitMapFilter struct {
@@ -16,11 +16,19 @@ func NewBitMapFileTer(conn *redis.Client, key string) *BitMapFilter {
 }
 
 func (b *BitMapFilter) Add(str string) error {
-	return b.conn.SetBit(context.Background(), b.key, hashKey(str), 1).Err()
+	key, err := hashKey(str)
+	if err != nil {
+		return err
+	}
+	return b.conn.SetBit(context.Background(), b.key, key, 1).Err()
 }
 
 func (b *BitMapFilter) Exist(str string) (bool, error) {
-	res, err := b.conn.GetBit(context.Background(), b.key, hashKey(str)).Result()
+	key, err := hashKey(str)
+	if err != nil {
+		return false, err
+	}
+	res, err := b.conn.GetBit(context.Background(), b.key, key).Result()
 	if err != nil {
 		return false, err
 	}
@@ -30,6 +38,10 @@ func (b *BitMapFilter) Exist(str string) (bool, error) {
 	return true, nil
 }
 
-func hashKey(host string) int64 {
-	return int64(crc32.ChecksumIEEE([]byte(host)))
+func hashKey(host string) (int64, error) {
+	a := fnv.New32a()
+	if _, err := a.Write([]byte(host)); err != nil {
+		return 0, err
+	}
+	return int64(a.Sum32()), nil
 }
