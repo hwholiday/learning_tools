@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-08-30T07:28:55.408Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36" etag="7dx1GaRSKPwWqV1nsT5D" version="15.0.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-08-30T07:34:37.947Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36" etag="NXWoMl7ewfKH6KUFoeUA" version="15.0.3" type="github">
   <diagram name="Page-1" id="9361dd3d-8414-5efd-6122-117bd74ce7a7">
-    <mxGraphModel dx="1673" dy="5295" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1.5" pageWidth="826" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1422" dy="5161" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1.5" pageWidth="826" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -183,8 +183,29 @@
         <mxCell id="ok139ALbJn9GpQchz6-Z-125" value="支付API" style="swimlane;whiteSpace=wrap" vertex="1" parent="1">
           <mxGeometry x="990" y="-4270" width="170" height="760" as="geometry" />
         </mxCell>
-        <mxCell id="ok139ALbJn9GpQchz6-Z-126" value="process&#xa;command" style="" vertex="1" parent="ok139ALbJn9GpQchz6-Z-125">
+        <mxCell id="ok139ALbJn9GpQchz6-Z-126" value="判断币种" style="" vertex="1" parent="ok139ALbJn9GpQchz6-Z-125">
           <mxGeometry x="40" y="60" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-209" value="校验数据" style="" vertex="1" parent="ok139ALbJn9GpQchz6-Z-125">
+          <mxGeometry x="40" y="140" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-213" value="选择API发起支付" style="" vertex="1" parent="ok139ALbJn9GpQchz6-Z-125">
+          <mxGeometry x="40" y="290" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-214" value="结束" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="ok139ALbJn9GpQchz6-Z-125">
+          <mxGeometry x="45" y="440" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-224" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="ok139ALbJn9GpQchz6-Z-125" source="ok139ALbJn9GpQchz6-Z-217" target="ok139ALbJn9GpQchz6-Z-213">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-217" value="签名数据" style="" vertex="1" parent="ok139ALbJn9GpQchz6-Z-125">
+          <mxGeometry x="40" y="220" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-216" value="" style="endArrow=open;strokeColor=#FF0000;endFill=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="ok139ALbJn9GpQchz6-Z-125">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="94.40999999999985" y="110" as="sourcePoint" />
+            <mxPoint x="94.40999999999985" y="140" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="ok139ALbJn9GpQchz6-Z-131" value="扫块API" style="swimlane;whiteSpace=wrap" vertex="1" parent="1">
           <mxGeometry x="1160" y="-4270" width="170" height="760" as="geometry" />
@@ -254,6 +275,34 @@
             <mxPoint x="1030" y="-4187" as="targetPoint" />
             <Array as="points">
               <mxPoint x="970" y="-4187" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-218" value="" style="endArrow=open;strokeColor=#FF0000;endFill=1;rounded=0;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1085" y="-4070" as="sourcePoint" />
+            <mxPoint x="1084.9999999999995" y="-4050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-219" value="" style="endArrow=open;strokeColor=#FF0000;endFill=1;rounded=0;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="ok139ALbJn9GpQchz6-Z-214">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1085" y="-3930" as="sourcePoint" />
+            <mxPoint x="1094.4099999999999" y="-4120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-222" value="" style="endArrow=open;strokeColor=#FF0000;endFill=1;rounded=0;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1085.9999999999995" y="-4001" as="sourcePoint" />
+            <mxPoint x="1085.9999999999995" y="-3981" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ok139ALbJn9GpQchz6-Z-223" value="" style="endArrow=open;strokeColor=#FF0000;endFill=1;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1040" y="-3800" as="sourcePoint" />
+            <mxPoint x="725" y="-4180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1025" y="-3800" />
+              <mxPoint x="1025" y="-4180" />
             </Array>
           </mxGeometry>
         </mxCell>
