@@ -16,8 +16,8 @@ type RoomManage struct {
 
 func NewRoomManage() {
 	manage = &RoomManage{}
-	return
 }
+
 func GetRoomManage() *RoomManage {
 	return manage
 }

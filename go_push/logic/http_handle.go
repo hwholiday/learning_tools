@@ -22,7 +22,6 @@ func HttpPushAll(res http.ResponseWriter, req *http.Request) {
 		Info:     val,
 	})
 	_, _ = res.Write([]byte("全部推送任务添加成功"))
-	return
 }
 
 func HttpPushRoom(res http.ResponseWriter, req *http.Request) {
@@ -43,7 +42,6 @@ func HttpPushRoom(res http.ResponseWriter, req *http.Request) {
 		Info:     val,
 	})
 	_, _ = res.Write([]byte(fmt.Sprintf("[%s]房间推送任务添加成功", gateway.RoomTitle[roomId])))
-	return
 }
 
 func HttpRoomJoin(res http.ResponseWriter, req *http.Request) {
@@ -61,7 +59,6 @@ func HttpRoomJoin(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	_, _ = res.Write([]byte(fmt.Sprintf("加入[%s]房间成功", gateway.RoomTitle[roomId])))
-	return
 }
 
 func HttpRoomLeave(res http.ResponseWriter, req *http.Request) {
@@ -79,5 +76,4 @@ func HttpRoomLeave(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	_, _ = res.Write([]byte(fmt.Sprintf("离开[%s]房间成功", gateway.RoomTitle[roomId])))
-	return
 }
