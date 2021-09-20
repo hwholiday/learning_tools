@@ -1,13 +1,13 @@
 package gateway
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gorilla/websocket"
-	uuid "github.com/satori/go.uuid"
 	"sync"
 	"time"
+
+	"github.com/gorilla/websocket"
+	uuid "github.com/satori/go.uuid"
 )
 
 type WsConnection struct {
@@ -63,15 +63,16 @@ func (w *WsConnection) read() {
 	w.ws.SetReadLimit(1024)
 	_ = w.ws.SetReadDeadline(time.Now().Add(time.Second * 10))
 	for {
-		if _, Data, err = w.ws.ReadMessage(); err != nil {
+		var messageType int
+		if messageType, Data, err = w.ws.ReadMessage(); err != nil {
 			w.close()
 			return
 		}
-		message := &WSMessage{}
-		if err = json.Unmarshal(Data, message); err != nil {
-			w.close()
-			return
+		message := &WSMessage{
+			Type: messageType,
+			Data: string(Data),
 		}
+
 		select {
 		case w.readChan <- message:
 		case <-w.closeChan:
