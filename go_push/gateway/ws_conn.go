@@ -23,8 +23,8 @@ type WsConnection struct {
 }
 
 type WSMessage struct {
-	Type int    `json:"type"`
-	Data string `json:"data"`
+	Type int
+	Data string
 }
 
 var (
