@@ -118,10 +118,10 @@
 ### [service_load_balancing](https://github.com/hwholiday/learning_tools/tree/master/service_load_balancing) (负载均衡)
     1: fisher_yates_test  添加fisher-yates算法 负载均衡节点
 
-### [service_req_hystrix](https://github.com/hwholiday/learning_tools/tree/master/service_req_hystrix) (熔断)
+### [hystrix](https://github.com/hwholiday/learning_tools/tree/master/hystrix) (熔断)
     1: hystrix 学习并使用熔断（Hystrix）
 
-### [service_req_limit](https://github.com/hwholiday/learning_tools/tree/master/service_req_limit) (限流)
+### [req_limit](https://github.com/hwholiday/learning_tools/tree/master/req_limit) (限流)
     1: main 使用带缓存的channel实现限流
     2: uber_ratelimit 使用uber_ratelimit实现限流       
     
