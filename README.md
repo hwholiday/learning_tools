@@ -33,6 +33,7 @@
 
 # gRPC负载均衡（自定义负载均衡策略--etcd 实现）
 ### [hlb-grpc](https://github.com/hwholiday/learning_tools/tree/master/hlb-grpc) (gRPC负载均衡（自定义负载均衡策略--etcd 实现)
+### [详细介绍](https://www.hwholiday.com/2021/etcd_grpc/)
 
 ```
 ├── discovery
@@ -161,7 +162,7 @@
     2: curve25519 椭圆曲线算法
     3: 3curve25519 双棘轮算法,KDF链
 
-### [LRU](https://github.com/hwholiday/learning_tools/tree/master/LRU)(缓存淘汰算法)
+### [LRU](https://github.com/hwholiday/learning_tools/tree/master/LRU) (缓存淘汰算法)
     1: list lru 缓存淘汰算法 
     
 ### [tcp](https://github.com/hwholiday/learning_tools/tree/master/tcp) (tcp协议实现)
@@ -188,7 +189,7 @@
 ### [goquery](https://github.com/hwholiday/learning_tools/tree/master/goquery) (网页解析工具)
     1: main 可以作为爬虫解析网页使用
  
-### [active_object](https://github.com/hwholiday/learning_tools/tree/master/active_object)(并发设计模式)
+### [active_object](https://github.com/hwholiday/learning_tools/tree/master/active_object) (并发设计模式)
     1: active_object Go并发设计模式之Active Object
     
 ### [heap](https://github.com/hwholiday/learning_tools/tree/master/container/heap) (优先级队列)
