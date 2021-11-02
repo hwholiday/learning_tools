@@ -31,6 +31,28 @@
     └── main.go
     ```
 
+# gRPC负载均衡（自定义负载均衡策略--etcd 实现）
+### [hlb-grpc](https://github.com/hwholiday/learning_tools/tree/master/hlb-grpc) (gRPC负载均衡（自定义负载均衡策略--etcd 实现)
+
+```
+├── discovery
+│   ├── customize_balancer.go
+│   ├── discovery.go
+│   └── options.go
+├── example
+│   ├── api
+│   │   └── api.pb.go
+│   ├── api.proto
+│   ├── client_test.go
+│   └── server.go
+└── register
+    ├── options.go
+    ├── register.go
+    └── register_test.go
+
+```
+
+
 ### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/micro_agent) (micro微服务)
     1: base 基础方法
     2: conf 配置文件
@@ -73,7 +95,7 @@
 ### [kafka](https://github.com/hwholiday/learning_tools/tree/master/kafka) (分布式消息发布订阅系统)
     1: main 消息队列
     
-### [NATS_streaming](https://github.com/hwholiday/learning_tools/tree/master/NATS_streaming)(分布式消息发布订阅系统--是由NATS驱动的数据流系统)
+### [NATS_streaming](https://github.com/hwholiday/learning_tools/tree/master/NATS_streaming) (分布式消息发布订阅系统--是由NATS驱动的数据流系统)
     1: main 消息队列
     
 ### [nsq](https://github.com/hwholiday/learning_tools/tree/master/kafka) (分布式实时消息平台)
@@ -95,9 +117,6 @@
     
 ### [service_load_balancing](https://github.com/hwholiday/learning_tools/tree/master/service_load_balancing) (负载均衡)
     1: fisher_yates_test  添加fisher-yates算法 负载均衡节点
-
-### [service_registration_discovery](https://github.com/hwholiday/learning_tools/tree/master/service_registration_discovery) (服务注册与发现)
-    1: etcdv3  通过etcd实现服务注册与发现
 
 ### [service_req_hystrix](https://github.com/hwholiday/learning_tools/tree/master/service_req_hystrix) (熔断)
     1: hystrix 学习并使用熔断（Hystrix）
