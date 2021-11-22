@@ -6,11 +6,11 @@ import (
 )
 
 type Options struct {
-	EtcdConf      clientv3.Config `json:"-"`
-	RegisterTtl   time.Duration   `json:"register_ttl"`
-	LocalConfName string          `json:"local_conf_name"`
-	UseLocal      bool            `json:"use_local"`
-	WatchRoot     []string        `json:"watch_root"`
+	EtcdConf        clientv3.Config
+	EtcdReadTimeOut time.Duration
+	LocalConfName   string
+	UseLocal        bool
+	WatchRootName   []string
 }
 
 type RegisterOptions func(*Options)
@@ -21,14 +21,18 @@ func newOptions(opt ...RegisterOptions) *Options {
 			Endpoints:   []string{"127.0.0.1:2379"},
 			DialTimeout: 3 * time.Second,
 		},
-		RegisterTtl:   2 * time.Second,
-		LocalConfName: "./hconf.yaml",
-		UseLocal:      false,
+		EtcdReadTimeOut: 2 * time.Second,
+		LocalConfName:   "./hconf.yaml",
+		UseLocal:        false,
 	}
 	for _, o := range opt {
 		o(opts)
 	}
 	return opts
+}
+
+func (p *Options) UseLocalConf() bool {
+	return p.UseLocal
 }
 
 func SetEtcdConf(conf clientv3.Config) RegisterOptions {
@@ -42,6 +46,11 @@ func SetUseLocal() RegisterOptions {
 		options.UseLocal = true
 	}
 }
+func SetEtcdReadTimeOut(t time.Duration) RegisterOptions {
+	return func(options *Options) {
+		options.EtcdReadTimeOut = t
+	}
+}
 
 func SetLocalConfName(name string) RegisterOptions {
 	return func(options *Options) {
@@ -49,8 +58,8 @@ func SetLocalConfName(name string) RegisterOptions {
 	}
 }
 
-func SetWatchRoot(name []string) RegisterOptions {
+func SetWatchRootName(name []string) RegisterOptions {
 	return func(options *Options) {
-		options.WatchRoot = name
+		options.WatchRootName = name
 	}
 }
