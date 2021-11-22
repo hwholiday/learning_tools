@@ -1,9 +1,13 @@
 package hconf
 
-import "testing"
+import (
+	"testing"
+)
 
 type Conf struct {
-	Net Net
+	Net  Net
+	Net2 Net
+	Net3 Net
 }
 
 type Net struct {
@@ -13,12 +17,20 @@ type Net struct {
 
 func TestHConf(t *testing.T) {
 	var conf = Conf{}
-	r, err := NewHConf()
+	r, err := NewHConf(
+		SetWatchRootName([]string{"/gs/conf"}),
+	)
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	r.GetConfByKey("/gs/conf/net", &conf.Net)
-	r.Run()
+	t.Log(r.GetConfByKey("/gs/conf/net", &conf.Net))
+	t.Log(r.GetConfByKey("/gs/conf/net2222", &conf.Net2))
+	t.Log(r.GetConfByKey("/gs/conf/net3333", &conf.Net3))
+	if err := r.Run(); err != nil {
+		t.Error(err)
+		return
+	}
 	t.Log(conf)
+	t.Log(r.Close())
 }

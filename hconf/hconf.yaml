@@ -1,0 +1,9 @@
+/gs/conf/net:
+  host: "123123111111"
+  port: "123123"
+/gs/conf/net2222:
+  host: "123123111111"
+  port: "123123"
+/gs/conf/net3333:
+  host: ""
+  port: ""
