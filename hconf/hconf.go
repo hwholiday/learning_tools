@@ -13,7 +13,13 @@ import (
 	"time"
 )
 
-type Register struct {
+type Register interface {
+	ConfByKey(key string, val interface{}) error
+	Run() error
+	Close() error
+}
+
+type register struct {
 	etcdCli    *clientv3.Client
 	opts       *Options
 	viper      *viper.Viper
@@ -22,8 +28,8 @@ type Register struct {
 	needPutKey []string
 }
 
-func NewHConf(opt ...RegisterOptions) (*Register, error) {
-	s := &Register{
+func NewHConf(opt ...RegisterOptions) (Register, error) {
+	s := &register{
 		opts:    newOptions(opt...),
 		confDef: make(map[string]interface{}),
 		viper:   viper.New(),
@@ -46,7 +52,7 @@ func NewHConf(opt ...RegisterOptions) (*Register, error) {
 	return s, nil
 }
 
-func (r *Register) Run() error {
+func (r *register) Run() error {
 	if r.opts.UseLocalConf() {
 		return r.loadLocal()
 	}
@@ -57,7 +63,7 @@ func (r *Register) Run() error {
 	return nil
 }
 
-func (r *Register) putNeedKv() error {
+func (r *register) putNeedKv() error {
 	if len(r.needPutKey) == 0 {
 		return nil
 	}
@@ -77,7 +83,7 @@ func (r *Register) putNeedKv() error {
 	return nil
 }
 
-func (r *Register) GetConfByKey(key string, val interface{}) error {
+func (r *register) ConfByKey(key string, val interface{}) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	r.confDef[key] = val
@@ -95,7 +101,7 @@ func (r *Register) GetConfByKey(key string, val interface{}) error {
 	return yaml.Unmarshal(res, val)
 }
 
-func (r *Register) Close() error {
+func (r *register) Close() error {
 	if err := r.etcdCli.Close(); err != nil {
 		return err
 	}
@@ -105,7 +111,7 @@ func (r *Register) Close() error {
 	return r.viper.WriteConfig()
 }
 
-func (r *Register) readEtcdConf(key string) ([]byte, error) {
+func (r *register) readEtcdConf(key string) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), r.opts.EtcdReadTimeOut)
 	defer cancel()
 	res, err := r.etcdCli.Get(ctx, key)
@@ -120,7 +126,7 @@ func (r *Register) readEtcdConf(key string) ([]byte, error) {
 	return nil, err
 }
 
-func (r *Register) putEtcdConf(key string, val interface{}) error {
+func (r *register) putEtcdConf(key string, val interface{}) error {
 	if fmt.Sprint(val) == "map[]" {
 		log.Println(fmt.Sprintf("No %s configuration found in etcd or local", key))
 		return errors.New(fmt.Sprintf("No %s configuration found in etcd or local", key))
@@ -139,14 +145,14 @@ func (r *Register) putEtcdConf(key string, val interface{}) error {
 	return nil
 }
 
-func (r *Register) loadLocalKey() error {
+func (r *register) loadLocalKey() error {
 	if err := r.viper.ReadInConfig(); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (r *Register) loadLocal() error {
+func (r *register) loadLocal() error {
 	if err := r.viper.ReadInConfig(); err != nil {
 		return err
 	}
@@ -158,7 +164,7 @@ func (r *Register) loadLocal() error {
 	return nil
 }
 
-func (r *Register) checkEtcd() bool {
+func (r *register) checkEtcd() bool {
 	ctx, cancel := context.WithTimeout(context.Background(), r.opts.EtcdReadTimeOut*time.Duration(len(r.opts.EtcdConf.Endpoints)))
 	defer cancel()
 	for _, v := range r.opts.EtcdConf.Endpoints {
@@ -170,25 +176,25 @@ func (r *Register) checkEtcd() bool {
 	return true
 }
 
-func (r *Register) watchRookKey() {
+func (r *register) watchRookKey() {
 	if r.opts.UseLocalConf() {
 		return
 	}
 	for _, v := range r.opts.WatchRootName {
-		go func(register *Register, key string) {
+		go func(reg *register, key string) {
 			rch := r.etcdCli.Watch(context.Background(), key, clientv3.WithPrefix())
 			for res := range rch {
 				for _, ev := range res.Events {
 					switch ev.Type {
 					case mvccpb.PUT: //新增或修改
 						k := string(ev.Kv.Key)
-						if val, ok := register.confDef[k]; ok {
-							register.mu.Lock()
+						if val, ok := reg.confDef[k]; ok {
+							reg.mu.Lock()
 							if err := yaml.Unmarshal(ev.Kv.Value, val); err != nil {
 								log.Printf("change key %s ,data %s,err %s \n", k, string(ev.Kv.Value), err)
 							}
 							log.Printf("change key %s success data {%s}\n", k, string(ev.Kv.Value))
-							register.mu.Unlock()
+							reg.mu.Unlock()
 						}
 					}
 				}
