@@ -78,7 +78,9 @@ func (r *register) putNeedKv() error {
 		if err := r.putEtcdConf(k, mapData); err != nil {
 			return err
 		}
+		r.mu.Lock()
 		_ = r.viper.UnmarshalKey(k, r.confDef[k])
+		r.mu.Unlock()
 	}
 	return nil
 }
@@ -157,9 +159,11 @@ func (r *register) loadLocal() error {
 		return err
 	}
 	for k, _ := range r.confDef {
+		r.mu.Lock()
 		if err := r.viper.UnmarshalKey(k, r.confDef[k]); err != nil {
 			return err
 		}
+		r.mu.Unlock()
 	}
 	return nil
 }
