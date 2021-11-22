@@ -3,10 +3,10 @@ package discovery
 import (
 	"context"
 	"encoding/json"
-	"go.etcd.io/etcd/api/mvccpb"
+	"github.com/hwholiday/learning_tools/hlb-grpc/register"
+	"go.etcd.io/etcd/api/v3/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc/resolver"
-	"learning_tools/hlb-grpc/register"
 	"log"
 	"sync"
 	"time"
@@ -73,13 +73,15 @@ func (d *Discovery) AddNode(key, val []byte) error {
 	addr := resolver.Address{Addr: data.Node.Address}
 	addr = SetNodeInfo(addr, data)
 	d.Node.Store(string(key), addr)
-	return d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
+	d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
+	return nil
 }
 
 func (d *Discovery) DelNode(key []byte) error {
 	keyStr := string(key)
 	d.Node.Delete(keyStr)
-	return d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
+	d.cc.UpdateState(resolver.State{Addresses: d.GetAddress()})
+	return nil
 }
 
 func (d *Discovery) GetAddress() []resolver.Address {
