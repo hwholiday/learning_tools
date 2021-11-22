@@ -24,9 +24,9 @@ func TestHConf(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	t.Log(r.GetConfByKey("/gs/conf/net", &conf.Net))
-	t.Log(r.GetConfByKey("/gs/conf/net2222", &conf.Net2))
-	t.Log(r.GetConfByKey("/gs/conf/net3333", &conf.Net3))
+	t.Log(r.ConfByKey("/gs/conf/net", &conf.Net))
+	t.Log(r.ConfByKey("/gs/conf/net2222", &conf.Net2))
+	t.Log(r.ConfByKey("/gs/conf/net3333", &conf.Net3))
 	if err := r.Run(); err != nil {
 		t.Error(err)
 		return
