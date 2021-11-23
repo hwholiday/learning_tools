@@ -33,7 +33,19 @@
 
 # gRPC负载均衡（自定义负载均衡策略--etcd 实现）
 ### [hlb-grpc](https://github.com/hwholiday/learning_tools/tree/master/hlb-grpc) (gRPC负载均衡（自定义负载均衡策略--etcd 实现)
+##### 实现基于版本（version）的grpc负载均衡器，了解过程后可自己实现更多的负载均衡功能
 ### [详细介绍](https://www.hwholiday.com/2021/etcd_grpc/)
++ 注册中心
+  - Etcd Lease 是一种检测客户端存活状况的机制。 群集授予具有生存时间的租约。 如果etcd 群集在给定的TTL 时间内未收到keepAlive，则租约到期。 为了将租约绑定到键值存储中，每个key 最多可以附加一个租约
++ 服务注册 (注册服务)
+  - 定时把本地服务（APP）地址,版本等信息注册到服务器
++ 服务发现 (客户端发起服务解析请求（APP）)
+  - 查询注册中心（APP）下有那些服务
+  - 并向所有的服务建立HTTP2长链接
+  - 通过Etcd watch 监听服务（APP），通过变化更新链接
++ 负载均衡 (客户端发起请求（APP）)
+  - 负载均衡选择合适的服务（APP HTTP2长链接）
+  - 发起调用
 
 ```
 ├── discovery
