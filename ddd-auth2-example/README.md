@@ -58,12 +58,8 @@
 │   │   │   ├── mongo
 │   │   │   │   └── mgo.go
 │   │   │   └── redis
-│   │   │       ├── bitmap_filter
-│   │   │       │   ├── bitmap.go
-│   │   │       │   └── bitmap_test.go
 │   │   │       ├── lock.go
 │   │   │       ├── redis.go
-│   │   │       └── redis_test.go
 │   │   ├── hcode
 │   │   │   ├── base.go
 │   │   │   └── code.go
