@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	key = "1wr3auth2hys!@#"
+	key = "1Wsaw2V3zx265x)!@#"
 )
 
 type JwtToken struct {
