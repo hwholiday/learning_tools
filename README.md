@@ -50,7 +50,7 @@
 ```
 # 仿微信 auth2 授权登陆
 ##### DDD（领域设计驱动）+六边形架构
-### [auth2](https://github.com/hwholiday/learning_tools/tree/master/auth2)
+### [auth2](https://github.com/hwholiday/learning_tools/tree/master/ddd-auth2-example)
 ```base
 .
 ├── adpter
