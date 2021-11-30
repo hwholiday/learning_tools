@@ -1,0 +1,26 @@
+netConf:
+  name: app
+  serverAddr: 0.0.0.0:8888
+  readTimeout: 10
+  writeTimeout: 10
+redis:
+  poolSize: 20
+  addr:
+    - 0.0.0.0:6379
+  DialTimeout: 0s
+  ReadTimeout: 0s
+  WriteTimeout: 0s
+mongo:
+  addr: mongodb://0.0.0.0:27017
+  user: root
+  password: "123456"
+  active: 100
+  idleTimeout: 4200
+log:
+  logFileDir: logs
+  appName: app
+  platform: local
+  maxSize: 100
+  maxBackups: 60
+  maxAge: 30
+  level: debug

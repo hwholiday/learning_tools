@@ -1,7 +1,7 @@
 package tool
 
 import (
-	"file_storage/base/config"
+	"github.com/hwholiday/learning_tools/all_packaged_library/base/config"
 	"sync"
 )
 
