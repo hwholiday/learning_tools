@@ -62,7 +62,7 @@
 
 # Golang DDD 的项目分层结构（六边形架构）
 
-### [AUTH2](https://github.com/hwholiday/learning_tools/tree/master/ddd-project-example) （DDD 项目分层结构）
+### [DDD](https://github.com/hwholiday/learning_tools/tree/master/ddd-project-example) （DDD 项目分层结构）
 
 ```base
 ├── cmd 存放 main.go 等
