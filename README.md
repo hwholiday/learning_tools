@@ -111,7 +111,7 @@
     └── main.go
     ```
 
-### [基于etcd与viper的高可用配置中心](https://github.com/hwholiday/learning_tools/tree/master/hconf)
+### [HConf (基于etcd与viper的高可用配置中心)](https://github.com/hwholiday/learning_tools/tree/master/hconf)
 
 - 可使用远程与本地模式
 - 本地有的配置远程没有会自动把本地配置传到远程（基于key）
@@ -139,6 +139,8 @@ t.Log(conf)
 t.Log(r.Close())
 ```
 
+### [HEvent (基于channel )](https://github.com/hwholiday/learning_tools/tree/master/hevent)
+    1: 基于channel的简单事件订阅发布
 ### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/micro_agent) (micro微服务)
 
     1: base 基础方法
