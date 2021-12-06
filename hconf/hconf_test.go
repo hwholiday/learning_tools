@@ -1,6 +1,7 @@
 package hconf
 
 import (
+	clientv3 "go.etcd.io/etcd/client/v3"
 	"testing"
 )
 
@@ -19,6 +20,9 @@ func TestHConf(t *testing.T) {
 	var conf = Conf{}
 	r, err := NewHConf(
 		SetWatchRootName([]string{"/gs/conf"}),
+		SetEtcdConf(clientv3.Config{
+			Endpoints: []string{"127.0.0.1:2379"},
+		}),
 	)
 	if err != nil {
 		t.Error(err)
