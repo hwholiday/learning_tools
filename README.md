@@ -141,6 +141,7 @@ t.Log(r.Close())
 
 ### [HEvent (基于channel )](https://github.com/hwholiday/learning_tools/tree/master/hevent)
     1: 基于channel的简单事件订阅发布
+
 ### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/micro_agent) (micro微服务)
 
     1: base 基础方法
@@ -148,28 +149,6 @@ t.Log(r.Close())
     3：handler 对外处理方法
     4：model 数据格式
     5：proto protobuf 文件
-
-### [project_layout](https://github.com/hwholiday/learning_tools/tree/master/project_layout) (项目结构)
-
-    ```base
-    详细介绍查看文件夹内README.me内容
-    
-    ├─api
-    ├─build
-    ├─cmd
-    ├─configs
-    ├─internal
-    │  ├─app
-    │  │  ├─common
-    │  │  ├─controller
-    │  │  ├─entity
-    │  │  ├─repository
-    │  │  ├─router
-    │  │  │  └─middleware
-    │  │  └─service
-    │  └─pkg
-    └─tool
-    ```
 
 ### [all_packaged_library](https://github.com/hwholiday/learning_tools/tree/master/all_packaged_library) 里面封装了一些常用的库，有详细的介绍，持续更新
 
