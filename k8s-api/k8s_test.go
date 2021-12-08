@@ -10,7 +10,7 @@ import (
 )
 
 func TestK8s(t *testing.T) {
-	client, err := NewK8sClientset(KubeConfigPath("/home/jk/.kube/config"))
+	client, err := NewK8sClientset(KubeConfigPath("/home/app/.kube/config"))
 	if err != nil {
 		panic(err)
 	}
