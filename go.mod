@@ -77,4 +77,5 @@ require (
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0
+	k8s.io/client-go v0.23.0
 )
