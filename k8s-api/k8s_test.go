@@ -3,8 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/informers"
+	"k8s.io/client-go/tools/cache"
 	"testing"
 	"time"
 )
@@ -16,7 +18,7 @@ func TestK8s(t *testing.T) {
 	}
 
 	informerFactory := informers.NewSharedInformerFactory(client, time.Minute*10)
-	informerFactory.Core().V1().Pods().Informer()
+	informer := informerFactory.Core().V1().Pods().Informer()
 	podLister := informerFactory.Core().V1().Pods().Lister()
 	var stopCh = make(chan struct{})
 	informerFactory.Start(stopCh)
@@ -27,9 +29,8 @@ func TestK8s(t *testing.T) {
 	//})
 	go func() {
 		for {
-
 			pods, err := podLister.List(labels.SelectorFromSet(map[string]string{
-				//"component": "etcd",
+				"component": "etcd",
 			}))
 			if err != nil {
 				panic(err)
@@ -54,6 +55,31 @@ func TestK8s(t *testing.T) {
 		}
 	}()
 
+	go func() {
+		informer.AddEventHandler(cache.FilteringResourceEventHandler{
+			FilterFunc: func(obj interface{}) bool {
+				select {
+				case <-stopCh:
+					return false
+				default:
+					pod := obj.(*v1.Pod)
+					val := pod.GetLabels()["component"]
+					return val == "etcd"
+				}
+			},
+			Handler: cache.ResourceEventHandlerFuncs{
+				AddFunc: func(obj interface{}) {
+					fmt.Println("AddFunc", obj)
+				},
+				UpdateFunc: func(oldObj, newObj interface{}) {
+					fmt.Println("AddFunc", oldObj, newObj)
+				},
+				DeleteFunc: func(obj interface{}) {
+					fmt.Println("DeleteFunc", obj)
+				},
+			},
+		})
+	}()
 	<-stopCh
 	return
 }
