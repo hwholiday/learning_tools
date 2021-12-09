@@ -2,11 +2,11 @@ package discovery
 
 import (
 	"fmt"
+	"github.com/hwholiday/learning_tools/hlb-grpc/register"
 	"google.golang.org/grpc/attributes"
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/balancer/base"
 	"google.golang.org/grpc/resolver"
-	"learning_tools/hlb-grpc/register"
 	"math/rand"
 	"strings"
 	"sync"
@@ -21,7 +21,7 @@ var limit sync.Map
 // NewBuilder creates a new weight balancer builder.
 func newCustomizeBuilder(opt *Options) {
 	//balancer.Builder
-	builder := base.NewBalancerBuilder(CustomizeLB, &rrPickerBuilder{opt: opt}, base.Config{HealthCheck: true})
+	builder := base.NewBalancerBuilderV2(CustomizeLB, &rrPickerBuilder{opt: opt}, base.Config{HealthCheck: true})
 	balancer.Register(builder)
 	return
 }
@@ -35,9 +35,9 @@ type rrPickerBuilder struct {
 	opt *Options // discovery Options info
 }
 
-func (r *rrPickerBuilder) Build(info base.PickerBuildInfo) balancer.Picker {
+func (r *rrPickerBuilder) Build(info base.PickerBuildInfo) balancer.V2Picker {
 	if len(info.ReadySCs) == 0 {
-		return base.NewErrPicker(balancer.ErrNoSubConnAvailable)
+		return base.NewErrPickerV2(balancer.ErrNoSubConnAvailable)
 	}
 	var scs = make(map[balancer.SubConn]*register.Options, len(info.ReadySCs))
 	for conn, addr := range info.ReadySCs {
@@ -47,7 +47,7 @@ func (r *rrPickerBuilder) Build(info base.PickerBuildInfo) balancer.Picker {
 		}
 	}
 	if len(scs) == 0 {
-		return base.NewErrPicker(balancer.ErrNoSubConnAvailable)
+		return base.NewErrPickerV2(balancer.ErrNoSubConnAvailable)
 	}
 	return &rrPicker{
 		node: scs,
