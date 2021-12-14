@@ -93,6 +93,22 @@
         └── do 数据库映射对象
 ```
 
+# 封装 zap 日志注入 trace 信息 Trace Id（内含 gin 例子）
+
+### [hlog](https://github.com/hwholiday/learning_tools/tree/master/hlog) (源码地址)
+
+- 实现自动切割文件 (基于 lumberjack 实现)
+- 实现可传递 trace 信息 （基于 Context 实现）
+
+```base
+{"level":"info","ts":1639453661.4718382,"caller":"example/main.go:36","msg":"hconf example success"}
+{"level":"info","ts":1639453664.7402327,"caller":"example/main.go:19","msg":"AddTraceId success","traceId":"68867b89-c949-45a4-b325-86866c9f869a"}
+{"level":"info","ts":1639453664.7402515,"caller":"example/main.go:32","msg":"test","traceId":"68867b89-c949-45a4-b325-86866c9f869a"}
+{"level":"debug","ts":1639453664.7402549,"caller":"example/main.go:33","msg":"test","traceId":"68867b89-c949-45a4-b325-86866c9f869a"}
+```
+
+
+
 # go_push 一个实用的消息推送服务
 
 ### [go_push](https://github.com/hwholiday/learning_tools/tree/master/go_push) (推送服务)

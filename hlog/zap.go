@@ -53,10 +53,6 @@ func (l *Logger) GetCtx(ctx context.Context) *zap.Logger {
 }
 
 func (l *Logger) AddCtx(ctx context.Context, field ...zap.Field) (context.Context, *zap.Logger) {
-	if l == nil {
-		fmt.Println("Please initialize the hlog service first")
-		return ctx, nil
-	}
 	log := l.With(field...)
 	ctx = context.WithValue(ctx, l.opts.CtxKey, log)
 	return ctx, log

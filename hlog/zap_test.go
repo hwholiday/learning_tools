@@ -9,6 +9,7 @@ import (
 
 func TestGetLogger(t *testing.T) {
 	NewLogger()
+	GetLogger().Info("hconf example success")
 	// 可以在中间件内赋值
 	ctx, hlog := GetLogger().AddCtx(context.Background(), zap.String("traceId", uuid.New().String()))
 	hlog.Debug("TestGetLogger", zap.Any("t", "t"))

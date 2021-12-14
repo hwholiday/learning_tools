@@ -23,7 +23,8 @@ func AddTraceId() gin.HandlerFunc {
 
 // curl http://127.0.0.1:8888/test
 func main() {
-	hlog.NewLogger()
+	hlog.NewLogger(
+		hlog.SetDevelopment(false))
 	g := gin.New()
 	g.Use(AddTraceId())
 	g.GET("/test", func(context *gin.Context) {
