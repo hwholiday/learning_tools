@@ -8,13 +8,10 @@ import (
 )
 
 func TestGetLogger(t *testing.T) {
-	NewLogger(
-		SetWriteFile(true),
-		SetDevelopment(false),
-	)
+	NewLogger()
 	// 可以在中间件内赋值
 	ctx, hlog := GetLogger().AddCtx(context.Background(), zap.String("traceId", uuid.New().String()))
-	hlog.Info("TestGetLogger", zap.Any("t", "t"))
+	hlog.Debug("TestGetLogger", zap.Any("t", "t"))
 	FA(ctx)
 	FB(ctx)
 
