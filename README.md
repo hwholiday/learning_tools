@@ -175,7 +175,7 @@ t.Log(r.Close())
     5: quit 优雅的退出程序
     6: registrySelector 基于etcd实现的服务注册，发现，负载均衡
 
-### [nsq](https://github.com/hwholiday/learning_tools/tree/master/docker) (为你的服务插上docker_compose翅膀)
+### [docker](https://github.com/hwholiday/learning_tools/tree/master/docker) (为你的服务插上docker_compose翅膀)
 
      1: docker 为你的服务插上docker_compose翅膀   
 
@@ -187,7 +187,7 @@ t.Log(r.Close())
 
     1: main 消息队列
 
-### [nsq](https://github.com/hwholiday/learning_tools/tree/master/kafka) (分布式实时消息平台)
+### [nsq](https://github.com/hwholiday/learning_tools/tree/master/nsq) (分布式实时消息平台)
 
     1: main 消息队列
 
@@ -254,10 +254,6 @@ t.Log(r.Close())
 
     1: jwt 学习使用   
 
-### [zaplog](https://github.com/hwholiday/learning_tools/tree/master/kafka) (uber zap日志封装)
-
-    1: zap 日志封装    
-
 ### [snow_flake](https://github.com/hwholiday/learning_tools/tree/master/snow_flake) (雪花算法)
 
     1: main 雪花算法    
@@ -295,9 +291,9 @@ t.Log(r.Close())
 
     1: main 监控文件变化 可实现自动构建
 
-### [push](https://github.com/hwholiday/learning_tools/tree/master/prometheus) (一个简单的推送服务)
+### [prometheus](https://github.com/hwholiday/learning_tools/tree/master/prometheus) (普罗米修斯)
 
-    1: main 推送服务    
+    1: main 普罗米修斯    
 
 ### [goquery](https://github.com/hwholiday/learning_tools/tree/master/goquery) (网页解析工具)
 
