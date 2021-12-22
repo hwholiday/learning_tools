@@ -7,7 +7,7 @@ import clientv3 "go.etcd.io/etcd/client/v3"
 
 func TestNewEtcdConfig(t *testing.T) {
 	cli, err := clientv3.New(clientv3.Config{
-		Endpoints: []string{"172.12.12.165:2379"},
+		Endpoints: []string{"127.0.0.1:2379"},
 	})
 	if err != nil {
 		t.Error(err)
