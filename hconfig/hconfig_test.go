@@ -1,6 +1,7 @@
 package hconfig
 
 import (
+	"github.com/hwholiday/learning_tools/hconfig/apollo"
 	"github.com/hwholiday/learning_tools/hconfig/etcd"
 	"github.com/hwholiday/learning_tools/hconfig/kubernetes"
 	clientv3 "go.etcd.io/etcd/client/v3"
@@ -72,6 +73,44 @@ func TestNewHConfig_K8S(t *testing.T) {
 		return
 	}
 	val, err := conf.GetPath("im-test-conf")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Logf("val %+v\n", val.String())
+	if err = conf.WatchPaths(func(path string, v HVal) {
+		t.Logf("path %s val %+v\n", path, v.String())
+
+	}); err != nil {
+		t.Error(err)
+		return
+	}
+	select {}
+}
+
+func TestNewHConfig_Apollo(t *testing.T) {
+	c, err := apollo.NewApolloConfig(
+		apollo.WithAppid("test"),
+		apollo.WithNamespace("test.yaml"),
+		apollo.WithAddr("http://127.0.0.1:32001"),
+		apollo.WithCluster("dev"),
+	)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	conf, err := NewHConfig(
+		WithDataSource(c),
+	)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if err = conf.Load(); err != nil {
+		t.Error(err)
+		return
+	}
+	val, err := conf.GetPath("test.yaml")
 	if err != nil {
 		t.Error(err)
 		return

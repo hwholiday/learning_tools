@@ -66,6 +66,7 @@ require (
 )
 
 require (
+	github.com/apolloconfig/agollo/v4 v4.0.11
 	github.com/nats-io/nats-streaming-server v0.23.2 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect

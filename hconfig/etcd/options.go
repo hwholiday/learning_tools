@@ -38,7 +38,7 @@ func NewOptions(opts ...Option) *options {
 	options := &options{
 		ctx:   context.Background(),
 		root:  "/hconf",
-		paths: []string{"/test"},
+		paths: []string{"test"},
 	}
 	for _, opt := range opts {
 		opt(options)
