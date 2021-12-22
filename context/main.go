@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
@@ -75,8 +76,9 @@ func ContextWithDeadline() {
 	// Associate the cancellable context we just created to the request
 	req = req.WithContext(ctx)
 	client := &http.Client{}
-	res, err := client.Do(req)
-
+	res, _ := client.Do(req)
+	body, _ := ioutil.ReadAll(res.Body)
+	fmt.Println(body)
 }
 
 func Exit() {
