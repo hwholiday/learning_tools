@@ -34,13 +34,13 @@ func TestNewHConfig_ETCD(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	val, err := conf.GetPath("app")
+	val, err := conf.Get("app")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	t.Logf("val %+v\n", val.String())
-	if err = conf.WatchPaths(func(path string, v HVal) {
+	if err = conf.Watch(func(path string, v HVal) {
 		t.Logf("path %s val %+v\n", path, v.String())
 
 	}); err != nil {
@@ -72,13 +72,13 @@ func TestNewHConfig_K8S(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	val, err := conf.GetPath("im-test-conf")
+	val, err := conf.Get("im-test-conf")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	t.Logf("val %+v\n", val.String())
-	if err = conf.WatchPaths(func(path string, v HVal) {
+	if err = conf.Watch(func(path string, v HVal) {
 		t.Logf("path %s val %+v\n", path, v.String())
 
 	}); err != nil {
@@ -110,13 +110,13 @@ func TestNewHConfig_Apollo(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	val, err := conf.GetPath("test.yaml")
+	val, err := conf.Get("test.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
 	t.Logf("val %+v\n", val.String())
-	if err = conf.WatchPaths(func(path string, v HVal) {
+	if err = conf.Watch(func(path string, v HVal) {
 		t.Logf("path %s val %+v\n", path, v.String())
 
 	}); err != nil {

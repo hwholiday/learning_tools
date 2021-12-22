@@ -153,11 +153,11 @@ conf, err := NewHConfig(
 conf.Load() 
 
 //读取配置
-val, err := conf.GetPath("test.yaml")
+val, err := conf.Get("test.yaml")
 t.Logf("val %+v\n", val.String())
 
 //监听配置变化
-conf.WatchPaths(func(path string, v HVal) {
+conf.Watch(func(path string, v HVal) {
 	t.Logf("path %s val %+v\n", path, v.String())
 })
 ```
