@@ -3,8 +3,8 @@ package src
 import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v6/user_agent/pb"
 	"golang.org/x/time/rate"
-	"learning_tools/go-kit/v6/user_agent/pb"
 )
 
 type EndPointServer struct {
@@ -20,11 +20,10 @@ func NewEndPointServer(svc Service, limit *rate.Limiter) EndPointServer {
 	return EndPointServer{LoginEndPoint: loginEndPoint}
 }
 
-
 func (s EndPointServer) Login(ctx context.Context, in *pb.Login) (*pb.LoginAck, error) {
 	res, err := s.LoginEndPoint(ctx, in)
-	if err!=nil{
-		return nil,err
+	if err != nil {
+		return nil, err
 	}
 	return res.(*pb.LoginAck), nil
 }

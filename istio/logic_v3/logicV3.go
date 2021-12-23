@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/hwholiday/learning_tools/istio/api"
 	"google.golang.org/grpc"
-	"learning_tools/istio/api"
 	"log"
 	"net"
 )
@@ -19,7 +19,7 @@ func (s *Server) ReqName(c context.Context, req *api.Req) (*api.Res, error) {
 }
 
 func (s *Server) ReqVersion(c context.Context, req *api.Req) (*api.Res, error) {
-	data, err := rd.Get(context.Background(), "istio:test").Result()
+	data, err := rd.Get("istio:test").Result()
 	if err != nil {
 		fmt.Println("ReqVersion get", err)
 		return nil, err

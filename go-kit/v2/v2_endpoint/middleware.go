@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v2/v2_service"
 	"go.uber.org/zap"
-	"learning_tools/go-kit/v2/v2_service"
 	"time"
 )
 

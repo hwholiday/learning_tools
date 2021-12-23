@@ -2,14 +2,14 @@ package main
 
 import (
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	"github.com/hwholiday/learning_tools/go-kit/v5/utils"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/v5_endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/v5_service"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/v5_transport"
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
 	"google.golang.org/grpc"
-	"learning_tools/go-kit/v5/utils"
-	"learning_tools/go-kit/v5/v5_user/pb"
-	"learning_tools/go-kit/v5/v5_user/v5_endpoint"
-	"learning_tools/go-kit/v5/v5_user/v5_service"
-	"learning_tools/go-kit/v5/v5_user/v5_transport"
 	"net"
 	"os"
 )

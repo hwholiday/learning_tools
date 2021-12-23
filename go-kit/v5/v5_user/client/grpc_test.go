@@ -2,13 +2,13 @@ package client
 
 import (
 	"context"
+	"github.com/hwholiday/learning_tools/all_packaged_library/logtool"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/v5_service"
 	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
-	"learning_tools/all_packaged_library/logtool"
-	"learning_tools/go-kit/v5/v5_user/pb"
-	"learning_tools/go-kit/v5/v5_user/v5_service"
 	"testing"
 )
 
@@ -33,7 +33,7 @@ func TestGrpcClient(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	t.Log(ack.Token)
+	t.Log(ack)
 }
 
 func TestGrpc(t *testing.T) {
@@ -44,8 +44,8 @@ func TestGrpc(t *testing.T) {
 	}
 	defer conn.Close()
 	userClient := pb.NewUserClient(conn)
-	UUID := uuid.NewV5(uuid.Must(uuid.NewV4()), "req_uuid").String()
-	md := metadata.Pairs( v5_service.ContextReqUUid, UUID)
+	UUID := uuid.NewV5(uuid.NewV4(), "req_uuid").String()
+	md := metadata.Pairs(v5_service.ContextReqUUid, UUID)
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	res, err := userClient.RpcUserLogin(ctx, &pb.Login{
 		Account:  "hw",

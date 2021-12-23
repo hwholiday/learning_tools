@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/hwholiday/learning_tools/istio/api"
 	"google.golang.org/grpc"
-	"learning_tools/istio/api"
 )
 
 type Data struct {

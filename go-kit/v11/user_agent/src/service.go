@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"github.com/go-kit/kit/metrics"
+	"github.com/hwholiday/learning_tools/go-kit/v11/utils"
 	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
-	"learning_tools/go-kit/v11/utils"
 	"math/rand"
 	"time"
 )

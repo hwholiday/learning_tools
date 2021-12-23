@@ -1,8 +1,8 @@
 package utils
 
 import (
+	"github.com/hwholiday/learning_tools/all_packaged_library/logtool"
 	"go.uber.org/zap"
-	"learning_tools/all_packaged_library/logtool"
 )
 
 var logger *zap.Logger

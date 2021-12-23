@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"github.com/go-kit/kit/metrics"
+	"github.com/hwholiday/learning_tools/go-kit/v9/user_agent/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v9/utils"
 	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
-	"learning_tools/go-kit/v9/user_agent/pb"
-	"learning_tools/go-kit/v9/utils"
 	"math/rand"
 	"time"
 )

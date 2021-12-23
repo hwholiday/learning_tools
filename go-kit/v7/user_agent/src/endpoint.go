@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v7/user_agent/pb"
 	"golang.org/x/time/rate"
-	"learning_tools/go-kit/v7/user_agent/pb"
 )
 
 type EndPointServer struct {

@@ -9,12 +9,12 @@ import (
 	"github.com/go-kit/kit/sd/etcdv3"
 	"github.com/go-kit/kit/sd/lb"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	"github.com/hwholiday/learning_tools/go-kit/v7/user_agent/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v7/user_agent/src"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"io"
-	"learning_tools/go-kit/v7/user_agent/pb"
-	"learning_tools/go-kit/v7/user_agent/src"
 	"time"
 )
 
@@ -50,7 +50,7 @@ func NewUserAgentClient(addr []string, logger log.Logger) (*UserAgent, error) {
 func (u *UserAgent) UserAgentClient() (src.Service, error) {
 	var (
 		retryMax     = 3
-		retryTimeout = 5*time.Second
+		retryTimeout = 5 * time.Second
 	)
 	var (
 		endpoints src.EndPointServer
@@ -67,7 +67,7 @@ func (u *UserAgent) UserAgentClient() (src.Service, error) {
 
 func (u *UserAgent) factoryFor(makeEndpoint func(src.Service) endpoint.Endpoint) sd.Factory {
 	return func(instance string) (endpoint.Endpoint, io.Closer, error) {
-		fmt.Println("instanc >>>>>>>>>>>>>>>>   ",instance)
+		fmt.Println("instanc >>>>>>>>>>>>>>>>   ", instance)
 		conn, err := grpc.Dial(instance, grpc.WithInsecure())
 		if err != nil {
 			return nil, nil, err
@@ -81,7 +81,7 @@ func (u *UserAgent) factoryFor(makeEndpoint func(src.Service) endpoint.Endpoint)
 func (u *UserAgent) NewGRPCClient(conn *grpc.ClientConn) src.Service {
 	options := []grpctransport.ClientOption{
 		grpctransport.ClientBefore(func(ctx context.Context, md *metadata.MD) context.Context {
-			UUID := uuid.NewV5(uuid.Must(uuid.NewV4()), "req_uuid").String()
+			UUID := uuid.NewV5(uuid.NewV4(), "req_uuid").String()
 			md.Set(src.ContextReqUUid, UUID)
 			ctx = metadata.NewOutgoingContext(ctx, *md)
 			return ctx

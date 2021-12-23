@@ -2,9 +2,9 @@ package src
 
 import (
 	"context"
+	"github.com/hwholiday/learning_tools/go-kit/v9/user_agent/pb"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
-	"learning_tools/go-kit/v9/user_agent/pb"
 )
 
 type tracerMiddlewareServer struct {

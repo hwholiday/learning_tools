@@ -3,11 +3,11 @@ package v5_transport
 import (
 	"context"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/v5_endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/v5_service"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/metadata"
-	"learning_tools/go-kit/v5/v5_user/pb"
-	"learning_tools/go-kit/v5/v5_user/v5_endpoint"
-	"learning_tools/go-kit/v5/v5_user/v5_service"
 )
 
 type grpcServer struct {

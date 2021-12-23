@@ -7,12 +7,12 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/sd/etcdv3"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
+	"github.com/hwholiday/learning_tools/go-kit/v6/user_agent/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v6/user_agent/src"
+	"github.com/hwholiday/learning_tools/go-kit/v6/utils"
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
 	"google.golang.org/grpc"
-	"learning_tools/go-kit/v6/user_agent/pb"
-	"learning_tools/go-kit/v6/user_agent/src"
-	"learning_tools/go-kit/v6/utils"
 	"net"
 	"os"
 	"os/signal"
@@ -44,7 +44,7 @@ func main() {
 		return
 	}
 	Registar := etcdv3.NewRegistrar(etcdClient, etcdv3.Service{
-		Key:   fmt.Sprintf("%s/%s",serName,grpcAddr),
+		Key:   fmt.Sprintf("%s/%s", serName, grpcAddr),
 		Value: grpcAddr,
 	}, log.NewNopLogger())
 	go func() {

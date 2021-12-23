@@ -3,11 +3,11 @@ package client
 import (
 	"context"
 	"github.com/go-kit/kit/log"
+	"github.com/hwholiday/learning_tools/go-kit/v6/user_agent/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v6/user_agent/src"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
-	"learning_tools/go-kit/v6/user_agent/pb"
-	"learning_tools/go-kit/v6/user_agent/src"
 	"os"
 	"testing"
 	"time"
@@ -41,7 +41,7 @@ func TestNewUserAgentClient(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		t.Log(ack.Token)
+		t.Log(ack)
 	}
 
 }
@@ -54,7 +54,7 @@ func TestGrpc(t *testing.T) {
 	}
 	defer conn.Close()
 	userClient := pb.NewUserClient(conn)
-	UUID := uuid.NewV5(uuid.Must(uuid.NewV4()), "req_uuid").String()
+	UUID := uuid.NewV5(uuid.NewV4(), "req_uuid").String()
 	md := metadata.Pairs(src.ContextReqUUid, UUID)
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	res, err := userClient.RpcUserLogin(ctx, &pb.Login{

@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/go-kit/kit/log"
+	"github.com/hwholiday/learning_tools/go-kit/v9/user_agent/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v9/utils"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
-	"learning_tools/go-kit/v9/user_agent/pb"
-	"learning_tools/go-kit/v9/utils"
 	"os"
 	"testing"
 	"time"
@@ -45,7 +45,7 @@ func TestNewUserAgentClient(t *testing.T) {
 			if err != nil {
 				return err
 			}
-			fmt.Println(ack.Token)
+			fmt.Println(ack)
 			return nil
 		})
 		fmt.Println("熔断器开启状态:", cbs.IsOpen(), "请求是否允许：", cbs.AllowRequest())
@@ -53,7 +53,7 @@ func TestNewUserAgentClient(t *testing.T) {
 			t.Log(err)
 		}
 	}
-     time.Sleep(time.Hour)
+	time.Sleep(time.Hour)
 }
 
 func TestGrpc(t *testing.T) {
@@ -64,7 +64,7 @@ func TestGrpc(t *testing.T) {
 	}
 	defer conn.Close()
 	userClient := pb.NewUserClient(conn)
-	UUID := uuid.NewV5(uuid.Must(uuid.NewV4()), "req_uuid").String()
+	UUID := uuid.NewV5(uuid.NewV4(), "req_uuid").String()
 	md := metadata.Pairs(utils.ContextReqUUid, UUID)
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	for i := 0; i < 20; i++ {

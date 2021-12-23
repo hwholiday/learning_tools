@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v3/utils"
+	"github.com/hwholiday/learning_tools/go-kit/v3/v3_service"
 	"go.uber.org/zap"
-	"learning_tools/go-kit/v3/utils"
-	"learning_tools/go-kit/v3/v3_service"
 	"time"
 )
 
@@ -27,12 +27,12 @@ func AuthMiddleware(logger *zap.Logger) endpoint.Middleware {
 			token := fmt.Sprint(ctx.Value(utils.JWT_CONTEXT_KEY))
 			if token == "" {
 				err = errors.New("请登录")
-				logger.Debug(fmt.Sprint(ctx.Value(v3_service.ContextReqUUid)),zap.Any("[AuthMiddleware]","token == empty"), zap.Error(err))
+				logger.Debug(fmt.Sprint(ctx.Value(v3_service.ContextReqUUid)), zap.Any("[AuthMiddleware]", "token == empty"), zap.Error(err))
 				return "", err
 			}
 			jwtInfo, err := utils.ParseToken(token)
 			if err != nil {
-				logger.Debug(fmt.Sprint(ctx.Value(v3_service.ContextReqUUid)),zap.Any("[AuthMiddleware]","ParseToken"), zap.Error(err))
+				logger.Debug(fmt.Sprint(ctx.Value(v3_service.ContextReqUUid)), zap.Any("[AuthMiddleware]", "ParseToken"), zap.Error(err))
 				return "", err
 			}
 			if v, ok := jwtInfo["Name"]; ok {

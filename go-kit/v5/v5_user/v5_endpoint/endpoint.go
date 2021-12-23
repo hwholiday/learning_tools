@@ -3,10 +3,10 @@ package v5_endpoint
 import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v5/v5_user/v5_service"
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
-	"learning_tools/go-kit/v5/v5_user/pb"
-	"learning_tools/go-kit/v5/v5_user/v5_service"
 )
 
 type EndPointServer struct {
@@ -25,8 +25,8 @@ func NewEndPointServer(svc v5_service.Service, log *zap.Logger, limit *rate.Limi
 
 func (s EndPointServer) Login(ctx context.Context, in *pb.Login) (*pb.LoginAck, error) {
 	res, err := s.LoginEndPoint(ctx, in)
-	if err!=nil{
-		return nil,err
+	if err != nil {
+		return nil, err
 	}
 	return res.(*pb.LoginAck), nil
 }

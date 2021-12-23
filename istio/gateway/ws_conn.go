@@ -31,7 +31,7 @@ func NewWsConnection(conn *websocket.Conn) *WsConnection {
 	ws.writeChan = make(chan []byte, 10)
 	ws.closeChan = make(chan bool)
 	ws.isOpen = true
-	ws.connId = uuid.NewV5(uuid.Must(uuid.NewV4()), "ws").String()
+	ws.connId = uuid.NewV5(uuid.NewV4(), "ws").String()
 	go ws.read()
 	go ws.send()
 	return ws
