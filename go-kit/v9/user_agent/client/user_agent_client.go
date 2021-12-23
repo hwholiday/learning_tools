@@ -11,14 +11,14 @@ import (
 	grpcmiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
+	"github.com/hwholiday/learning_tools/go-kit/v9/user_agent/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v9/user_agent/src"
+	"github.com/hwholiday/learning_tools/go-kit/v9/utils"
 	"github.com/opentracing/opentracing-go"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"io"
-	"learning_tools/go-kit/v9/user_agent/pb"
-	"learning_tools/go-kit/v9/user_agent/src"
-	"learning_tools/go-kit/v9/utils"
 	"time"
 )
 
@@ -84,7 +84,7 @@ func (u *UserAgent) factoryFor(makeEndpoint func(src.Service) endpoint.Endpoint)
 		)
 		conn, err := grpc.Dial(instance, grpc.WithInsecure(),
 			grpc.WithUnaryInterceptor(chainUnaryServer))
-				/*utils.JaegerClientMiddleware(u.tracer)),*/
+		/*utils.JaegerClientMiddleware(u.tracer)),*/
 		if err != nil {
 			return nil, nil, err
 		}
@@ -97,7 +97,7 @@ func (u *UserAgent) factoryFor(makeEndpoint func(src.Service) endpoint.Endpoint)
 func (u *UserAgent) NewGRPCClient(conn *grpc.ClientConn) src.Service {
 	options := []grpctransport.ClientOption{
 		grpctransport.ClientBefore(func(ctx context.Context, md *metadata.MD) context.Context {
-			UUID := uuid.NewV5(uuid.Must(uuid.NewV4()), "req_uuid").String()
+			UUID := uuid.NewV5(uuid.NewV4(), "req_uuid").String()
 			md.Set(utils.ContextReqUUid, UUID)
 			ctx = metadata.NewOutgoingContext(ctx, *md)
 			return ctx

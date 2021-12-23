@@ -3,8 +3,8 @@ package v2_transport
 import (
 	"context"
 	"fmt"
+	"github.com/hwholiday/learning_tools/go-kit/v2/v2_service"
 	"go.uber.org/zap"
-	"learning_tools/go-kit/v2/v2_service"
 )
 
 type LogErrorHandler struct {

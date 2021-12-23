@@ -1,10 +1,10 @@
 package main
 
 import (
-	"learning_tools/go-kit/v2/utils"
-	"learning_tools/go-kit/v2/v2_endpoint"
-	"learning_tools/go-kit/v2/v2_service"
-	"learning_tools/go-kit/v2/v2_transport"
+	"github.com/hwholiday/learning_tools/go-kit/v2/utils"
+	"github.com/hwholiday/learning_tools/go-kit/v2/v2_endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v2/v2_service"
+	"github.com/hwholiday/learning_tools/go-kit/v2/v2_transport"
 	"net/http"
 )
 

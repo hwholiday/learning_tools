@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/hwholiday/learning_tools/go-kit/v3/utils"
 	"go.uber.org/zap"
-	"learning_tools/go-kit/v3/utils"
 	"time"
 )
 
@@ -28,7 +28,7 @@ func NewService(log *zap.Logger) Service {
 func (s baseServer) TestAdd(ctx context.Context, in Add) AddAck {
 	//模拟耗时
 	time.Sleep(time.Millisecond * 2)
-	s.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 v3_service Service", "TestAdd 处理请求"),zap.Any("请求用户",fmt.Sprint(ctx.Value("name"))))
+	s.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 v3_service Service", "TestAdd 处理请求"), zap.Any("请求用户", fmt.Sprint(ctx.Value("name"))))
 	ack := AddAck{Res: in.A + in.B}
 	s.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 v3_service Service", "TestAdd 处理请求"), zap.Any("处理返回值", ack))
 	return ack
@@ -40,7 +40,7 @@ func (s baseServer) Login(ctx context.Context, in Login) (ack LoginAck, err erro
 		err = errors.New("用户信息错误")
 		return
 	}
-	ack.Token, err = utils.CreateJwtToken(in.Account,1)
+	ack.Token, err = utils.CreateJwtToken(in.Account, 1)
 	s.logger.Debug(fmt.Sprint(ctx.Value(ContextReqUUid)), zap.Any("调用 v3_service Service", "Login 处理请求"), zap.Any("处理返回值", ack))
 	return
 }

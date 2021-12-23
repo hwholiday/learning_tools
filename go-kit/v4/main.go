@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/hwholiday/learning_tools/go-kit/v4/utils"
+	"github.com/hwholiday/learning_tools/go-kit/v4/v4_endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v4/v4_service"
+	"github.com/hwholiday/learning_tools/go-kit/v4/v4_transport"
 	"go.uber.org/ratelimit"
 	"golang.org/x/time/rate"
-	"learning_tools/go-kit/v4/utils"
-	"learning_tools/go-kit/v4/v4_endpoint"
-	"learning_tools/go-kit/v4/v4_service"
-	"learning_tools/go-kit/v4/v4_transport"
 	"net/http"
 )
 

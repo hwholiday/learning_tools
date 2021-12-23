@@ -1,11 +1,12 @@
 package utils
 
 import (
+	"github.com/hwholiday/learning_tools/all_packaged_library/logtool"
 	"go.uber.org/zap"
-	"learning_tools/all_packaged_library/logtool"
 )
 
 const ContextReqUUid = "req_uuid"
+
 var logger *zap.Logger
 
 func NewLoggerServer() {

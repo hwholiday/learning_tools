@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/go-kit/kit/endpoint"
 	httptransport "github.com/go-kit/kit/transport/http"
-	"learning_tools/go-kit/v1/v1_endpoint"
-	"learning_tools/go-kit/v1/v1_service"
+	"github.com/hwholiday/learning_tools/go-kit/v1/v1_endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v1/v1_service"
 	"net/http"
 	"strconv"
 )

@@ -11,15 +11,15 @@ import (
 	grpcmiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
+	"github.com/hwholiday/learning_tools/go-kit/v11/user_agent/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v11/user_agent/src"
+	"github.com/hwholiday/learning_tools/go-kit/v11/utils"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
 	"google.golang.org/grpc"
 	"hash/crc32"
-	"learning_tools/go-kit/v11/user_agent/pb"
-	"learning_tools/go-kit/v11/user_agent/src"
-	"learning_tools/go-kit/v11/utils"
 	"net"
 	"net/http"
 	"os"
@@ -73,8 +73,8 @@ func main() {
 			Help:      "Request consumes time",
 		}, []string{"method"})
 		golangLimit := rate.NewLimiter(10, 1)
-		server := src.NewService(utils.GetLogger(), count, histogram,tracer)
-		endpoints := src.NewEndPointServer(server, golangLimit,tracer)
+		server := src.NewService(utils.GetLogger(), count, histogram, tracer)
+		endpoints := src.NewEndPointServer(server, golangLimit, tracer)
 		grpcServer := src.NewGRPCServer(endpoints, utils.GetLogger())
 		grpcListener, err := net.Listen("tcp", *grpcAddr)
 		if err != nil {
@@ -86,7 +86,7 @@ func main() {
 		utils.GetLogger().Info("[user_agent] grpc run " + *grpcAddr)
 		chainUnaryServer := grpcmiddleware.ChainUnaryServer(
 			grpctransport.Interceptor,
-		 	grpc_opentracing.UnaryServerInterceptor(grpc_opentracing.WithTracer(tracer)),
+			grpc_opentracing.UnaryServerInterceptor(grpc_opentracing.WithTracer(tracer)),
 			grpc_zap.UnaryServerInterceptor(utils.GetLogger()),
 			//utils.JaegerServerMiddleware(tracer),
 		)

@@ -3,10 +3,10 @@ package v4_endpoint
 import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v4/v4_service"
 	"go.uber.org/ratelimit"
 	"go.uber.org/zap"
 	"golang.org/x/time/rate"
-	"learning_tools/go-kit/v4/v4_service"
 )
 
 type EndPointServer struct {

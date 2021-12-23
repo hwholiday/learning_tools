@@ -3,8 +3,8 @@ package v3_endpoint
 import (
 	"context"
 	"github.com/go-kit/kit/endpoint"
+	"github.com/hwholiday/learning_tools/go-kit/v3/v3_service"
 	"go.uber.org/zap"
-	"learning_tools/go-kit/v3/v3_service"
 )
 
 type EndPointServer struct {

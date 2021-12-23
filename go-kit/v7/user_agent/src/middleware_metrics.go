@@ -3,7 +3,7 @@ package src
 import (
 	"context"
 	"github.com/go-kit/kit/metrics"
-	"learning_tools/go-kit/v7/user_agent/pb"
+	"github.com/hwholiday/learning_tools/go-kit/v7/user_agent/pb"
 	"time"
 )
 

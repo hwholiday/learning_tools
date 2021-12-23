@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/go-kit/kit/log"
+	"github.com/hwholiday/learning_tools/all_packaged_library/logtool"
+	"github.com/hwholiday/learning_tools/go-kit/v11/user_agent/src"
+	"github.com/hwholiday/learning_tools/go-kit/v11/utils"
 	"go.uber.org/zap"
-	"learning_tools/all_packaged_library/logtool"
-	"learning_tools/go-kit/v11/user_agent/src"
-	"learning_tools/go-kit/v11/utils"
 	"net/http"
 	"os"
 )
