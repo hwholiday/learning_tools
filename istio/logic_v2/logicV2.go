@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/hwholiday/learning_tools/istio/api"
 	"google.golang.org/grpc"
-	"learning_tools/istio/api"
 	"log"
 	"net"
 )

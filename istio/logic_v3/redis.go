@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/go-redis/redis"
 )
 
@@ -35,7 +34,7 @@ func NewRedis(o Config) (client *Client, err error) {
 			},
 		)
 	}
-	err = redisCli.Ping(context.TODO()).Err()
+	err = redisCli.Ping().Err()
 	if nil != err {
 		panic(err)
 	}
@@ -48,9 +47,9 @@ func NewRedis(o Config) (client *Client, err error) {
 func (c *Client) Process(cmd redis.Cmder) error {
 	switch redisCli := c.Cmdable.(type) {
 	case *redis.ClusterClient:
-		return redisCli.Process(context.TODO(), cmd)
+		return redisCli.Process(cmd)
 	case *redis.Client:
-		return redisCli.Process(context.TODO(), cmd)
+		return redisCli.Process(cmd)
 	default:
 		return nil
 	}
