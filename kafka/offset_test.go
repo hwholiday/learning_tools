@@ -24,9 +24,7 @@ func TestKafkaSyncProducer(t *testing.T) {
 	defer producer.Close()
 	fmt.Println(producer.SendMessage(&sarama.ProducerMessage{
 		Topic: "gs_pay_transaction_topic",
-		Value: sarama.ByteEncoder(`
-{"from_address":"","to_address":"0xE065dA9F9E588faeb63a6ff7f70fed0Fd420f0eb","tx_hash":"0x01d6b941b30e2b038e60f74308a4b4438aee5542143feecb23341869ea6945f5","status":2,"amount":"1000000000000000000","fee":"","currency":"frt","nonce":131}
-`),
+		Value: sarama.ByteEncoder("123123"),
 	}))
 	select {}
 }
