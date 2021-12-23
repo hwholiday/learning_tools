@@ -3,8 +3,8 @@ package hw
 import (
 	"fmt"
 	pb "github.com/golang/protobuf/protoc-gen-go/descriptor"
+	"github.com/hwholiday/learning_tools/grpc/protoc-gen-hw/generator"
 	"path"
-	"protoc-gen-hw/generator"
 	"strconv"
 	"strings"
 )

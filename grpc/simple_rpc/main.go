@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	pr "github.com/hwholiday/learning_tools/grpc/etcd-grpc/proto"
+	pr "github.com/hwholiday/learning_tools/grpc/simple_rpc/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )

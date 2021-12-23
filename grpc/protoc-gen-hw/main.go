@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/golang/protobuf/proto"
+	"github.com/hwholiday/learning_tools/grpc/protoc-gen-hw/generator"
+	"github.com/hwholiday/learning_tools/grpc/protoc-gen-hw/plugin/hw"
 	"io/ioutil"
 	"os"
-	"protoc-gen-hw/generator"
-	"protoc-gen-hw/plugin/hw"
 )
 
 func main() {

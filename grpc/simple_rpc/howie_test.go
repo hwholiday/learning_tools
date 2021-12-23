@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/hwholiday/learning_tools/grpc/etcd-grpc/proto"
+	"github.com/hwholiday/learning_tools/grpc/simple_rpc/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
