@@ -3,16 +3,17 @@ package main
 import (
 	"context"
 	"fmt"
-	clientv3 "go.etcd.io/etcd/client/v3"
-	"google.golang.org/grpc"
-	"learning_tools/etcd/etcd-grpc/api"
-	"learning_tools/etcd/register"
 	"log"
 	"net"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/hwholiday/learning_tools/etcd/etcd-grpc/api"
+	"github.com/hwholiday/learning_tools/etcd/register"
+	clientv3 "go.etcd.io/etcd/client/v3"
+	"google.golang.org/grpc"
 )
 
 type ApiService struct{}

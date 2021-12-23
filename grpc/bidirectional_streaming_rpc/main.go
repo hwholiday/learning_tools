@@ -1,12 +1,13 @@
 package main
 
 import (
-	"net"
 	"fmt"
-	"google.golang.org/grpc"
-	pr "learning_tools/grpc/bidirectional_streaming_rpc/proto"
 	"io"
+	"net"
 	"time"
+
+	pr "github.com/hwholiday/learning_tools/grpc/bidirectional_streaming_rpc/proto"
+	"google.golang.org/grpc"
 )
 
 type Server struct{}

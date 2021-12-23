@@ -1,10 +1,11 @@
 package main
 
 import (
+	"testing"
+
+	"github.com/hwholiday/learning_tools/grpc/etcd-grpc/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"learning_tools/grpc/etcd-grpc/proto"
-	"testing"
 )
 
 func Test(t *testing.T) {

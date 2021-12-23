@@ -1,10 +1,11 @@
 package main
 
 import (
-	"learning_tools/jwt/controller"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/hwholiday/learning_tools/jwt/controller"
 )
 
 func main() {

@@ -1,8 +1,9 @@
 package main
 
 import (
-	"learning_tools/interface/src"
 	"fmt"
+
+	"github.com/hwholiday/learning_tools/interface/src"
 )
 
 type AA struct {

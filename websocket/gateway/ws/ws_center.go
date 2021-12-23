@@ -1,8 +1,9 @@
 package ws
 
 import (
-	"learning_tools/websocket/gateway/msg"
 	"sync"
+
+	"github.com/hwholiday/learning_tools/websocket/gateway/msg"
 )
 
 var ctr *wsCenter

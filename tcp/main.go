@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"learning_tools/all_packaged_library/perf"
-	"learning_tools/all_packaged_library/quit"
-	"learning_tools/tcp/network"
+
+	"github.com/hwholiday/learning_tools/all_packaged_library/perf"
+	"github.com/hwholiday/learning_tools/all_packaged_library/quit"
+	"github.com/hwholiday/learning_tools/tcp/network"
 )
 
 func main() {

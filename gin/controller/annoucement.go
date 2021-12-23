@@ -1,11 +1,13 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"
-	"learning_tools/gin/model"
+
+	"github.com/gin-gonic/gin"
+	"github.com/hwholiday/learning_tools/gin/model"
 )
+
 //announcement
 type AnnouncementController struct {
 	BaseController
@@ -93,12 +95,12 @@ func (c *AnnouncementController) GetById(g *gin.Context) {
 	if err != nil {
 		c.ResponseFailureForFuncErr(g, CErrTypeConversion)
 	}
-	data,err := model.GetAnnouncementById(id)
+	data, err := model.GetAnnouncementById(id)
 	if err != nil {
 		c.ResponseFailureForFuncErr(g, err.Error())
 		return
 	}
-	c.ResponseData(g,data)
+	c.ResponseData(g, data)
 	return
 }
 
@@ -110,11 +112,11 @@ func (c *AnnouncementController) GetById(g *gin.Context) {
 // @Failure 500 {string} string
 // @Router /v1/announcement/{id} [delete]
 func (c *AnnouncementController) GetAll(g *gin.Context) {
-	data,err := model.GetAnnouncementAll()
+	data, err := model.GetAnnouncementAll()
 	if err != nil {
 		c.ResponseFailureForFuncErr(g, err.Error())
 		return
 	}
-	c.ResponseData(g,data)
+	c.ResponseData(g, data)
 	return
 }

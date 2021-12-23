@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"learning_tools/all_packaged_library/perf"
-	"learning_tools/all_packaged_library/quit"
 	"net"
 	"net/rpc"
+
+	"github.com/hwholiday/learning_tools/all_packaged_library/perf"
+	"github.com/hwholiday/learning_tools/all_packaged_library/quit"
 )
 
 // RPC

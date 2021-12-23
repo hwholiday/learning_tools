@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	pr "learning_tools/grpc/etcd-grpc/proto"
 	"log"
 	"net"
+
+	pr "github.com/hwholiday/learning_tools/grpc/etcd-grpc/proto"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 type Server struct{}

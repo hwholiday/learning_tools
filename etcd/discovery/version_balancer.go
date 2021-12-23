@@ -3,14 +3,15 @@ package discovery
 import (
 	"errors"
 	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+
+	"github.com/hwholiday/learning_tools/etcd/register"
 	"google.golang.org/grpc/attributes"
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/balancer/base"
 	"google.golang.org/grpc/resolver"
-	"learning_tools/etcd/register"
-	"math/rand"
-	"sync"
-	"time"
 )
 
 const VersionLB = "version"
