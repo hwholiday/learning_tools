@@ -2,7 +2,7 @@ package logic
 
 import (
 	"fmt"
-	"learning_tools/go_push/gateway"
+	"github.com/hwholiday/learning_tools/go_push/gateway"
 	"net/http"
 	"strconv"
 )
