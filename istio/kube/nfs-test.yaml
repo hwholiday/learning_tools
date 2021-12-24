@@ -1,0 +1,22 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nfs-test
+  namespace: im
+spec:
+  containers:
+    - name: nfs-test
+      image: busybox:1.24
+      command:
+        - "/bin/sh"
+      args:
+        - "-c"
+        - "touch /mnt/SUCCESS && exit 0 || exit 1"   #创建一个SUCCESS文件后退出
+      volumeMounts:
+        - name: nfs-pvc
+          mountPath: "/mnt"
+  restartPolicy: "Never"
+  volumes:
+    - name: nfs-pvc
+      persistentVolumeClaim:
+        claimName: im-nfs #与PVC名称保持一致
