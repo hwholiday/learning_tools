@@ -1,0 +1,27 @@
+# kubectl create namespace k8s-test-pod
+# kubectl apply -n k8s-test-pod -f pod.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        app-name: "test-app"
+        app-version: "v1.1.1"
+      annotations:
+        app-metadata: "test"
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.7.9
+          ports:
+            - containerPort: 80
