@@ -86,11 +86,12 @@
 │   ├── service 领域服务
 │   └── vo 值对象
 └── infrastructure
-    ├── config 配置文件
-    ├── pkg 常用工具类封装（DB,log,tool等）
-    └── repository
-        ├── converter domain内对象转化 do {互转}
-        └── do 数据库映射对象
+│   ├── config 配置文件
+│   ├── pkg 常用工具类封装（DB,log,tool等）
+│   └── repository
+│   ├── converter domain内对象转化 do {互转}
+│   └── do 数据库映射对象
+└── types 封装自定义的参数类型,例如 phone 自校验参数        
 ```
 
 # 封装 zap 日志注入 trace 信息 Trace Id（内含 gin 例子）

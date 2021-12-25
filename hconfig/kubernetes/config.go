@@ -2,7 +2,6 @@ package kubernetes
 
 import (
 	"errors"
-	"fmt"
 	"github.com/hwholiday/learning_tools/hconfig/hconf"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -51,15 +50,6 @@ func (c *kubernetesConfig) Load() ([]*hconf.Data, error) {
 		data = append(data, c.configMapMapping(v)...)
 	}
 	return data, nil
-}
-
-func (c *kubernetesConfig) loadPath(path string) (*hconf.Data, error) {
-	ack, err := c.client.CoreV1().ConfigMaps(c.options.namespace).Get(c.options.ctx, path, metav1.GetOptions{})
-	if err != nil {
-		return nil, err
-	}
-	fmt.Printf("kubernetesConfig loadPath %+v \n", ack)
-	return nil, nil
 }
 
 func (c *kubernetesConfig) Watch() (hconf.DataWatcher, error) {
