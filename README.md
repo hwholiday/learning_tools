@@ -1,8 +1,12 @@
 ## learning_tools [源码地址](https://github.com/hwholiday/learning_tools)
+## 联系我 微信 [HW_loner](https://s4.ax1x.com/2022/01/11/7ZRIYD.jpg)
+## 联系我 QQ [3355168235](https://s4.ax1x.com/2022/01/11/7ZXbct.jpg)
+
+
 
 # go-kit 微服务实践，从入门到精通系列
 
-### [go-kit](https://github.com/hwholiday/learning_tools/tree/master/go-kit) (go-kit微服务)
+### [go-kit 系列文章归档地址](https://github.com/hwholiday/learning_tools/tree/master/go-kit) (详细介绍)
 
     1: v1 go-kit 微服务 基础使用 （HTTP）
     2: v2 go-kit 微服务 添加日志（user/zap ,并为每个请求添加UUID） 
@@ -109,11 +113,10 @@
 ```
 
 ### [hconfig 插拔式配置读取工具可动态加载](https://github.com/hwholiday/learning_tools/tree/master/hconfig)
-
 - 支持 etcd
 - 支持 kubernetes
 - 支持 apollo
-
+#### [使用文档](https://www.hwholiday.com/2022/hconfig/)
 #### hconfig  配置不同的源
 
 ```base
