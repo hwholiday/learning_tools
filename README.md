@@ -8,17 +8,17 @@
 
 ### [go-kit 系列文章归档地址](https://github.com/hwholiday/learning_tools/tree/master/go-kit) (详细介绍)
 
-    1: v1 go-kit 微服务 基础使用 （HTTP）
-    2: v2 go-kit 微服务 添加日志（user/zap ,并为每个请求添加UUID） 
-    3: v3 go-kit 微服务 身份认证 （JWT）
-    4: v4 go-kit 微服务 限流 （uber/ratelimit 和 golang/rate 实现）
-    5: v5 go-kit 微服务 使用GRPC（并为每个请求添加UUID） 
-    6: v6 go-kit 微服务 服务注册与发现（etcd实现）
-    7: v7 go-kit 微服务 服务监控（prometheus 实现）
-    8: v8 go-kit 微服务 服务熔断（hystrix-go 实现）
-    9: v9 go-kit 微服务 服务链路追踪（jaeger 实现）(1)
-    10: v9 go-kit 微服务 服务链路追踪（jaeger 实现）(2)
-    11: v11 go-kit 微服务 添加一个简单网关
+1:  [v1 go-kit 微服务 基础使用 （HTTP）](https://www.hwholiday.com/2019/go_kit_v1/)  
+2:  [v2 go-kit 微服务 添加日志（user/zap ,并为每个请求添加UUID）](https://www.hwholiday.com/2020/git_kit_v2/)   
+3:  [v3 go-kit 微服务 身份认证 （JWT）](https://www.hwholiday.com/2020/go_kit_v3/)  
+4:  [v4 go-kit 微服务 限流 （uber/ratelimit 和 golang/rate 实现）](https://www.hwholiday.com/2020/go_kit_v4/)  
+5:  [v5 go-kit 微服务 使用GRPC（并为每个请求添加UUID）](https://www.hwholiday.com/2020/go_kit_v5/)   
+6:  [v6 go-kit 微服务 服务注册与发现（etcd实现）](https://www.hwholiday.com/2020/go_kit_v6/)  
+7:  [v7 go-kit 微服务 服务监控（prometheus 实现）](https://www.hwholiday.com/2020/go_kit_v7/)  
+8:  [v8 go-kit 微服务 服务熔断（hystrix-go 实现）](https://www.hwholiday.com/2020/go_kit_v8/)  
+9:  [v9 go-kit 微服务 服务链路追踪（jaeger 实现）(1)](https://www.hwholiday.com/2020/go_kit_v9/)  
+10: [v10 go-kit 微服务 服务链路追踪（jaeger 实现）(2)](https://www.hwholiday.com/2020/go_kit_v10/)  
+11: [v11 go-kit 微服务 日志分析管理 （ELK + Filebeat）](https://www.hwholiday.com/2020/go_kit_v12/)  
 
 # gRPC负载均衡（自定义负载均衡策略--etcd 实现）
 
@@ -58,11 +58,11 @@
 
 ```
 
-# 仿微信 auth2 授权登陆
+# 仿微信 auth2 授权登陆 DDD（领域设计驱动）+ 六边形架构
+### [OAuth 2.0-授权码模式（authorization code）仿微信设计（战略篇）](https://www.hwholiday.com/2022/auth2_strategy/)
+### [OAuth 2.0-授权码模式（authorization code）仿微信设计（战术篇）](https://www.hwholiday.com/2022/auth2_tactics/)
 
-##### DDD（领域设计驱动）+六边形架构
-
-### [AUTH2](https://github.com/hwholiday/learning_tools/tree/master/ddd-auth2-example) （auth2 授权码模式）
+### [AUTH2 代码地址](https://github.com/hwholiday/learning_tools/tree/master/ddd-auth2-example)
 
 # Golang DDD 的项目分层结构（六边形架构）
 
