@@ -76,6 +76,10 @@ func ContextWithDeadline() {
 	req = req.WithContext(ctx)
 	client := &http.Client{}
 	res, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	defer res.Body.Close()
 
 }
 
