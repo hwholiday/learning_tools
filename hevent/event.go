@@ -1,6 +1,9 @@
 package hevent
 
-import "sync"
+import (
+	"sync"
+	"time"
+)
 
 type HEvent struct {
 	Data  interface{}
@@ -50,6 +53,22 @@ func (h *HEventBus) Push(topic string, data interface{}) {
 			ch <- HEvent{
 				Data:  data,
 				Topic: topic,
+			}
+		}
+	}
+}
+
+func (h *HEventBus) PushFullDrop(topic string, data interface{}) {
+	h.rm.RLock()
+	defer h.rm.RUnlock()
+	if chanEvent, ok := h.sub[topic]; ok {
+		for _, ch := range chanEvent {
+			select {
+			case ch <- HEvent{
+				Data:  data,
+				Topic: topic,
+			}:
+			case <-time.After(time.Second):
 			}
 		}
 	}
