@@ -1,10 +1,10 @@
 package quit
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
-	"fmt"
 )
 
 //syscall.SIGQUIT 用户发送QUIT字符(Ctrl+/)触发

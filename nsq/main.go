@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/nsqio/go-nsq"
+	"log"
 	"os"
 	"os/signal"
-	"log"
-	"github.com/nsqio/go-nsq"
 )
 
 func main() {
@@ -18,16 +18,16 @@ func main() {
 		log.Println(err)
 		return
 	}
-	c.AddHandler(nsq.HandlerFunc(func(msg *nsq.Message)error {
+	c.AddHandler(nsq.HandlerFunc(func(msg *nsq.Message) error {
 		fmt.Println(string(msg.Body))
 		return nil
 	}))
-	if err=c.ConnectToNSQLookupd("0.0.0.0:4161"); err != nil {
+	if err = c.ConnectToNSQLookupd("0.0.0.0:4161"); err != nil {
 		log.Fatalln(2)
 		log.Fatalln(err)
 		return
 	}
-	ch:=make(chan os.Signal,1)
-	signal.Notify(ch,os.Interrupt,os.Kill)
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, os.Interrupt, os.Kill)
 	<-ch
 }

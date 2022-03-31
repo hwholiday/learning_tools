@@ -14,7 +14,7 @@ var (
 	serverConfig defaultServerConfig
 	mysqlConfig  defaultMysqlConfig
 
-	m            sync.Mutex
+	m sync.Mutex
 )
 
 func Init(path string) {
@@ -73,4 +73,3 @@ func GetMinioConfig() (fig minConfig) {
 func GetMysqlConfig() msqlConfig {
 	return mysqlConfig
 }
-

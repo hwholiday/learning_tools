@@ -61,7 +61,6 @@ func (c MDReaderWriter) Set(key, val string) {
 	c.MD[key] = append(c.MD[key], val)
 }
 
-
 func JaegerClientMiddleware(tracer opentracing.Tracer) grpc.UnaryClientInterceptor {
 	return func(
 		ctx context.Context,
@@ -79,10 +78,10 @@ func JaegerClientMiddleware(tracer opentracing.Tracer) grpc.UnaryClientIntercept
 		}
 		cliSpan := tracer.StartSpan(
 			method,
-			opentracing.ChildOf(parentCtx),//父子关系的span关系
-			TracingComponentTag,//grcp tag
-			ext.SpanKindRPCClient,//客户端 tag
- 		)
+			opentracing.ChildOf(parentCtx), //父子关系的span关系
+			TracingComponentTag,            //grcp tag
+			ext.SpanKindRPCClient,          //客户端 tag
+		)
 		defer cliSpan.Finish()
 		//从context中获取metadata。md.(type) == map[string][]string
 		md, ok := metadata.FromOutgoingContext(ctx)

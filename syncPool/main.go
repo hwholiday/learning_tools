@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// 建立对象
-    	var pipe = &sync.Pool{New:func()interface{}{return "Hello"}}
+	var pipe = &sync.Pool{New: func() interface{} { return "Hello" }}
 	// 准备放入的字符串
 	val := "Hello,World!"
 	// 放入

@@ -1,9 +1,9 @@
 package perf
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/pprof"
-	"fmt"
 )
 
 // StartPprof start http pprof

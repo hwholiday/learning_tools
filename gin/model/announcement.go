@@ -1,9 +1,9 @@
 package model
 
 import (
-	"time"
 	"errors"
 	"fmt"
+	"time"
 )
 
 type Announcement struct {

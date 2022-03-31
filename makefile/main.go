@@ -2,6 +2,6 @@ package main
 
 import "fmt"
 
-func main()  {
-     fmt.Println("hello makefile")
+func main() {
+	fmt.Println("hello makefile")
 }

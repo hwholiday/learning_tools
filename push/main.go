@@ -1,15 +1,15 @@
 package main
 
 import (
-	"net/http"
-	"fmt"
-	"test/push/handler"
 	"flag"
-	_"net/http/pprof"
+	"fmt"
+	"net/http"
+	_ "net/http/pprof"
+	"test/push/handler"
 )
 
 var (
-	Addr      = "127.0.0.1:8182"
+	Addr = "127.0.0.1:8182"
 )
 
 func main() {

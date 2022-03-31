@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/garyburd/redigo/redis"
 	"fmt"
+	"github.com/garyburd/redigo/redis"
 	"time"
 )
 
@@ -40,7 +40,7 @@ func CheckErr(err error) {
 }
 
 func publish(redisServerAddr string) {
-	c, err := redis.Dial("tcp",redisServerAddr)
+	c, err := redis.Dial("tcp", redisServerAddr)
 	if err != nil {
 		fmt.Println(err)
 		return

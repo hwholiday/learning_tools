@@ -1,14 +1,14 @@
 package old
 
 import (
-	"testing"
-	"io/ioutil"
-	"net/http"
 	"bytes"
-	"mime/multipart"
 	"fmt"
-	"os"
 	"io"
+	"io/ioutil"
+	"mime/multipart"
+	"net/http"
+	"os"
+	"testing"
 )
 
 func TestUp(t *testing.T) {
@@ -42,7 +42,7 @@ func TestDel(t *testing.T) {
 		fmt.Println(err.Error())
 		return
 	}
-	resp,err:=client.Do(req)
+	resp, err := client.Do(req)
 	defer resp.Body.Close()
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {

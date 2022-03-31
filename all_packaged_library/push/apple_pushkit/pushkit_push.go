@@ -1,18 +1,18 @@
 package apple_pushkit
 
 import (
-	"crypto/tls"
-	"fmt"
-	"net"
-	"encoding/hex"
-	"encoding/binary"
-	"io/ioutil"
-	"golang.org/x/crypto/pkcs12"
-	"time"
 	"bytes"
+	"crypto/tls"
 	"crypto/x509"
+	"encoding/binary"
+	"encoding/hex"
 	"errors"
+	"fmt"
+	"golang.org/x/crypto/pkcs12"
+	"io/ioutil"
+	"net"
 	"strings"
+	"time"
 )
 
 var (

@@ -9,7 +9,7 @@ type ServerReport struct {
 
 //客户端上报
 type ClientsReport struct {
-	Uid    int `json:"uid"`
-	Status int `json:"status"` //1心跳包,2其他
-	Msg  string `json:"msg"`
+	Uid    int    `json:"uid"`
+	Status int    `json:"status"` //1心跳包,2其他
+	Msg    string `json:"msg"`
 }

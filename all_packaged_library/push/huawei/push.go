@@ -1,14 +1,14 @@
 package huawei
 
 import (
-	"net/http"
-	"strings"
-	"io/ioutil"
 	"encoding/json"
 	"fmt"
-	"time"
-	"net/url"
 	"github.com/patrickmn/go-cache"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strings"
+	"time"
 )
 
 var c = cache.New(10*time.Minute, 15*time.Minute)

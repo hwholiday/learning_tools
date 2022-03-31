@@ -15,10 +15,10 @@ func initMysql() {
 	var err error
 	sql := fmt.Sprintf("%s:%s@(%s:%d)/%s", config.GetMysqlConfig().GetUser(), config.GetMysqlConfig().GetPwd(),
 		config.GetMysqlConfig().GetIp(), config.GetMysqlConfig().GetPort(), config.GetMysqlConfig().GetDbName())
-	tool.GetLogger().Debug("[initMysql] "+sql)
+	tool.GetLogger().Debug("[initMysql] " + sql)
 	mysqlEngine, err = xorm.NewEngine("mysql", sql)
 	if err != nil {
-		tool.GetLogger().Error("[initMysql] "+sql,zap.Error(err))
+		tool.GetLogger().Error("[initMysql] "+sql, zap.Error(err))
 		os.Exit(0)
 	}
 	mysqlEngine.SetMaxOpenConns(config.GetMysqlConfig().GetPoolSize())

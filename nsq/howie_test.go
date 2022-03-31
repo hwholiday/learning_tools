@@ -1,15 +1,15 @@
 package main
 
 import (
-	"testing"
 	"github.com/nsqio/go-nsq"
-	"time"
 	"log"
+	"testing"
+	"time"
 )
 
 func TestPr(t *testing.T) {
-	send("howie","0.0.0.0:4150")
-	send("howie","0.0.0.0:4152")
+	send("howie", "0.0.0.0:4150")
+	send("howie", "0.0.0.0:4152")
 }
 
 func send(tag string, addr string) {
@@ -19,5 +19,5 @@ func send(tag string, addr string) {
 		log.Println(err)
 		return
 	}
-	p.Publish(tag,[]byte(tag+":"+time.Now().String()))
+	p.Publish(tag, []byte(tag+":"+time.Now().String()))
 }

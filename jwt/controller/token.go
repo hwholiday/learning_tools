@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"net/http"
-	"time"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
+	"net/http"
+	"time"
 )
 
 type TokenController struct {

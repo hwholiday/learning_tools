@@ -8,7 +8,7 @@ import (
 type My struct {
 	AppModel string `ini:"app_model"`
 	Type     int    `ini:"type"`
-	Sql    Mysql    `ini:"mysql"`
+	Sql      Mysql  `ini:"mysql"`
 }
 type Mysql struct {
 	Name string `ini:"name"`

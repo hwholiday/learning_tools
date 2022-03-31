@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 )
+
 //Go并发设计模式之 Active Object
 //https://colobu.com/2019/07/02/concurrency-design-patterns-active-object/
 func main() {

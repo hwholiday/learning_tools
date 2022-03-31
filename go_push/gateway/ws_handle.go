@@ -19,7 +19,7 @@ func (w *WsConnection) WsHandle() {
 		}
 		//http://www.easyswoole.com/wstool.html  测试地址
 		switch {
-		case msg.Type == 1://{"type":1,"data":"PING"},{"type":1,"data":"PONG"}
+		case msg.Type == 1: //{"type":1,"data":"PING"},{"type":1,"data":"PONG"}
 			_ = w.ws.SetReadDeadline(time.Now().Add(time.Second * 10))
 			_ = w.SendMsg(&WSMessage{Type: 1, Data: "PONG"})
 		default:

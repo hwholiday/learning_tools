@@ -1,6 +1,5 @@
 package middleware
 
-
 type Service interface {
 	Add(a, b int) int
 }

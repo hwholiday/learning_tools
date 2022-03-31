@@ -7,7 +7,6 @@ import (
 	"golang.org/x/time/rate"
 )
 
-
 func NewGolangRateAllowMiddleware(limit *rate.Limiter) endpoint.Middleware {
 	return func(next endpoint.Endpoint) endpoint.Endpoint {
 		return func(ctx context.Context, request interface{}) (response interface{}, err error) {
@@ -18,4 +17,3 @@ func NewGolangRateAllowMiddleware(limit *rate.Limiter) endpoint.Middleware {
 		}
 	}
 }
-

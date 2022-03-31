@@ -7,21 +7,21 @@ import (
 )
 
 var (
-	err error
+	err     error
 	mysqlDb *xorm.Engine
-	m sync.Mutex
+	m       sync.Mutex
 )
 
-func Init()  {
+func Init() {
 	m.Lock()
 	defer m.Unlock()
 	initMysql()
 }
 
-func GetMySqlDb()*xorm.Engine {
+func GetMySqlDb() *xorm.Engine {
 	return mysqlDb
 }
 
-func CloseMySqlDb(){
+func CloseMySqlDb() {
 	closeMysql()
 }

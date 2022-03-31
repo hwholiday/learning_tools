@@ -93,4 +93,3 @@ func CheckErr(msg string, err error) {
 		os.Exit(1)
 	}
 }
-

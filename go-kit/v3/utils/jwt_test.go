@@ -5,7 +5,7 @@ import (
 )
 
 func TestCreateJwtToken(t *testing.T) {
-	jwtToken, err := CreateJwtToken("hwholiday",2)
+	jwtToken, err := CreateJwtToken("hwholiday", 2)
 	if err != nil {
 		t.Error(err)
 	}

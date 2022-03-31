@@ -1,10 +1,10 @@
 package network
 
 import (
-	"net"
 	"bufio"
 	"bytes"
 	"encoding/binary"
+	"net"
 )
 
 type TcpClient struct {
@@ -31,7 +31,7 @@ func (c *TcpClient) Close() error {
 	return c.conn.Close()
 }
 
-func (c *TcpClient) Write(message []byte,tag int32) (int, error) {
+func (c *TcpClient) Write(message []byte, tag int32) (int, error) {
 	// 读取消息的长度
 	var length = int32(len(message))
 	var pkg = new(bytes.Buffer)

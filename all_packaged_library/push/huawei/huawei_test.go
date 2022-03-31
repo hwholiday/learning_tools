@@ -1,8 +1,8 @@
 package huawei
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 	"time"
 )
 

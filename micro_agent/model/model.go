@@ -2,6 +2,6 @@ package model
 
 import "micro_agent/model/user"
 
-func Init()  {
+func Init() {
 	user.Init()
 }

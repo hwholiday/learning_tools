@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/prometheus/client_golang/prometheus"
-	"net/http"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"time"
-	"math/rand"
 	"fmt"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"math/rand"
+	"net/http"
+	"time"
 )
 
 var httpRequestCount = prometheus.NewCounterVec(

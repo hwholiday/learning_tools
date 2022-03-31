@@ -1,11 +1,11 @@
 package main
 
 import (
-	"net"
 	"fmt"
 	"google.golang.org/grpc"
-	pr "learning_tools/grpc/bidirectional_streaming_rpc/proto"
 	"io"
+	pr "learning_tools/grpc/bidirectional_streaming_rpc/proto"
+	"net"
 	"time"
 )
 

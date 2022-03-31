@@ -1,10 +1,10 @@
 package main
 
 import (
-	"net"
-	"log"
 	"google.golang.org/grpc"
 	pr "learning_tools/grpc/server_side_streaming_rpc/proto"
+	"log"
+	"net"
 	"time"
 )
 

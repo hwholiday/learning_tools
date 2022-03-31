@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/fsnotify/fsnotify"
-	"path/filepath"
-	"os"
 	"fmt"
+	"github.com/fsnotify/fsnotify"
 	"log"
+	"os"
+	"path/filepath"
 )
 
-func main()  {
+func main() {
 	watch, _ := fsnotify.NewWatcher()
 	w := Watch{
 		watch: watch,
@@ -43,9 +43,9 @@ func (w *Watch) watchDir(dir string) {
 				{
 					if ev.Op&fsnotify.Create == fsnotify.Create {
 						fmt.Println("创建文件 : ", ev.Name)
-						fi, err := os.Stat(ev.Name);
+						fi, err := os.Stat(ev.Name)
 						if err == nil && fi.IsDir() {
-							w.watch.Add(ev.Name);
+							w.watch.Add(ev.Name)
 							fmt.Println("添加监控 : ", ev.Name)
 						}
 					}

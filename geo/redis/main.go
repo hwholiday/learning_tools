@@ -70,16 +70,16 @@ func main() {
 	resRadiu, err := GlobalClient.GeoRadius("geo_hash_test", 104.072833, 30.663422, &redis.GeoRadiusQuery{
 		Radius:      800,   //radius表示范围距离，
 		Unit:        "m",   //距离单位是 m|km|ft|mi
-		WithCoord:   true, //传入WITHCOORD参数，则返回结果会带上匹配位置的经纬度
-		WithDist:    true, //传入WITHDIST参数，则返回结果会带上匹配位置与给定地理位置的距离。
-		WithGeoHash: true, //传入WITHHASH参数，则返回结果会带上匹配位置的hash值。
+		WithCoord:   true,  //传入WITHCOORD参数，则返回结果会带上匹配位置的经纬度
+		WithDist:    true,  //传入WITHDIST参数，则返回结果会带上匹配位置与给定地理位置的距离。
+		WithGeoHash: true,  //传入WITHHASH参数，则返回结果会带上匹配位置的hash值。
 		Count:       4,     //入COUNT参数，可以返回指定数量的结果。
 		Sort:        "ASC", //默认结果是未排序的，传入ASC为从近到远排序，传入DESC为从远到近排序。
 	}).Result()
 	if err != nil {
 		panic(err)
 	}
-	for _,v:=range resRadiu{
+	for _, v := range resRadiu {
 		fmt.Println("[GeoRadiu]", v)
 	}
 
@@ -96,7 +96,7 @@ func main() {
 		panic(err)
 	}
 
-	for _,v:=range resRadiusByMember{
+	for _, v := range resRadiusByMember {
 		fmt.Println("[GeoRadiusByMember]", v)
 	}
 	resHash, err := GlobalClient.GeoHash("geo_hash_test", "天府广场").Result()

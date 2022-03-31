@@ -6,6 +6,7 @@ import (
 )
 
 var jwtSecret = []byte("jwtSecret_v3")
+
 const JWT_CONTEXT_KEY = "jwt_context_key"
 
 type Token struct {

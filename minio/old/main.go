@@ -1,12 +1,12 @@
 package old
 
 import (
+	"fmt"
 	"github.com/minio/minio-go"
 	"log"
 	"net/http"
-	"fmt"
-	"time"
 	"sync"
+	"time"
 )
 
 const (
@@ -48,6 +48,7 @@ func main() {
 		log.Panic(err)
 	}
 }
+
 //上传文件
 func upFile(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
@@ -71,7 +72,7 @@ func upFile(w http.ResponseWriter, r *http.Request) {
 	}
 	id := fmt.Sprint(time.Now().UnixNano())
 	FileMap.Store(id, hander.Filename)
-	w.Write([]byte("上传成功,资源ID为:" + id, ))
+	w.Write([]byte("上传成功,资源ID为:" + id))
 	return
 }
 
@@ -126,5 +127,3 @@ func removeFile(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("删除成功"))
 	return
 }
-
-

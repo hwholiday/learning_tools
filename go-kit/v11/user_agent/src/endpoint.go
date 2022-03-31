@@ -31,7 +31,7 @@ func NewEndPointServer(svc Service, limit *rate.Limiter, tracer opentracing.Trac
 	return EndPointServer{LoginEndPoint: loginEndPoint}
 }
 
-func (s EndPointServer) Login(ctx context.Context, in Login)  (ack LoginAck, err error) {
+func (s EndPointServer) Login(ctx context.Context, in Login) (ack LoginAck, err error) {
 	request := LoginRequest{In: in}
 	var res interface{}
 	res, err = s.LoginEndPoint(ctx, request)

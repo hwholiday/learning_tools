@@ -8,6 +8,7 @@ type PushJob struct {
 	RoomId   int
 	Info     string
 }
+
 var pushTask *PushTask
 
 type PushTask struct {
@@ -19,18 +20,18 @@ type PushManage interface {
 	Push(job *PushJob)
 }
 
-func GetPushManage()PushManage  {
+func GetPushManage() PushManage {
 	return pushTask
 }
 
-func NewPushTask(roomLen, workNum, taskNum int)  {
-	pushTask=&PushTask{
+func NewPushTask(roomLen, workNum, taskNum int) {
+	pushTask = &PushTask{
 		JobChan:          make([]chan *PushJob, roomLen),
-		DistributionTask:  make(chan *PushJob, taskNum),
+		DistributionTask: make(chan *PushJob, taskNum),
 	}
 	for i := 0; i < roomLen; i++ {
 		//可以一个房间开多个pushWork(i)
-		pushTask.JobChan[i]=make(chan *PushJob,roomLen)
+		pushTask.JobChan[i] = make(chan *PushJob, roomLen)
 		go pushTask.pushWork(i) //分发任务
 	}
 	for i := 0; i < workNum; i++ {

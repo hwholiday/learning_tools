@@ -35,5 +35,3 @@ func (m *Queue) Pop() interface{} {
 	*m = (*m)[:l-1]
 	return s
 }
-
-

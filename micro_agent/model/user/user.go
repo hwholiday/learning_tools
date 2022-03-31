@@ -5,15 +5,16 @@ import (
 	user_agent "micro_agent/proto/user"
 	"sync"
 )
+
 var (
 	s *service
 	m sync.RWMutex
 )
 
-type service struct {}
+type service struct{}
 
 type Service interface {
-	UserInfo(msg *user_agent.ReqMsg)(info string,err error)
+	UserInfo(msg *user_agent.ReqMsg) (info string, err error)
 }
 
 func Init() {
@@ -31,9 +32,3 @@ func GetService() (Service, error) {
 	}
 	return s, nil
 }
-
-
-
-
-
-

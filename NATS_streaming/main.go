@@ -1,6 +1,5 @@
 package main
 
-
 //nats-streaming-server --store file -dir /home/ghost/data/nats
 import (
 	"fmt"
@@ -8,6 +7,7 @@ import (
 	"log"
 	"time"
 )
+
 func main() {
 	var clusterId string = "test-cluster"
 	var clientId string = "test-client"
@@ -17,7 +17,7 @@ func main() {
 		return
 	}
 	go func() {
-		for  {
+		for {
 			time.Sleep(time.Second)
 			sc.Publish("foo", []byte("nast test"))
 		}

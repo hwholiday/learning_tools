@@ -1,12 +1,12 @@
 package handler
 
 import (
+	"encoding/json"
 	"github.com/gorilla/websocket"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
-	"encoding/json"
-	"log"
 )
 
 type connection struct {
@@ -20,19 +20,19 @@ func (c *connection) reader() {
 	for {
 		messageType, msg, err := c.ws.ReadMessage()
 		if err != nil {
-			log.Println("ws_handler_23:"+err.Error())
-			log.Println("ws_handler_24:"+strconv.Itoa(messageType))
+			log.Println("ws_handler_23:" + err.Error())
+			log.Println("ws_handler_24:" + strconv.Itoa(messageType))
 			return
 		}
 		var clients ClientsReport
 		if err := json.Unmarshal(msg, &clients); err != nil {
-			log.Println("ws_handler_28:"+err.Error())
+			log.Println("ws_handler_28:" + err.Error())
 			c.ws.WriteMessage(websocket.TextMessage, []byte(err.Error()))
 			return
 		}
-		if clients.Status==1{
+		if clients.Status == 1 {
 			c.ws.WriteMessage(websocket.TextMessage, []byte("ok"))
-		}else {
+		} else {
 			H.broadcast <- &clients
 		}
 	}
@@ -44,7 +44,7 @@ func (c *connection) reader() {
 func (c *connection) writer() {
 	for msg := range c.send {
 		if err := c.ws.WriteMessage(websocket.TextMessage, msg); err != nil {
-			log.Println("ws_handler_46:"+err.Error())
+			log.Println("ws_handler_46:" + err.Error())
 			return
 		}
 	}
@@ -66,30 +66,30 @@ func PushHandler(w http.ResponseWriter, req *http.Request) {
 	rid := req.Form.Get("sign")
 	ws, err := upgrader.Upgrade(w, req, nil)
 	if err != nil {
-		log.Println("ws_handler_68:"+err.Error())
-		respWs(ws,err.Error())
+		log.Println("ws_handler_68:" + err.Error())
+		respWs(ws, err.Error())
 		return
 	}
 	if len(strUid) == 0 || len(rid) == 0 || len(strTime) == 0 {
-		respWs(ws,"参数不完整")
+		respWs(ws, "参数不完整")
 		return
 	}
 	id, err := strconv.Atoi(strUid)
-	if err!=nil{
-		log.Println("ws_handler_78:"+err.Error())
-		respWs(ws,err.Error())
+	if err != nil {
+		log.Println("ws_handler_78:" + err.Error())
+		respWs(ws, err.Error())
 		return
 	}
 	upTime, err := strconv.ParseInt(strTime, 10, 64)
-	if err!=nil{
+	if err != nil {
 		log.Println(err.Error())
-		respWs(ws,err.Error())
+		respWs(ws, err.Error())
 		return
 	}
-	endTime:=time.Now().Unix()+60
-	startTime:=time.Now().Unix()-60
-    if  upTime<startTime||upTime>endTime{
-		respWs(ws,"校验码在获取后60秒内有效")
+	endTime := time.Now().Unix() + 60
+	startTime := time.Now().Unix() - 60
+	if upTime < startTime || upTime > endTime {
+		respWs(ws, "校验码在获取后60秒内有效")
 		return
 	}
 	c := &connection{send: make(chan []byte, 256), ws: ws, uid: id}
@@ -99,7 +99,7 @@ func PushHandler(w http.ResponseWriter, req *http.Request) {
 	c.reader()
 }
 
-func respWs(ws *websocket.Conn,data string)  {
-	ws.WriteMessage(websocket.TextMessage,[]byte(data))
+func respWs(ws *websocket.Conn, data string) {
+	ws.WriteMessage(websocket.TextMessage, []byte(data))
 	ws.Close()
 }

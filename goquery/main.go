@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/PuerkitoBio/goquery"
-	"net/http"
-	"log"
-	"strings"
 	"fmt"
+	"github.com/PuerkitoBio/goquery"
+	"log"
+	"net/http"
+	"strings"
 )
 
 type Account struct {
@@ -32,27 +32,27 @@ func main() {
 	doc.Find(".common-lsit-data_table").Each(func(i int, s *goquery.Selection) {
 		tdInfo := strings.Split(s.Find("td").Text(), "\n")
 		for _, v := range tdInfo {
-			if len(v)!=0&&len(v)!=12{
+			if len(v) != 0 && len(v) != 12 {
 				data = append(data, strings.Replace(v, " ", "", -1))
 			}
 		}
 	})
 	var accounts []Account
 	var account Account
-	for i,v:=range data{
-		switch (i+1) % 4 {
-		case 1://Name
-			account.Name=v
+	for i, v := range data {
+		switch (i + 1) % 4 {
+		case 1: //Name
+			account.Name = v
 			break
-		case 2://EOS
-			account.EOS=v
+		case 2: //EOS
+			account.EOS = v
 			break
-		case 3://NETWeight
-			account.NETWeight=v
+		case 3: //NETWeight
+			account.NETWeight = v
 			break
-		case 0://CPUWeight
-			account.CPUWeight=v
-			accounts=append(accounts,account)
+		case 0: //CPUWeight
+			account.CPUWeight = v
+			accounts = append(accounts, account)
 			break
 
 		}

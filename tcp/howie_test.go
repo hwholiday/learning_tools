@@ -1,13 +1,13 @@
 package main
 
 import (
-	"testing"
-	"net"
-	"log"
-	"encoding/binary"
-	"bytes"
-	"fmt"
 	"bufio"
+	"bytes"
+	"encoding/binary"
+	"fmt"
+	"log"
+	"net"
+	"testing"
 	"time"
 )
 
@@ -20,21 +20,21 @@ func Test(t *testing.T) {
 	defer conn.Close()
 	go func() {
 		/*for {*/
-			data, err := Encode("2")
-			if err == nil {
-				time.Sleep(time.Second * 4)
-				_, err := conn.Write(data)
-				if err != nil {
-					fmt.Println(err)
-				}
+		data, err := Encode("2")
+		if err == nil {
+			time.Sleep(time.Second * 4)
+			_, err := conn.Write(data)
+			if err != nil {
+				fmt.Println(err)
 			}
+		}
 
 		/*}*/
 	}()
 
 	reader := bufio.NewReader(conn)
 	for {
-		tag ,data, err := Read(reader)
+		tag, data, err := Read(reader)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -67,8 +67,8 @@ func Encode(message string) ([]byte, error) {
 }
 
 func Read(c *bufio.Reader) (int32, []byte, error) {
-   var headLen int32 =4
-   var tagLen  int32 =4
+	var headLen int32 = 4
+	var tagLen int32 = 4
 	lengthByte, err := c.Peek(int(headLen + tagLen))
 	if err != nil {
 		return 0, nil, err

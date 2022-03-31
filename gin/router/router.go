@@ -1,12 +1,12 @@
 package router
 
 import (
-	"github.com/gin-gonic/gin"
-	"learning_tools/gin/controller"
 	"github.com/gin-contrib/cors"
-	_"learning_tools/gin/docs"
+	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"learning_tools/gin/controller"
+	_ "learning_tools/gin/docs"
 )
 
 func SetRouters(r *gin.Engine) {
@@ -19,7 +19,7 @@ func SetRouters(r *gin.Engine) {
 	}))
 	announcement := &controller.AnnouncementController{}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	v1:=r.Group("/v1")
+	v1 := r.Group("/v1")
 	{
 		//公告相关业务
 		v1.GET("/announcement/:id", announcement.GetById)

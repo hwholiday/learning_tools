@@ -33,7 +33,7 @@ type Worker struct {
 	number    int64
 }
 
-func NewWorker(workerId int64) (error) {
+func NewWorker(workerId int64) error {
 	if workerId < 0 || workerId > workerMax {
 		return errors.New("Worker ID excess of quantity")
 	}

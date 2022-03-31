@@ -30,6 +30,6 @@ type ReqPush struct {
 type ResPush struct {
 	RequestId string `json:"requestId"`
 	Msg       string `json:"msg"`
-	Code      string    `json:"code"`
-	Error     string    `json:"error"`
+	Code      string `json:"code"`
+	Error     string `json:"error"`
 }

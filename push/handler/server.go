@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"sync"
 	"errors"
 	"log"
 	"strconv"
+	"sync"
 )
 
 type hb struct {
@@ -44,7 +44,7 @@ func (h *hb) Run() {
 				close(c.send)
 			}
 		case m := <-h.broadcast:
-			PushMsg(m.Uid,m.Msg)
+			PushMsg(m.Uid, m.Msg)
 		}
 	}
 }
@@ -65,7 +65,7 @@ func PushMsg(uid int, msg string) error {
 		H.user.Delete(uid)
 		H.connections.Delete(conn)
 		close(sendConn.send)
-		log.Println("server_68:删除缓存信息:"+strconv.Itoa(uid))
+		log.Println("server_68:删除缓存信息:" + strconv.Itoa(uid))
 		return errors.New("删除缓存信息")
 	}
 

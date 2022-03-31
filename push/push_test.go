@@ -1,17 +1,17 @@
 package main
 
 import (
-	"testing"
-	"time"
-	"net/url"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
+	"net/url"
 	"os"
 	"os/signal"
+	"testing"
+	"time"
 )
 
-func Test(t *testing.T)  {
+func Test(t *testing.T) {
 	i := 0
 	for {
 		i++

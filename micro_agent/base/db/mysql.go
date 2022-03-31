@@ -6,15 +6,15 @@ import (
 	"micro_agent/base/config"
 )
 
-func initMysql()  {
+func initMysql() {
 	if mysqlDb, err = xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8",
-		config.GetMysqlConfig().GetName(), config.GetMysqlConfig().GetPass(), config.GetMysqlConfig().GetIp(), config.GetMysqlConfig().GetIp(), config.GetMysqlConfig().GetPort()));err != nil {
+		config.GetMysqlConfig().GetName(), config.GetMysqlConfig().GetPass(), config.GetMysqlConfig().GetIp(), config.GetMysqlConfig().GetIp(), config.GetMysqlConfig().GetPort())); err != nil {
 		panic(err)
 	}
 	mysqlDb.SetMaxOpenConns(config.GetMysqlConfig().GetMaxIdle())
 	mysqlDb.SetMaxIdleConns(config.GetMysqlConfig().GetMaxOpen())
 	_ = mysqlDb.Ping()
-	if config.GetServerConfig().AppIsDebug(){
+	if config.GetServerConfig().AppIsDebug() {
 		mysqlDb.ShowSQL(true)
 		mysqlDb.ShowExecTime(true)
 	}
@@ -22,8 +22,8 @@ func initMysql()  {
 	//mysqlDb.SetTableMapper(tbMapper)
 }
 
-func closeMysql()  {
-	if mysqlDb!=nil{
+func closeMysql() {
+	if mysqlDb != nil {
 		_ = mysqlDb.Close()
 	}
 }

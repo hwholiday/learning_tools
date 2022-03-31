@@ -100,11 +100,9 @@ func main() {
 	c.FindId(users[0].Id).All(&users)
 	log.Println(users)
 
-	c.Remove(bson.M{"name": "JK_CHENG"})//删除
-
+	c.Remove(bson.M{"name": "JK_CHENG"}) //删除
 
 }
-
 
 type SessionStore struct {
 	session *mgo.Session

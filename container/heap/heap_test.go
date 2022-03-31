@@ -8,7 +8,7 @@ import (
 func TestHeap(t *testing.T) {
 	queue := make(Queue, 10)
 	for i := 0; i < 10; i++ {
-		item:=&Item{
+		item := &Item{
 			data:  i + 1,
 			ref:   i + 1,
 			index: i,
