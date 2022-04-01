@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
-	clientv3 "go.etcd.io/etcd/client/v3"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/resolver"
-	"learning_tools/hlb-grpc/discovery"
-	"learning_tools/hlb-grpc/example/api"
 	"log"
 	"testing"
 	"time"
+
+	"github.com/hwholiday/learning_tools/hlb-grpc/discovery"
+	"github.com/hwholiday/learning_tools/hlb-grpc/example/api"
+	clientv3 "go.etcd.io/etcd/client/v3"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/resolver"
 )
 
 func TestClient(t *testing.T) {
