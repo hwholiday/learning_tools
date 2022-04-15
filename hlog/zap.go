@@ -3,12 +3,13 @@ package hlog
 import (
 	"context"
 	"fmt"
-	"github.com/natefinch/lumberjack"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"os"
 	"strings"
 	"sync"
+
+	"github.com/natefinch/lumberjack"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 var (
@@ -45,6 +46,14 @@ func GetLogger() *Logger {
 }
 
 func (l *Logger) GetCtx(ctx context.Context) *zap.Logger {
+	log, ok := ctx.Value(l.opts.CtxKey).(*zap.Logger)
+	if ok {
+		return log
+	}
+	return l.Logger
+}
+
+func (l *Logger) WithContext(ctx context.Context) *zap.Logger {
 	log, ok := ctx.Value(l.opts.CtxKey).(*zap.Logger)
 	if ok {
 		return log
