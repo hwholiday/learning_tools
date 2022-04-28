@@ -24,6 +24,7 @@ func main() {
 		Name:           "test-client",
 		AllowReconnect: true,
 		User:           user,
+		Password:       password,
 	}
 
 	conn, err := natsOpt.Connect()
