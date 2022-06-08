@@ -1,0 +1,174 @@
+<mxfile host="app.diagrams.net" modified="2022-04-28T08:06:52.803Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36" etag="mrkT44FSFZkMGwX6G_gk" version="17.4.4" type="github">
+  <diagram name="Page-1" id="9f46799a-70d6-7492-0946-bef42562c5a5">
+    <mxGraphModel dx="946" dy="614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="QLrM_QietDYK_-TP_oqK-86" value="客户端" style="shape=ext;double=1;rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="170" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-87" value="微信小程序" style="shape=ext;double=1;rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="170" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-88" value="服务器" style="shape=ext;double=1;rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="170" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-89" value="" style="line;strokeWidth=2;direction=south;html=1;" vertex="1" parent="1">
+          <mxGeometry x="94" y="250" width="10" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-90" value="" style="line;strokeWidth=2;direction=south;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280.5" y="250" width="19" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-91" value="" style="line;strokeWidth=2;direction=south;html=1;" vertex="1" parent="1">
+          <mxGeometry x="485" y="250" width="10" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-92" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.073;exitY=0.4;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="QLrM_QietDYK_-TP_oqK-89">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="289.5" as="sourcePoint" />
+            <mxPoint x="280" y="289" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-93" value="发起支付" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-92">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-94" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.465;entryY=0.4;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280.5" y="320.04999999999995" as="sourcePoint" />
+            <mxPoint x="100.5" y="320" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="230.5" y="320.05" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-95" value="token" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-96" value="&lt;span style=&quot;font-size: 11px ; background-color: rgb(255 , 255 , 255)&quot;&gt;token:是我们服务器&lt;br&gt;订单信息的映射&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="140" y="330" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-97" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="400" as="sourcePoint" />
+            <mxPoint x="480" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-98" value="带token参数打开小程序" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-97">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-99" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.493;entryY=0.553;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="435" as="sourcePoint" />
+            <mxPoint x="288.99299999999994" y="434.99" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-100" value="token,code" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-99">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-101" value="&lt;span style=&quot;font-size: 11px ; background-color: rgb(255 , 255 , 255)&quot;&gt;code是微信auth2.0的授权码&lt;br&gt;置换openid&lt;br&gt;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="295" y="440" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-102" value="微信服务" style="shape=ext;double=1;rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="170" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-103" value="" style="line;strokeWidth=2;direction=south;html=1;" vertex="1" parent="1">
+          <mxGeometry x="710" y="250" width="10" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-104" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="292" y="532" as="sourcePoint" />
+            <mxPoint x="712" y="532" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-105" value="调用微信的统一下单接口" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-104">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-106" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.677;entryY=0.342;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="558" as="sourcePoint" />
+            <mxPoint x="293.00199999999995" y="558.1100000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-107" value="返回prepay_id等参数" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="QLrM_QietDYK_-TP_oqK-106">
+          <mxGeometry x="0.0503" y="-4" relative="1" as="geometry">
+            <mxPoint x="-1" y="3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-108" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="592" as="sourcePoint" />
+            <mxPoint x="480" y="592" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-109" value="返回token对应的订单信息&lt;br&gt;和小程序调用支付的&lt;br&gt;参数（prepay_id等）" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-108">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-110" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="487" y="606" as="sourcePoint" />
+            <mxPoint x="711" y="606" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-111" value="发起支付" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-112" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.933;entryY=0.395;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="701.81" as="sourcePoint" />
+            <mxPoint x="291.9949999999999" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-113" value="回调支付结果" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-112">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-114" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="717.51" y="631.81" as="sourcePoint" />
+            <mxPoint x="490" y="630" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-115" value="支付结果" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-114">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-116" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="294" y="481" as="sourcePoint" />
+            <mxPoint x="714" y="481" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-117" value="code" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-116">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-118" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.677;entryY=0.342;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="711" y="506" as="sourcePoint" />
+            <mxPoint x="294.00199999999995" y="506.1100000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-119" value="返回openid等参数" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="QLrM_QietDYK_-TP_oqK-118">
+          <mxGeometry x="0.0503" y="-4" relative="1" as="geometry">
+            <mxPoint x="-1" y="3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-120" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.784;entryY=0.2;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="481" y="650" as="sourcePoint" />
+            <mxPoint x="103" y="649.8400000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-121" value="返回客户端" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-120">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-122" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.945;entryY=0.2;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="QLrM_QietDYK_-TP_oqK-89">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="732" as="sourcePoint" />
+            <mxPoint x="290" y="730" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QLrM_QietDYK_-TP_oqK-123" value="完成支付" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="QLrM_QietDYK_-TP_oqK-122">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
