@@ -1,8 +1,9 @@
 package redis
 
 import (
-	"github.com/go-redis/redis"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 type RedisLock struct {
@@ -16,7 +17,7 @@ func NewRedisLock(conn redis.Cmdable, key, val string, timeout time.Duration) *R
 	return &RedisLock{conn: conn, timeout: timeout, key: key, val: val}
 }
 
-//return true ===> Get the lock successfully
+// TryLock return true ===> Get the lock successfully
 func (lock *RedisLock) TryLock() (bool, error) {
 	return lock.conn.SetNX(lock.key, lock.val, lock.timeout).Result()
 }
