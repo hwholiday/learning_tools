@@ -23,9 +23,7 @@ func main() {
 		return nil
 	}))
 	if err = c.ConnectToNSQLookupd("0.0.0.0:4161"); err != nil {
-		log.Fatalln(2)
-		log.Fatalln(err)
-		return
+		log.Fatalln(2, err)
 	}
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, os.Interrupt, os.Kill)
