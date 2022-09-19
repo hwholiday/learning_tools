@@ -2,8 +2,9 @@ package ws
 
 import (
 	"fmt"
-	"learning_tools/websocket/pb"
 	"time"
+
+	"github.com/hwholiday/learning_tools/websocket/pb"
 )
 
 func wsHandle(w *WsConnection) {

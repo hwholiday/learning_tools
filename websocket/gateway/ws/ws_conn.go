@@ -3,11 +3,13 @@ package ws
 import (
 	"errors"
 	"fmt"
-	"github.com/gorilla/websocket"
-	uuid "github.com/satori/go.uuid"
-	"learning_tools/websocket/gateway/msg"
 	"sync"
 	"time"
+
+	"github.com/hwholiday/learning_tools/websocket/gateway/msg"
+
+	"github.com/gorilla/websocket"
+	uuid "github.com/satori/go.uuid"
 )
 
 type WsConnection struct {

@@ -2,13 +2,14 @@ package client
 
 import (
 	"fmt"
-	"github.com/gorilla/websocket"
-	"learning_tools/websocket/gateway/msg"
-	"learning_tools/websocket/pb"
 	"net/url"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/gorilla/websocket"
+	"github.com/hwholiday/learning_tools/websocket/gateway/msg"
+	"github.com/hwholiday/learning_tools/websocket/pb"
 )
 
 var conn *websocket.Conn
@@ -22,12 +23,8 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
-	if err = msg.GetMsgProtocol().Register(&pb.Ping{}, 1); err != nil {
-		panic(err)
-	}
-	if err = msg.GetMsgProtocol().Register(&pb.Pong{}, 2); err != nil {
-		panic(err)
-	}
+	msg.GetMsgProtocol().Register(&pb.Ping{}, 1)
+	msg.GetMsgProtocol().Register(&pb.Pong{}, 2)
 	go func() {
 		for {
 			_, data, err := conn.ReadMessage()

@@ -2,13 +2,14 @@ package ws
 
 import (
 	"fmt"
-	"github.com/gorilla/websocket"
-	"learning_tools/websocket/gateway/msg"
-	"learning_tools/websocket/pb"
 	"net"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/gorilla/websocket"
+	"github.com/hwholiday/learning_tools/websocket/gateway/msg"
+	"github.com/hwholiday/learning_tools/websocket/pb"
 )
 
 var wsUpgrader = websocket.Upgrader{

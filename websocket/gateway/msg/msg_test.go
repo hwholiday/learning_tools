@@ -1,9 +1,10 @@
 package msg
 
 import (
-	"learning_tools/websocket/pb"
 	"os"
 	"testing"
+
+	"github.com/hwholiday/learning_tools/websocket/pb"
 )
 
 func TestMain(m *testing.M) {
