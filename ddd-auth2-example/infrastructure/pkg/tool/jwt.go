@@ -1,11 +1,12 @@
 package tool
 
 import (
-	"github.com/dgrijalva/jwt-go"
+	"time"
+
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/hwholiday/learning_tools/ddd-auth2-example/infrastructure/pkg/hcode"
 	"github.com/hwholiday/learning_tools/ddd-auth2-example/infrastructure/pkg/log"
 	"go.uber.org/zap"
-	"time"
 )
 
 const (

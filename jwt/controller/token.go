@@ -2,10 +2,11 @@ package controller
 
 import (
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type TokenController struct {

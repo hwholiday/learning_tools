@@ -10,7 +10,6 @@ require (
 	github.com/Shopify/sarama v1.30.0
 	github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5
 	github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/garyburd/redigo v1.6.3
 	github.com/gin-contrib/cors v1.3.1
@@ -20,6 +19,7 @@ require (
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/go-xorm/xorm v0.7.9
+	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
 	github.com/golang/protobuf v1.5.2
 	github.com/google/uuid v1.3.0
@@ -57,7 +57,7 @@ require (
 	go.mongodb.org/mongo-driver v1.7.4
 	go.uber.org/ratelimit v0.2.0
 	go.uber.org/zap v1.19.1
-	golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871
+	golang.org/x/crypto v0.0.0-20221005025214-4161e89ecf1b
 	golang.org/x/net v0.0.0-20211118161319-6a13c67c3ce4
 	golang.org/x/time v0.0.0-20211116232009-f0f3c7e86c11
 	google.golang.org/api v0.56.0
@@ -152,6 +152,7 @@ require (
 	github.com/mitchellh/mapstructure v1.4.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/nats-io/jwt v1.2.2 // indirect
 	github.com/nats-io/nats-server/v2 v2.6.5 // indirect
 	github.com/nats-io/nats.go v1.13.1-0.20211018182449-f2416a8b1483 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
