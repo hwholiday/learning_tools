@@ -19,8 +19,7 @@ type options struct {
 	witerBufferSize   int
 	witerChanLen      int
 	readChanLen       int
-	HeartbeatInterval int //s
-	AutoHeartbeat     bool
+	HeartbeatInterval int
 }
 
 func WithConn(conn net.Conn) Option {

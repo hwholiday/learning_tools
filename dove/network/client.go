@@ -99,9 +99,7 @@ func (c *conn) readChannel() {
 			c.Close()
 			return
 		}
-		if c.opts.AutoHeartbeat {
-			_ = c.ResetConnDeadline()
-		}
+		_ = c.ResetConnDeadline()
 		select {
 		case c.readChan <- byt:
 		case <-c.stopChan:
