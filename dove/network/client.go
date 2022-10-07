@@ -144,7 +144,7 @@ func (c *conn) read() ([]byte, error) {
 
 func (c *conn) witer(byt []byte) error {
 	var (
-		length = len(byt)
+		length = int64(len(byt))
 	)
 	if err := binary.Write(c.readWriter.Writer, c.opts.endian, length); err != nil {
 		return err

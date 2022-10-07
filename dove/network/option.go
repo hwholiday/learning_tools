@@ -78,6 +78,7 @@ func newOptions(opts ...Option) (*options, error) {
 		readBufferSize:    4096,
 		witerChanLen:      1,
 		readChanLen:       1,
+		length:            8,
 		heartbeatInterval: time.Second * 30,
 		useBigEndian:      true,
 	}
@@ -86,9 +87,6 @@ func newOptions(opts ...Option) (*options, error) {
 	}
 	if o.conn == nil {
 		return nil, errors.New("conn is nil")
-	}
-	if o.length == 0 {
-		return nil, errors.New("length is 0")
 	}
 	if o.useBigEndian {
 		o.endian = binary.BigEndian
