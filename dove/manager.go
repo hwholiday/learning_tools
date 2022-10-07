@@ -2,9 +2,10 @@ package dove
 
 import (
 	"errors"
-	"github.com/hwholiday/ghost/dove/network"
 	"sync"
 	"sync/atomic"
+
+	"github.com/hwholiday/learning_tools/dove/network"
 )
 
 var ErrExceedsLengthLimit = errors.New("exceeds length limit")
