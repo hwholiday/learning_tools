@@ -3,12 +3,13 @@ package dove
 import (
 	"errors"
 	"fmt"
-	"github.com/golang/protobuf/proto"
-	api "github.com/hwholiday/ghost/dove/api/dove"
-	"github.com/hwholiday/ghost/dove/network"
 	"log"
 	"net"
 	"sync"
+
+	"github.com/golang/protobuf/proto"
+	api "github.com/hwholiday/learning_tools/dove/api/dove"
+	"github.com/hwholiday/learning_tools/dove/network"
 )
 
 const (
