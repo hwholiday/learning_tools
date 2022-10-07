@@ -1,0 +1,10 @@
+syntax = "proto3";
+package dove;
+option go_package = "./dove";
+
+message Dove {
+   uint64  id = 1;
+   bytes   data = 2;
+   uint64  seq= 3;
+   int64   timestamp= 4;
+}

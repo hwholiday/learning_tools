@@ -1,43 +1,57 @@
 package dove
 
 import (
+	"errors"
+	"fmt"
+	"github.com/golang/protobuf/proto"
+	api "github.com/hwholiday/ghost/dove/api/dove"
+	"github.com/hwholiday/ghost/dove/network"
 	"log"
 	"net"
 	"sync"
-
-	"github.com/hwholiday/learning_tools/dove/network"
 )
 
 const (
 	DefaultWsPort = ":8081"
 )
 const (
-	DefaultConnAcceptCrcId int = 1
-	DefaultConnCloseCrcId  int = 2
+	DefaultConnAcceptCrcId uint64 = 1
+	DefaultConnCloseCrcId  uint64 = 2
 )
 
 type HandleFunc func(cli network.Conn, reqData interface{})
 
 type Dove interface {
-	RegisterHandleFunc(id int, fn HandleFunc)
+	RegisterHandleFunc(id uint64, fn HandleFunc)
 	ListenWs() error
 }
 
 type dove struct {
 	rw            sync.RWMutex
 	manger        *manager
-	HandleFuncMap map[int]HandleFunc
+	HandleFuncMap map[uint64]HandleFunc
 }
 
 func NewDove() Dove {
 	h := dove{
 		manger:        Manager(),
-		HandleFuncMap: make(map[int]HandleFunc),
+		HandleFuncMap: make(map[uint64]HandleFunc),
 	}
 	return &h
 }
 
-func (h *dove) RegisterHandleFunc(id int, fn HandleFunc) {
+func (h *dove) verifyID(id uint64) error {
+	if id == DefaultConnCloseCrcId || id == DefaultConnAcceptCrcId {
+		return errors.New("please don't use default id")
+	}
+	return nil
+}
+
+func (h *dove) RegisterHandleFunc(id uint64, fn HandleFunc) {
+	if err := h.verifyID(id); err != nil {
+		log.Printf("[Dove] RegisterHandleFunc : %s \n", err.Error())
+		return
+	}
 	h.rw.Lock()
 	defer h.rw.Unlock()
 	if _, ok := h.HandleFuncMap[id]; ok {
@@ -50,6 +64,14 @@ func (h *dove) RegisterHandleFunc(id int, fn HandleFunc) {
 func (h *dove) ListenWs() error {
 	return nil
 }
+func (h *dove) triggerHandle(client network.Conn, id uint64, req []byte) {
+	fn, ok := h.HandleFuncMap[id]
+	if !ok {
+		log.Printf("[Dove] accept HandleFuncMap not register id : %d \n", req)
+		return
+	}
+	fn(client, req)
+}
 
 func (h *dove) accept(conn net.Conn) error {
 	client, err := network.NewConn(network.WithConn(conn))
@@ -59,17 +81,30 @@ func (h *dove) accept(conn net.Conn) error {
 	if err = h.manger.Add(client.Cache().Get(network.Identity).String(), client); err != nil {
 		return err
 	}
+	h.triggerHandle(client, DefaultConnAcceptCrcId, nil)
 	for {
 		byt, err := client.Read()
 		if err != nil {
 			h.manger.Del(client.Cache().Get(network.Identity).String())
+			h.triggerHandle(client, DefaultConnCloseCrcId, nil)
 			return err
 		}
-		fn, ok := h.HandleFuncMap[1]
-		if !ok {
-			log.Printf("[Dove] HandleFunc not register id : %d \n")
+		req, err := parseByt(byt)
+		if err != nil {
+			log.Printf("[Dove] accept parseByt  %s \n", err.Error())
 			continue
 		}
-		fn(client, byt)
+		h.triggerHandle(client, req.GetId(), req.GetData())
 	}
+}
+
+func parseByt(byt []byte) (*api.Dove, error) {
+	var req api.Dove
+	if len(byt) < 8 {
+		return nil, fmt.Errorf("byt len is : %d minimum length is 8\n", len(byt))
+	}
+	if err := proto.Unmarshal(byt, &req); err != nil {
+		return nil, err
+	}
+	return &req, nil
 }
