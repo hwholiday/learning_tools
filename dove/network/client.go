@@ -79,7 +79,7 @@ func (c *conn) Conn() net.Conn {
 	return c.opts.conn
 }
 func (c *conn) ResetConnDeadline() error {
-	return c.opts.conn.SetDeadline(time.Now().Add(time.Duration(c.opts.HeartbeatInterval) * time.Second))
+	return c.opts.conn.SetDeadline(time.Now().Add(c.opts.heartbeatInterval))
 }
 
 func (c *conn) Write(byt []byte) error {

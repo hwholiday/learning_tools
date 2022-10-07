@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/google/uuid"
 	"net"
+	"time"
 )
 
 type Option func(*options)
@@ -19,12 +20,42 @@ type options struct {
 	witerBufferSize   int
 	witerChanLen      int
 	readChanLen       int
-	HeartbeatInterval int
+	heartbeatInterval time.Duration
 }
 
 func WithConn(conn net.Conn) Option {
 	return func(o *options) {
 		o.conn = conn
+	}
+}
+
+func WithReadChanLen(len int) Option {
+	return func(o *options) {
+		o.readChanLen = len
+	}
+}
+
+func WithWiterChanLen(len int) Option {
+	return func(o *options) {
+		o.witerChanLen = len
+	}
+}
+
+func WithReadBufferSize(size int) Option {
+	return func(o *options) {
+		o.readBufferSize = size
+	}
+}
+
+func WithWiterBufferSize(size int) Option {
+	return func(o *options) {
+		o.witerBufferSize = size
+	}
+}
+
+func WithHeartbeatInterval(t time.Duration) Option {
+	return func(o *options) {
+		o.heartbeatInterval = t
 	}
 }
 
@@ -47,7 +78,7 @@ func newOptions(opts ...Option) (*options, error) {
 		readBufferSize:    4096,
 		witerChanLen:      1,
 		readChanLen:       1,
-		HeartbeatInterval: 30,
+		heartbeatInterval: time.Second * 30,
 		useBigEndian:      true,
 	}
 	for _, opt := range opts {

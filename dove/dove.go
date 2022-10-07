@@ -1,11 +1,10 @@
 package dove
 
 import (
+	"github.com/hwholiday/ghost/dove/network"
 	"log"
 	"net"
 	"sync"
-
-	"github.com/hwholiday/learning_tools/dove/network"
 )
 
 const (
