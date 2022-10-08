@@ -20,21 +20,137 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type DoveHeader struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CrcId     uint64 `protobuf:"varint,1,opt,name=crcId,proto3" json:"crcId,omitempty"`         //请求ID
+	AckId     uint64 `protobuf:"varint,2,opt,name=ackId,proto3" json:"ackId,omitempty"`         //回执ID
+	Seq       uint64 `protobuf:"varint,3,opt,name=seq,proto3" json:"seq,omitempty"`             //随机数
+	Timestamp int64  `protobuf:"varint,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"` //时间
+}
+
+func (x *DoveHeader) Reset() {
+	*x = DoveHeader{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_base_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DoveHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DoveHeader) ProtoMessage() {}
+
+func (x *DoveHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DoveHeader.ProtoReflect.Descriptor instead.
+func (*DoveHeader) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DoveHeader) GetCrcId() uint64 {
+	if x != nil {
+		return x.CrcId
+	}
+	return 0
+}
+
+func (x *DoveHeader) GetAckId() uint64 {
+	if x != nil {
+		return x.AckId
+	}
+	return 0
+}
+
+func (x *DoveHeader) GetSeq() uint64 {
+	if x != nil {
+		return x.Seq
+	}
+	return 0
+}
+
+func (x *DoveHeader) GetTimestamp() int64 {
+	if x != nil {
+		return x.Timestamp
+	}
+	return 0
+}
+
+type DoveBody struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Data []byte `protobuf:"bytes,5,opt,name=data,proto3" json:"data,omitempty"` //数据
+}
+
+func (x *DoveBody) Reset() {
+	*x = DoveBody{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_base_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DoveBody) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DoveBody) ProtoMessage() {}
+
+func (x *DoveBody) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DoveBody.ProtoReflect.Descriptor instead.
+func (*DoveBody) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *DoveBody) GetData() []byte {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
 type Dove struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Data      []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
-	Seq       uint64 `protobuf:"varint,3,opt,name=seq,proto3" json:"seq,omitempty"`
-	Timestamp int64  `protobuf:"varint,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Header *DoveHeader `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
+	Body   *DoveBody   `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`
 }
 
 func (x *Dove) Reset() {
 	*x = Dove{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_base_proto_msgTypes[0]
+		mi := &file_base_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -47,7 +163,7 @@ func (x *Dove) String() string {
 func (*Dove) ProtoMessage() {}
 
 func (x *Dove) ProtoReflect() protoreflect.Message {
-	mi := &file_base_proto_msgTypes[0]
+	mi := &file_base_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,48 +176,43 @@ func (x *Dove) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Dove.ProtoReflect.Descriptor instead.
 func (*Dove) Descriptor() ([]byte, []int) {
-	return file_base_proto_rawDescGZIP(), []int{0}
+	return file_base_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Dove) GetId() uint64 {
+func (x *Dove) GetHeader() *DoveHeader {
 	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *Dove) GetData() []byte {
-	if x != nil {
-		return x.Data
+		return x.Header
 	}
 	return nil
 }
 
-func (x *Dove) GetSeq() uint64 {
+func (x *Dove) GetBody() *DoveBody {
 	if x != nil {
-		return x.Seq
+		return x.Body
 	}
-	return 0
-}
-
-func (x *Dove) GetTimestamp() int64 {
-	if x != nil {
-		return x.Timestamp
-	}
-	return 0
+	return nil
 }
 
 var File_base_proto protoreflect.FileDescriptor
 
 var file_base_proto_rawDesc = []byte{
 	0x0a, 0x0a, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x04, 0x64, 0x6f,
-	0x76, 0x65, 0x22, 0x5a, 0x0a, 0x04, 0x44, 0x6f, 0x76, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61,
-	0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x10,
-	0x0a, 0x03, 0x73, 0x65, 0x71, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x03, 0x73, 0x65, 0x71,
-	0x12, 0x1c, 0x0a, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18, 0x04, 0x20,
-	0x01, 0x28, 0x03, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x42, 0x08,
-	0x5a, 0x06, 0x2e, 0x2f, 0x64, 0x6f, 0x76, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x76, 0x65, 0x22, 0x68, 0x0a, 0x0a, 0x44, 0x6f, 0x76, 0x65, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72,
+	0x12, 0x14, 0x0a, 0x05, 0x63, 0x72, 0x63, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x05, 0x63, 0x72, 0x63, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x61, 0x63, 0x6b, 0x49, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x61, 0x63, 0x6b, 0x49, 0x64, 0x12, 0x10, 0x0a, 0x03,
+	0x73, 0x65, 0x71, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x03, 0x73, 0x65, 0x71, 0x12, 0x1c,
+	0x0a, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x22, 0x1e, 0x0a, 0x08,
+	0x44, 0x6f, 0x76, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x54, 0x0a, 0x04,
+	0x44, 0x6f, 0x76, 0x65, 0x12, 0x28, 0x0a, 0x06, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x64, 0x6f, 0x76, 0x65, 0x2e, 0x44, 0x6f, 0x76, 0x65,
+	0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x52, 0x06, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x12, 0x22,
+	0x0a, 0x04, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x64,
+	0x6f, 0x76, 0x65, 0x2e, 0x44, 0x6f, 0x76, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x52, 0x04, 0x62, 0x6f,
+	0x64, 0x79, 0x42, 0x08, 0x5a, 0x06, 0x2e, 0x2f, 0x64, 0x6f, 0x76, 0x65, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -116,16 +227,20 @@ func file_base_proto_rawDescGZIP() []byte {
 	return file_base_proto_rawDescData
 }
 
-var file_base_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_base_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_base_proto_goTypes = []interface{}{
-	(*Dove)(nil), // 0: dove.Dove
+	(*DoveHeader)(nil), // 0: dove.DoveHeader
+	(*DoveBody)(nil),   // 1: dove.DoveBody
+	(*Dove)(nil),       // 2: dove.Dove
 }
 var file_base_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: dove.Dove.header:type_name -> dove.DoveHeader
+	1, // 1: dove.Dove.body:type_name -> dove.DoveBody
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_base_proto_init() }
@@ -135,6 +250,30 @@ func file_base_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_base_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DoveHeader); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_base_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DoveBody); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_base_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Dove); i {
 			case 0:
 				return &v.state
@@ -153,7 +292,7 @@ func file_base_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_base_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

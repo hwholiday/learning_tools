@@ -2,9 +2,19 @@ syntax = "proto3";
 package dove;
 option go_package = "./dove";
 
+
+message DoveHeader {
+   uint64  crcId = 1;    //请求ID
+   uint64  ackId = 2;    //回执ID
+   uint64  seq = 3;      //随机数
+   int64   timestamp= 4; //时间
+}
+
+message DoveBody {
+   bytes   data =  5;    //数据
+}
+
 message Dove {
-   uint64  id = 1;
-   bytes   data = 2;
-   uint64  seq= 3;
-   int64   timestamp= 4;
+   DoveHeader header = 1;
+   DoveBody body = 2;
 }

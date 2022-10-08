@@ -2,14 +2,12 @@ package dove
 
 import (
 	"errors"
-	"fmt"
+	"github.com/golang/protobuf/proto"
+	api "github.com/hwholiday/ghost/dove/api/dove"
+	"github.com/hwholiday/ghost/dove/network"
 	"log"
 	"net"
 	"sync"
-
-	"github.com/golang/protobuf/proto"
-	api "github.com/hwholiday/learning_tools/dove/api/dove"
-	"github.com/hwholiday/learning_tools/dove/network"
 )
 
 const (
@@ -24,7 +22,7 @@ type HandleFunc func(cli network.Conn, reqData interface{})
 
 type Dove interface {
 	RegisterHandleFunc(id uint64, fn HandleFunc)
-	ListenWs() error
+	Accept(conn net.Conn) error
 }
 
 type dove struct {
@@ -62,9 +60,6 @@ func (h *dove) RegisterHandleFunc(id uint64, fn HandleFunc) {
 	h.HandleFuncMap[id] = fn
 }
 
-func (h *dove) ListenWs() error {
-	return nil
-}
 func (h *dove) triggerHandle(client network.Conn, id uint64, req []byte) {
 	fn, ok := h.HandleFuncMap[id]
 	if !ok {
@@ -74,36 +69,38 @@ func (h *dove) triggerHandle(client network.Conn, id uint64, req []byte) {
 	fn(client, req)
 }
 
-func (h *dove) accept(conn net.Conn) error {
+func (h *dove) Accept(conn net.Conn) error {
 	client, err := network.NewConn(network.WithConn(conn))
 	if err != nil {
+		log.Printf("[Dove] Accept NewConn  %s \n", err.Error())
 		return err
 	}
 	if err = h.manger.Add(client.Cache().Get(network.Identity).String(), client); err != nil {
 		return err
 	}
 	h.triggerHandle(client, DefaultConnAcceptCrcId, nil)
-	for {
-		byt, err := client.Read()
-		if err != nil {
-			h.manger.Del(client.Cache().Get(network.Identity).String())
-			h.triggerHandle(client, DefaultConnCloseCrcId, nil)
-			return err
+	go func() {
+		for {
+			byt, err := client.Read()
+			if err != nil {
+				h.manger.Del(client.Cache().Get(network.Identity).String())
+				h.triggerHandle(client, DefaultConnCloseCrcId, nil)
+				log.Printf("[Dove] Accept Read  %s \n", err.Error())
+				return
+			}
+			req, err := parseByt(byt)
+			if err != nil {
+				log.Printf("[Dove] Accept parseByt  %s \n", err.Error())
+				continue
+			}
+			h.triggerHandle(client, req.GetHeader().GetCrcId(), req.GetBody().GetData())
 		}
-		req, err := parseByt(byt)
-		if err != nil {
-			log.Printf("[Dove] accept parseByt  %s \n", err.Error())
-			continue
-		}
-		h.triggerHandle(client, req.GetId(), req.GetData())
-	}
+	}()
+	return nil
 }
 
 func parseByt(byt []byte) (*api.Dove, error) {
 	var req api.Dove
-	if len(byt) < 8 {
-		return nil, fmt.Errorf("byt len is : %d minimum length is 8\n", len(byt))
-	}
 	if err := proto.Unmarshal(byt, &req); err != nil {
 		return nil, err
 	}
