@@ -3,8 +3,8 @@ package dove
 import (
 	"errors"
 	"github.com/golang/protobuf/proto"
-	api "github.com/hwholiday/ghost/dove/api/dove"
-	"github.com/hwholiday/ghost/dove/network"
+	api "github.com/hwholiday/learning_tools/dove/api/dove"
+	"github.com/hwholiday/learning_tools/dove/network"
 	"log"
 	"net"
 	"sync"
