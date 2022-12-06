@@ -219,6 +219,10 @@ t.Log(r.Close())
 ### [HEvent (基于channel )](https://github.com/hwholiday/learning_tools/tree/master/hevent)
     1: 基于channel的简单事件订阅发布
 
+### [设计模式](https://github.com/hwholiday/learning_tools/tree/master/design-patterns)
+    1: 并发设计模式之Active Object
+    2: Go 实现的责任链模式
+
 ### [micro_agent](https://github.com/hwholiday/learning_tools/tree/master/micro_agent) (micro微服务)
 
     1: base 基础方法
