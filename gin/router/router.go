@@ -3,10 +3,10 @@ package router
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/gin-swagger"
+	"github.com/hwholiday/learning_tools/gin/controller"
+	_ "github.com/hwholiday/learning_tools/gin/docs"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	"learning_tools/gin/controller"
-	_ "learning_tools/gin/docs"
 )
 
 func SetRouters(r *gin.Engine) {

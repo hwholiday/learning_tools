@@ -1,18 +1,19 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
-	"learning_tools/gin/model"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/hwholiday/learning_tools/gin/model"
 )
 
-//announcement
+// announcement
 type AnnouncementController struct {
 	BaseController
 }
 
-//添加公告
+// 添加公告
 func (c *AnnouncementController) Add(g *gin.Context) {
 	var data model.Announcement
 	err := g.BindJSON(&data)
@@ -28,7 +29,7 @@ func (c *AnnouncementController) Add(g *gin.Context) {
 	return
 }
 
-//删除公告
+// 删除公告
 func (c *AnnouncementController) Del(g *gin.Context) {
 	sId := g.Param("id")
 	if sId == "" {
@@ -47,7 +48,7 @@ func (c *AnnouncementController) Del(g *gin.Context) {
 	return
 }
 
-//修改公告
+// 修改公告
 func (c *AnnouncementController) UpDate(g *gin.Context) {
 	sId := g.Param("id")
 	if sId == "" {
@@ -74,7 +75,7 @@ func (c *AnnouncementController) UpDate(g *gin.Context) {
 	return
 }
 
-//获取公告
+// 获取公告
 // @Summary 获取公告
 // @Tags  announcement
 // @Description 通过ID获取公告信息

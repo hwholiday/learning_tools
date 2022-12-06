@@ -4,13 +4,14 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/hpcloud/tail"
-	"github.com/robfig/cron"
 	"os"
 	"sort"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/hpcloud/tail"
+	"github.com/robfig/cron"
 )
 
 var filePath = flag.String("p", "./test.log", "nginx log path")
@@ -48,7 +49,6 @@ func main() {
 				fmt.Println("Create", err)
 				return
 			}
-			defer f.Close()
 			w := bufio.NewWriter(f)
 			mu.Lock()
 			for k, v := range statisticsUrl {
