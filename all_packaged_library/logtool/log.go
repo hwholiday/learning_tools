@@ -63,6 +63,9 @@ func NewLogger(mod ...ModOptions) *zap.Logger {
 		MaxBackups:    60,
 		MaxAge:        30,
 	}
+	for _, fn := range mod {
+		fn(l.Opts)
+	}
 	if l.Opts.LogFileDir == "" {
 		l.Opts.LogFileDir, _ = filepath.Abs(filepath.Dir(filepath.Join(".")))
 		l.Opts.LogFileDir += sp + "logs" + sp
@@ -79,9 +82,6 @@ func NewLogger(mod ...ModOptions) *zap.Logger {
 	}
 	if l.Opts.ErrorOutputPaths == nil || len(l.Opts.ErrorOutputPaths) == 0 {
 		l.zapConfig.OutputPaths = []string{"stderr"}
-	}
-	for _, fn := range mod {
-		fn(l.Opts)
 	}
 	l.zapConfig.Level.SetLevel(l.Opts.Level)
 	l.init()
