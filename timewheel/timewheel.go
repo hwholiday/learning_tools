@@ -3,7 +3,6 @@ package timewheel
 import (
 	"container/list"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 )
@@ -145,7 +144,6 @@ func (t *TimeWheel) run() {
 }
 
 func (t *TimeWheel) runTask() {
-	fmt.Println(t.currentSlots, ":", time.Now().Format(time.DateTime))
 	tasks := t.slots[t.currentSlots]
 	if tasks != nil {
 		for item := tasks.Front(); item != nil; item = item.Next() {
