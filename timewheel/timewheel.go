@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type Job func(interface{})
+type Job func(key string)
 
 type TimeWheel struct {
 	interval     time.Duration
@@ -31,6 +31,7 @@ type Task struct {
 	slots      int64
 	circle     int64 // 多少圈
 	job        Job
+	times      int64 //执行多少次 -1 一直执行
 }
 
 func DefaultTimeWheel() *TimeWheel {
@@ -79,12 +80,16 @@ func (t *TimeWheel) Stop() {
 	}
 }
 
-func (t *TimeWheel) AddTask(ID string, job Job, delay time.Duration) error {
+func (t *TimeWheel) AddTask(ID string, job Job, delay time.Duration, times ...int64) error {
 	if ID == "" {
 		return errors.New("ID is empty")
 	}
 	if delay < t.interval {
 		return errors.New("the delay time must be greater than the interval time")
+	}
+	var timesInt64 int64 = 1
+	if len(times) > 0 {
+		timesInt64 = times[0]
 	}
 	_, ok := t.tasks.Load(ID)
 	if ok {
@@ -95,6 +100,7 @@ func (t *TimeWheel) AddTask(ID string, job Job, delay time.Duration) error {
 		createTime: time.Now(),
 		job:        job,
 		delay:      delay,
+		times:      timesInt64,
 	}
 	t.addTaskCh <- task
 	return nil
@@ -109,8 +115,8 @@ func (t *TimeWheel) RemoveTask(ID string) error {
 	return nil
 }
 
-func (t *TimeWheel) addTask(task *Task) {
-	task.circle, task.slots = t.getCircleAndSlots(task.delay)
+func (t *TimeWheel) addTask(task *Task, first bool) {
+	task.circle, task.slots = t.getCircleAndSlots(task.delay, first)
 	ele := t.slots[task.slots].PushBack(task)
 	t.tasks.Store(task.ID, ele)
 }
@@ -126,10 +132,9 @@ func (t *TimeWheel) run() {
 	for {
 		select {
 		case _ = <-t.ticker.C:
-			fmt.Println(time.Now().Format(time.DateTime))
 			t.runTask()
 		case task := <-t.addTaskCh:
-			t.addTask(task)
+			t.addTask(task, true)
 		case id := <-t.removeTaskCh:
 			t.delTask(id)
 		case _ = <-t.closeCh:
@@ -140,18 +145,26 @@ func (t *TimeWheel) run() {
 }
 
 func (t *TimeWheel) runTask() {
+	fmt.Println(t.currentSlots, ":", time.Now().Format(time.DateTime))
 	tasks := t.slots[t.currentSlots]
 	if tasks != nil {
 		for item := tasks.Front(); item != nil; item = item.Next() {
 			task := item.Value.(*Task)
 			if task.circle > 0 {
 				task.circle--
-				item = item.Next()
 				continue
 			}
 			go task.job(task.ID)
 			t.tasks.Delete(task.ID)
 			tasks.Remove(item)
+			if task.times == -1 {
+				t.addTask(task, false)
+			} else {
+				if task.times-1 > 0 {
+					task.times--
+					t.addTask(task, false)
+				}
+			}
 		}
 	}
 	if t.currentSlots == t.currentSlots-1 {
@@ -160,8 +173,7 @@ func (t *TimeWheel) runTask() {
 		t.currentSlots++
 	}
 }
-
-func (t *TimeWheel) getCircleAndSlots(delay time.Duration) (circle, slots int64) {
+func (t *TimeWheel) getCircleAndSlots(delay time.Duration, first bool) (circle, slots int64) {
 	delaySed := int64(delay.Seconds())
 	intervalSed := int64(t.interval.Seconds())
 	circle = delaySed / intervalSed / t.slotsNum
@@ -169,6 +181,8 @@ func (t *TimeWheel) getCircleAndSlots(delay time.Duration) (circle, slots int64)
 	if slots == t.currentSlots && circle > 0 {
 		circle--
 	}
-	slots--
+	if slots > 0 && first {
+		slots--
+	}
 	return
 }
