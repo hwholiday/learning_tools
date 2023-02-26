@@ -171,6 +171,11 @@ func (t *TimeWheel) runTask() {
 		t.currentSlots++
 	}
 }
+
+func (t *TimeWheel) getInitSlots() int64 {
+	return time.Now().Unix() % t.slotsNum
+}
+
 func (t *TimeWheel) getCircleAndSlots(delay time.Duration, first bool) (circle, slots int64) {
 	delaySed := int64(delay.Seconds())
 	intervalSed := int64(t.interval.Seconds())
@@ -179,6 +184,8 @@ func (t *TimeWheel) getCircleAndSlots(delay time.Duration, first bool) (circle, 
 	if slots == t.currentSlots && circle > 0 {
 		circle--
 	}
+	//第一次加入时 当前秒（currentSlots）还未执行，比如当前是第一秒的slot(0) 延迟5秒计算得出为5 （0～5有6格所有需要-1）
+	//第二次加入时 当前秒（currentSlots）已经执行，就不需要-1
 	if slots > 0 && first {
 		slots--
 	}
