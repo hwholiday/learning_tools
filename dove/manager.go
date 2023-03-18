@@ -2,22 +2,21 @@ package dove
 
 import (
 	"errors"
+	"github.com/hwholiday/ghost/dove/network"
 	"sync"
 	"sync/atomic"
-
-	"github.com/hwholiday/learning_tools/dove/network"
 )
 
 var ErrExceedsLengthLimit = errors.New("exceeds length limit")
 
 type manager struct {
-	maxConn uint32
-	connNum uint32
+	maxConn int64
+	connNum int64
 	connMap sync.Map
 }
 
 func Manager() *manager {
-	return &manager{}
+	return &manager{maxConn: DefaultConnMax}
 }
 
 func (m *manager) Add(identity string, conn network.Conn) error {
@@ -30,7 +29,7 @@ func (m *manager) Add(identity string, conn network.Conn) error {
 		m.Del(identity)
 	}
 	m.connMap.Store(identity, conn)
-	atomic.AddUint32(&m.connNum, 1)
+	atomic.AddInt64(&m.connNum, 1)
 	return nil
 }
 
@@ -38,12 +37,12 @@ func (m *manager) Del(identity string) {
 	if _, ok := m.connMap.Load(identity); !ok {
 		return
 	}
-	atomic.AddUint32(&m.connNum, -1)
+	atomic.AddInt64(&m.connNum, -1)
 	m.connMap.Delete(identity)
 }
 
-func (m *manager) GetConnNum() uint32 {
-	return atomic.LoadUint32(&m.connNum)
+func (m *manager) GetConnNum() int64 {
+	return atomic.LoadInt64(&m.connNum)
 }
 
 func (m *manager) GetConn(identity string) (network.Conn, bool) {

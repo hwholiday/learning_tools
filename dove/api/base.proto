@@ -3,18 +3,20 @@ package dove;
 option go_package = "./dove";
 
 
-message DoveHeader {
-   uint64  crcId = 1;    //请求ID
-   uint64  ackId = 2;    //回执ID
-   uint64  seq = 3;      //随机数
-   int64   timestamp= 4; //时间
+message DoveMetadata {
+  uint64  crcId = 1;     //请求ID
+  uint64  ackId = 2;     //回执ID
+  uint64  seq = 3;       //随机数
+  int64   timestamp = 4; //时间
 }
 
 message DoveBody {
-   bytes   data =  5;    //数据
+  bytes   data = 1;    // 数据
+  string  msg = 2;     // 描述
+  uint32  code = 3;    // 状态码
 }
 
 message Dove {
-   DoveHeader header = 1;
-   DoveBody body = 2;
+  DoveMetadata metadata = 1;
+  DoveBody body = 2;
 }

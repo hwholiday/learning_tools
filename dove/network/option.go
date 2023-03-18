@@ -21,11 +21,18 @@ type options struct {
 	witerChanLen      int
 	readChanLen       int
 	heartbeatInterval time.Duration
+	autoHeartbeat     bool
 }
 
 func WithConn(conn net.Conn) Option {
 	return func(o *options) {
 		o.conn = conn
+	}
+}
+
+func WithAutoHeartbeat(auto bool) Option {
+	return func(o *options) {
+		o.autoHeartbeat = auto
 	}
 }
 
@@ -81,6 +88,7 @@ func newOptions(opts ...Option) (*options, error) {
 		length:            8,
 		heartbeatInterval: time.Second * 30,
 		useBigEndian:      true,
+		autoHeartbeat:     true,
 	}
 	for _, opt := range opts {
 		opt(o)
