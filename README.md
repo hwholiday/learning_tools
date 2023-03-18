@@ -24,6 +24,10 @@
 10: [v10 go-kit 微服务 服务链路追踪（jaeger 实现）(2)](https://www.hwholiday.com/2020/go_kit_v10/)  
 11: [v11 go-kit 微服务 日志分析管理 （ELK + Filebeat）](https://www.hwholiday.com/2020/go_kit_v12/)  
 
+# 用 go 实现的高性能长连接网络库
+
+### [dove](https://github.com/hwholiday/ghost)  用 go 实现的高性能长连接网络库  https://github.com/hwholiday/ghost
+
 # gRPC负载均衡（自定义负载均衡策略--etcd 实现）
 
 ### [hlb-grpc](https://github.com/hwholiday/learning_tools/tree/master/hlb-grpc) (gRPC负载均衡（自定义负载均衡策略--etcd 实现)
