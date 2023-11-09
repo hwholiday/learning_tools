@@ -52,6 +52,7 @@ require (
 	github.com/uber/jaeger-client-go v2.29.1+incompatible
 	github.com/urfave/cli v1.22.5
 	github.com/urfave/cli/v2 v2.3.0
+	github.com/yuin/gopher-lua v1.1.0
 	go.etcd.io/etcd v3.3.27+incompatible
 	go.etcd.io/etcd/api/v3 v3.5.1
 	go.etcd.io/etcd/client/v3 v3.5.1
