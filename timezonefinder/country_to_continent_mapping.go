@@ -1,4 +1,4 @@
-package main
+package timezonefinder
 
 var countryToContinentMapping = map[string]string{
 	"AD": "EU",

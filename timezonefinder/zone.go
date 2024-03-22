@@ -1,4 +1,4 @@
-package main
+package timezonefinder
 
 import (
 	"bufio"
