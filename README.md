@@ -220,6 +220,11 @@ t.Log(conf)
 t.Log(r.Close())
 ```
 
+### [timezonefinder](https://github.com/hwholiday/learning_tools/tree/master/timezonefinder)
+    1: 通过时区获取当前国家码和大洲码
+    2: Country to Continent Mapping
+    3: Timezone to Country Mapping
+
 ### [HEvent (基于channel )](https://github.com/hwholiday/learning_tools/tree/master/hevent)
     1: 基于channel的简单事件订阅发布
 
