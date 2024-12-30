@@ -405,3 +405,6 @@ t.Log(r.Close())
 ### [reflect](https://github.com/hwholiday/learning_tools/tree/master/reflect) (reflect包学习)
 
     1: main reflect包学习
+### [slog](https://github.com/hwholiday/learning_tools/tree/master/slog) (slog包学习)
+
+    1: main slog包学习
