@@ -2,38 +2,47 @@ package main
 
 import (
 	"context"
-	"net"
+	"log/slog"
 	"os"
-
-	"golang.org/x/exp/slog"
+	"time"
 )
 
+// 定义一个新的类型作为 context 的键，以避免键冲突
+type contextKey string
+
+const loggerKey = contextKey("logger")
+
 func main() {
-	opts := slog.HandlerOptions{
-		AddSource: true,
+	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{
+		AddSource: false,
 		Level:     slog.LevelDebug,
-	}
-	slog.SetDefault(slog.New(opts.NewJSONHandler(os.Stderr).WithAttrs([]slog.Attr{slog.String("name", "slog-test")})))
-	slog.Debug("test debug", "1")
-	slog.Debug("test debug", "2")
-	slog.Default().Debug("test debug", "3")
-	slog.Debug("test debug", "4")
-	slog.Info("test info", slog.Any("order", map[string]interface{}{"t": "2"}), slog.Int("int", 1))
-	slog.Warn("test warn", slog.Any("order", map[string]interface{}{"t": "2"}), slog.Group("memory",
-		slog.Int("current", 50),
-		slog.Int("min", 20),
-		slog.Int("max", 80)), slog.Int("int", 1))
-	slog.Error("test error", net.ErrClosed, slog.Any("order", map[string]interface{}{"t": "2"}), slog.Int("int", 1))
-	slog.LogAttrs(slog.LevelError, "oops",
-		slog.Int("status", 500), slog.Any("err", net.ErrClosed), slog.Any("order", map[string]interface{}{"t": "2"}))
-	logger := slog.Default().With(slog.String("key", "ididididididididididdidid"))
-	logger.Debug("11111")
-	logger.Context()
-	ctx := context.WithValue(context.Background(), "vvvv", 1110)
+		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+			if a.Key == "time" {
+				return slog.Attr{
+					Key:   a.Key,
+					Value: slog.Int64Value(time.Now().Unix()),
+				}
+			}
+			return a
+		},
+	})).With(slog.String("log_app_name", "test")))
+	logger := slog.With(slog.String("path", "/ping"))
+	logger.Error("failed", slog.Int("aaa", 2))
+	ctx := context.WithValue(context.Background(), loggerKey, logger)
+	slog.Debug("aaaa")
 	testCtx(ctx)
 }
 
 func testCtx(ctx context.Context) {
-	logger := slog.Default().WithContext(ctx)
-	logger.Debug("testCtx", slog.Any("key", logger.Context().Value("vvvv")))
+	logger := getLoggerByCtx(ctx)
+	slog.ErrorContext(ctx, "testCtx")
+	logger.Debug("testCtx")
+}
+
+func getLoggerByCtx(ctx context.Context) *slog.Logger {
+	logger, ok := ctx.Value(loggerKey).(*slog.Logger)
+	if !ok {
+		return slog.Default()
+	}
+	return logger
 }
