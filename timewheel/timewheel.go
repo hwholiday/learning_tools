@@ -138,7 +138,7 @@ func (t *TimeWheel) run() {
 			t.delTask(id)
 		case _ = <-t.closeCh:
 			t.ticker.Stop()
-			break
+			return
 		}
 	}
 }
